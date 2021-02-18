@@ -1,5 +1,5 @@
 import { Query, Resolver, Subscription } from '@nestjs/graphql';
-import { Agent } from './agent.dto';
+import { Agent } from './agent.model';
 import { GraphQLString } from 'graphql';
 import { AgentService } from './agent.service';
 import { Cron } from '@nestjs/schedule';
@@ -11,9 +11,6 @@ const pubSub = new Subject<any>();
 @Resolver((_) => Agent)
 export class AgentResolver {
   constructor(private readonly agentService: AgentService) {
-    const TEMP_AGENTS = new Array(2).fill(new Agent());
-    TEMP_AGENTS.forEach((agents) => this.agentService.registerNewAgent(agents));
-
     this.agentService.currentAgentsObservable.subscribe((v) => {
       pubSub.next({ agents: v }); // Die Property muss wie der subscriptionhandler heißen
     });
@@ -21,7 +18,9 @@ export class AgentResolver {
 
   @Cron('* * * * * *')
   runSimulation() {
-    this.agentService.registerNewAgent(new Agent());
+    this.agentService.registerNewAgent(
+      this.agentService.agentFactory(Math.random() * 1000, 'random'),
+    );
   }
 
   @Query((_) => GraphQLString)
