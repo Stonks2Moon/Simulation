@@ -1,27 +1,15 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+class Baseline {
+  nextPrice: number;
 
-@Injectable()
-export class BaselineService {
+  x1: number;
+  x2: number;
+  w: number;
+  z: number;
+  value: number = 0;
+  points = [];
+  t: number;
 
-  private readonly logger = new Logger(BaselineService.name);
-
-  private nextPrice: number;
-
-  private x1: number;
-  private x2: number;
-  private w: number;
-  private z: number;
-  private value: number = 0;
-  private points = [];
-  private t: number;
-
-  @Cron(CronExpression.EVERY_SECOND)
-  runSimulation() {
-    this.logger.debug(this.generateNextPrice());
-  }
-
-  boxMuller(r: number[]) {
+  boxMuller(r) {
     let phase = 0
     if (!phase) {
       this.x1 = 2.0 * r[0] - 1.0
@@ -49,13 +37,13 @@ export class BaselineService {
     phase ^= 1
   }
 
-  calculations(result: number){
+  calculations(result){
     let base = 0
     let scale = 100
 
-    if (base != 0 && scale != 100) {
+    if(base != 0 && scale != 100){
       result = base + (result*(base/scale))
-    } else if (base != 0){
+    } else if(base != 0){
       result = base + (result*(base/100))
     }
 
@@ -66,5 +54,4 @@ export class BaselineService {
     this.boxMuller([Math.random(), Math.random()])
     return this.nextPrice;
   }
-
 }
