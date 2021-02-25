@@ -27,7 +27,6 @@ export class AgentService {
   async agentFactory(funds: number, brain: string) {
     const agent = new Agent();
     agent.brain = await this.brainService.brainFactory(agent, brain);
-    agent.funds = funds;
     return agent;
   }
 }
