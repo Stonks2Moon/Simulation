@@ -7,6 +7,7 @@ import { BaselineService } from './baseline/baseline.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AgentModule } from './agent/agent.module';
 import { ConfigModule } from '@nestjs/config';
+import { NewsModule } from './news/news.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { ConfigModule } from '@nestjs/config';
     }),
     AgentModule,
     ScheduleModule.forRoot(),
-    ConfigModule.forRoot()
+    ConfigModule.forRoot({ isGlobal: true }),
+    NewsModule
   ],
   controllers: [AppController],
   providers: [AppService, BaselineService],
