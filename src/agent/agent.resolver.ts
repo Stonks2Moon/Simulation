@@ -1,5 +1,5 @@
 import { Query, Resolver, Subscription } from '@nestjs/graphql';
-import { Agent } from './agent.model';
+import { Agent } from './models/agent.model';
 import { GraphQLString } from 'graphql';
 import { AgentService } from './agent.service';
 import { Cron } from '@nestjs/schedule';
@@ -17,9 +17,9 @@ export class AgentResolver {
   }
 
   @Cron('* * * * * *')
-  runSimulation() {
+  async runSimulation() {
     this.agentService.registerNewAgent(
-      this.agentService.agentFactory(Math.random() * 1000, 'random'),
+      await this.agentService.agentFactory(Math.random() * 1000, 'random'),
     );
   }
 
