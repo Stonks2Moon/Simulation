@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { BaselineService } from '../baseline/baseline.service';
 import { MarketService, OrderType, PlaceOrderInput } from './market.service';
 import { createHash } from 'crypto';
-import { count, take, tap } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 const generateMockOrder = (): PlaceOrderInput => {
   return {
