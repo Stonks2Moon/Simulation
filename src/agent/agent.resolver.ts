@@ -30,7 +30,6 @@ export class AgentResolver {
   // @Mutation()
   // async createAgent() {}
 
-
   @Subscription((_) => [Agent])
   agents() {
     return observableToAsyncIterable(pubSub);

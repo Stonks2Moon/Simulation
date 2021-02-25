@@ -33,6 +33,5 @@ describe('BrainService', () => {
     expect(await service.brainFactory(mockAgent, 'random')).toBeInstanceOf(
       Brain,
     );
-    
   });
 });

@@ -16,7 +16,7 @@ import { MarketModule } from './market/market.module';
     ConfigModule.forRoot({ isGlobal: true }),
     AgentModule,
     MarketModule,
-    NewsModule
+    NewsModule,
   ],
   controllers: [AppController],
   providers: [AppService, BaselineService],

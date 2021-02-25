@@ -9,5 +9,4 @@ export class Agent {
   id = v4();
 
   brain: Brain;
-
 }

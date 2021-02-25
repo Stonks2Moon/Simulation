@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { join } from 'path';
-const Slimbot = require('slimbot');
-const fs = require('fs');
+import Slimbot from 'slimbot';
+import { createReadStream } from 'fs';
 
 const slimbot = new Slimbot('1655303947:AAHNNqcRUt9qZ6q0fVtC7HVU11_JNu93-Bg');
 
-const stonksFile = fs.createReadStream(join(__dirname, '../assets/stonks.jpg'));
-const notStonksFile = fs.createReadStream(
+const stonksFile = createReadStream(join(__dirname, '../assets/stonks.jpg'));
+const notStonksFile = createReadStream(
   join(__dirname, '../assets/notstonks.jpg'),
 );
 

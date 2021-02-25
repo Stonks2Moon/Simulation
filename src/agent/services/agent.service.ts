@@ -7,9 +7,7 @@ import { BrainService } from './brain.service';
 export class AgentService {
   private readonly _agents = new BehaviorSubject<Agent[]>([]);
 
-  constructor(private readonly brainService: BrainService){
-
-  }
+  constructor(private readonly brainService: BrainService) {}
 
   get currentAgentsObservable() {
     return this._agents.asObservable();
