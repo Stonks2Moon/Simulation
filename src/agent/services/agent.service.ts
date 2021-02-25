@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BehaviorSubject } from 'rxjs';
-import { Agent } from './models/agent.model';
+import { Agent } from '../models/agent.model';
 import { BrainService } from './brain.service';
 
 @Injectable()

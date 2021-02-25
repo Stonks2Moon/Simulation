@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
-import { MarketService } from '../agent/market.service';
-import { Brain } from './models/brain.model';
-import { RandomBrain } from './brains/random.brain';
-import { Agent } from './models/agent.model';
+import { MarketService } from '../market.service';
+import { Brain } from '../models/brain.model';
+import { RandomBrain } from '../brains/random.brain';
+import { Agent } from '../models/agent.model';
 
 type Constructor<T> = new (...args: any[]) => T;
 

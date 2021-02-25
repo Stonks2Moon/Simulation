@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Agent } from './models/agent.model';
+import { Agent } from '../models/agent.model';
 import { AgentService } from './agent.service';
 import { BrainService } from './brain.service';
 
