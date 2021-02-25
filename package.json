@@ -70,6 +70,7 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
+    "coveragePathIgnorePatterns": ["\\.module\\.ts$", "main.ts"],
     "coverageReporters": ["html"],
     "coverageDirectory": "../docs/coverage",
     "testEnvironment": "node"
