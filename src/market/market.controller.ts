@@ -6,9 +6,7 @@ export class MarketController {
   constructor(private readonly marketService: MarketService) {}
 
   @Get('/callback/:reference')
-  public marketCallback(
-    @Param() reference: string
-  ) {
+  public marketCallback(@Param() reference: string) {
     // this.marketService.processCallback(reference);
   }
 }
