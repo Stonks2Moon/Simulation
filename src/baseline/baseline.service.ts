@@ -18,7 +18,7 @@ export class BaselineService {
 
   @Cron(CronExpression.EVERY_SECOND)
   runSimulation() {
-    this.logger.debug(this.generateNextPrice());
+    // this.logger.debug(this.generateNextPrice());
   }
 
   boxMuller(r: number[]) {
