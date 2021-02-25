@@ -17,10 +17,14 @@ export class BrainService {
 
   async brainFactory(agent: Agent, name: string): Promise<Brain> {
     const con = this.registeredBrains.get(name);
-    const brainInstance =  new con();
+    const brainInstance = new con();
     await brainInstance.onAgentInit(agent);
     await brainInstance.onMarketInit(this.marketService);
     await brainInstance.animate();
     return brainInstance;
+  }
+
+  getAvailableBrains() {
+    return this.registeredBrains.keys();
   }
 }
