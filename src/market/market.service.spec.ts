@@ -7,6 +7,7 @@ import { take } from 'rxjs/operators';
 
 const generateMockOrder = (): PlaceOrderInput => {
   return {
+    aktenId: 'Testaktie',
     type: OrderType.SELL,
     price: 200,
     stockCount: 6000,
