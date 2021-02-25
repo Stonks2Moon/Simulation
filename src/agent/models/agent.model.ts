@@ -10,6 +10,4 @@ export class Agent {
 
   brain: Brain;
 
-  @Field()
-  funds: number;
 }

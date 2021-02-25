@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ReplaySubject, timer } from 'rxjs';
-import * as crypto from 'crypto';
+import { createHash } from 'crypto';
 import { BaselineService } from '../baseline/baseline.service';
 
 export enum OrderType {
@@ -10,6 +10,7 @@ export enum OrderType {
 }
 
 export interface PlaceOrderInput {
+  aktenId: string;
   type: OrderType;
   stockCount: number;
   price: number | 'market';
@@ -33,7 +34,7 @@ export class MarketService {
     private readonly configService: ConfigService,
     private readonly baselineService: BaselineService,
   ) {
-    timer(1000).subscribe(this.refreshCurrentStockMarket);
+    timer(0, 1000).subscribe(() => this.refreshCurrentStockMarket());
   }
 
   get onInformationAvailable() {
@@ -46,11 +47,11 @@ export class MarketService {
   }
 
   public processCallback(orderHash: string) {
-    const order = this.orderQueue.get(orderHash);
-
-    if (!order || !order?.type) {
+    if (!this.orderQueue.has(orderHash)) {
       throw new Error('No order for given hash was enqueued');
     }
+
+    const order = this.orderQueue.get(orderHash);
 
     if (!order.subsequentOrders?.length) {
       return;
@@ -59,6 +60,8 @@ export class MarketService {
     for (const subOrder of order.subsequentOrders) {
       this.placeOrder(subOrder);
     }
+
+    this.orderQueue.delete(orderHash);
   }
 
   private createCallbackURL(orderHash: string): string {
@@ -72,10 +75,7 @@ export class MarketService {
    * 1.2 NEIN --  es wird eine CallbackURL erstellt, die bei der Kommunikation mit der Börse verwendet wird
    */
   public async placeOrder<T = any>(order: PlaceOrderInput): Promise<T> {
-    const key = crypto
-      .createHash('md5')
-      .update(JSON.stringify(order))
-      .digest('hex');
+    const key = createHash('md5').update(JSON.stringify(order)).digest('hex');
 
     if (order.subsequentOrders?.length) {
       this.orderQueue.set(key, order);

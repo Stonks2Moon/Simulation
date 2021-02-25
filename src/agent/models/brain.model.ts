@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { GraphQLString } from 'graphql';
 import { PromiseOrValue } from 'src/util.types';
-import { MarketService } from '../market.service';
+import { MarketService } from '../../market/market.service';
 import { Agent } from './agent.model';
 
 @ObjectType()

@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { AgentResolver } from './agent.resolver';
-import { AgentService } from './agent.service';
-import { BrainService } from './brain.service';
-import { MarketController } from './market.controller';
-import { MarketService } from './market.service';
+
+import { AgentService } from './services/agent.service';
+import { BrainService } from './services/brain.service';
+import { MarketController } from '../market/market.controller';
+import { MarketModule } from '../market/market.module';
 
 @Module({
-  providers: [AgentResolver, AgentService, BrainService, MarketService],
+  imports: [MarketModule],
+  providers: [AgentResolver, AgentService, BrainService],
   controllers: [MarketController],
 })
 export class AgentModule {}
