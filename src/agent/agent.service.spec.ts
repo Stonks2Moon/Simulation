@@ -1,10 +1,7 @@
-import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Agent } from './models/agent.model';
 import { AgentService } from './agent.service';
 import { BrainService } from './brain.service';
-import { MarketService } from './market.service';
-import { RandomBrain } from './brains/random.brain';
 
 describe('AgentService', () => {
   let service: AgentService;
