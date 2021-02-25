@@ -11,15 +11,15 @@ const notStonksFile = fs.createReadStream(__dirname + '../assets/notstonks.jpg')
 export class NewsService {
 
   public sendNews(news: string) {
-    slimbot.sendMessage('-470528522', news)
+    slimbot.sendMessage('-579864936', news)
   }
 
   public stonks() {
-    slimbot.sendPhoto('-470528522', stonksFile)
+    slimbot.sendPhoto('-579864936', stonksFile)
   }
 
   public notStonks() {
-    slimbot.sendPhoto('-470528522', notStonksFile)
+    slimbot.sendPhoto('-579864936', notStonksFile)
   }
 
 }
