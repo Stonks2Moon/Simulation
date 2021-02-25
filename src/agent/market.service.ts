@@ -33,7 +33,7 @@ export class MarketService {
     private readonly configService: ConfigService,
     private readonly baselineService: BaselineService,
   ) {
-    timer(1000).subscribe(this.refreshCurrentStockMarket);
+    timer(0, 1000).subscribe(() => this.refreshCurrentStockMarket());
   }
 
   get onInformationAvailable() {

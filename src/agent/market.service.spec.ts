@@ -1,9 +1,9 @@
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { BaselineService } from '../baseline/baseline.service';
-import { AgentModule } from './agent.module';
 import { MarketService, OrderType, PlaceOrderInput } from './market.service';
 import { createHash } from 'crypto';
+import { count, take, tap } from 'rxjs/operators';
 
 const generateMockOrder = (): PlaceOrderInput => {
   return {
@@ -65,7 +65,7 @@ describe('MarketService', () => {
     // nochmal .placeOrder aufgerufen wird. Da der Iterator synchron ist wird zuerst in .placeOrder ein neuer Eintrag hinzugefügt und
     // somit ist eine neuer Eintrag im Iterator vorhanden
     for (const orderHash of service.orderQueue.keys()) {
-        service.processCallback(orderHash);
+      service.processCallback(orderHash);
     }
 
     expect(callbackSpy).toBeCalledTimes(2);
@@ -84,5 +84,19 @@ describe('MarketService', () => {
     );
 
     expect(service.orderQueue.size).toEqual(1);
+  });
+
+  it('should generate new market data every second', (done) => {
+    let counter = 0;
+    service.onInformationAvailable.pipe(take(2)).subscribe({
+      next: (v) => {
+        expect(v).toBeDefined();
+        counter++;
+      },
+      complete: () => {
+        expect(counter).toEqual(2);
+        done();
+      },
+    });
   });
 });
