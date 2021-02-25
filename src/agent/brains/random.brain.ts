@@ -3,7 +3,7 @@ import { timer } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
 import { PromiseOrValue } from '../../util.types';
-import { MarketService, OrderType } from '../market.service';
+import { MarketService, OrderType } from '../../market/market.service';
 import { Agent } from '../models/agent.model';
 import { Brain } from '../models/brain.model';
 
@@ -33,6 +33,7 @@ export class RandomBrain extends Brain {
           `Agent ${this.agent.id} with brain ${this.constructor.name} creates an order`,
         );
         this.marketService.placeOrder({
+          aktenId: '',
           price: Math.random(),
           type: Math.random() > 0 ? OrderType.BUY : OrderType.SELL,
           stockCount: Math.ceil(Math.random() * 100),

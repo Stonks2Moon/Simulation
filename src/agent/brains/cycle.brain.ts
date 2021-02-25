@@ -1,5 +1,4 @@
-import { Logger, LoggerService } from '@nestjs/common';
-import { timer } from 'rxjs';
+import { Logger } from '@nestjs/common';
 import { takeWhile } from 'rxjs/operators';
 
 import { PromiseOrValue } from '../../util.types';
