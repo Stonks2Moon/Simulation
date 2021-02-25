@@ -11,6 +11,7 @@ import { AgentModule } from './agent/agent.module';
   imports: [
     GraphQLModule.forRoot({
       autoSchemaFile: true,
+      installSubscriptionHandlers: true,
     }),
     AgentModule,
     ScheduleModule.forRoot(),
