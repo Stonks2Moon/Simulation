@@ -70,7 +70,7 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
-    "coverageDirectory": "docs/coverage",
+    "coverageDirectory": "../docs/coverage",
     "testEnvironment": "node"
   }
 }
