@@ -1,8 +1,18 @@
-import { MarketService } from './market.service';
-import { Agent } from './agent.model';
-import { Brain } from './brain.model';
+import { MarketService } from '../market.service';
+import { Agent } from '../models/agent.model';
+import { Brain } from '../models/brain.model';
 
 export class RandomBrain extends Brain {
+
+  
+
+  kill() {
+    throw new Error('Method not implemented.');
+  }
+  animate() {
+    throw new Error('Method not implemented.');
+  }
+
   constructor(
     private readonly marketService: MarketService,
     private readonly agent: Agent,
@@ -15,6 +25,18 @@ export class RandomBrain extends Brain {
       this.act();
     });
   }
+
+
+  onAgentInit(agent: Readonly<Agent>) {
+   
+  }
+  onMarketInit(marketService: Readonly<MarketService>) {
+   
+  }
+
+  
+
+
 
   act() {
     const order = {};

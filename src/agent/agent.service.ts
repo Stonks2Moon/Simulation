@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { MarketService } from 'src/agent/market.service';
-import { Agent } from './agent.model';
+import { BehaviorSubject } from 'rxjs';
+import { Agent } from './models/agent.model';
 import { BrainService } from './brain.service';
 
 @Injectable()
