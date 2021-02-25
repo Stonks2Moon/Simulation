@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Testing
 
 on:
   push:
@@ -7,10 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
+  testing:
     runs-on: ubuntu-latest
-    
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js
@@ -18,4 +16,4 @@ jobs:
       with:
         node-version: 14.x
     - run: yarn install
-    - run: yarn test
+    - run: yarn test --forceExit
