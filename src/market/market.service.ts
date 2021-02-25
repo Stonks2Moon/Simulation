@@ -10,6 +10,7 @@ export enum OrderType {
 }
 
 export interface PlaceOrderInput {
+  aktenId: string;
   type: OrderType;
   stockCount: number;
   price: number | 'market';
