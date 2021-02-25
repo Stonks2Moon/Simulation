@@ -10,12 +10,12 @@ export class NewsController {
     this.newsService.sendNews(news);
   }
 
-  @Post()
+  @Post('stonks')
   public stonks() {
     this.newsService.stonks();
   }
 
-  @Post()
+  @Post('notstonks')
   public notStonks() {
     this.newsService.notStonks();
   }
