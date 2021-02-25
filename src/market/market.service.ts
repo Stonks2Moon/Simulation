@@ -1,6 +1,6 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BeforeApplicationShutdown, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ReplaySubject, timer } from 'rxjs';
+import { ReplaySubject, Subscription, timer } from 'rxjs';
 import { createHash } from 'crypto';
 import { BaselineService } from '../baseline/baseline.service';
 
@@ -26,15 +26,22 @@ export interface PlaceOrderInput {
       * Ausführen, nachdem bestimmte Transaktionen abgeschlossen sind (nicht nur im Orderbuch!)
 */
 @Injectable()
-export class MarketService {
+export class MarketService implements BeforeApplicationShutdown {
   private _currentMarketInformation = new ReplaySubject<number>();
   public orderQueue = new Map<string, PlaceOrderInput>();
+  private refreshSubscription: Subscription;
 
   constructor(
     private readonly configService: ConfigService,
     private readonly baselineService: BaselineService,
   ) {
-    timer(0, 1000).subscribe(() => this.refreshCurrentStockMarket());
+    this.refreshSubscription = timer(0, 1000).subscribe(() =>
+      this.refreshCurrentStockMarket(),
+    );
+  }
+
+  beforeApplicationShutdown() {
+    this.refreshSubscription.unsubscribe();
   }
 
   get onInformationAvailable() {
