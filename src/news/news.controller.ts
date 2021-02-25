@@ -9,4 +9,14 @@ export class NewsController {
   public sendNews(@Body() { news }) {
     this.newsService.sendNews(news);
   }
+
+  @Post('stonks')
+  public stonks() {
+    this.newsService.stonks();
+  }
+
+  @Post('notstonks')
+  public notStonks() {
+    this.newsService.notStonks();
+  }
 }

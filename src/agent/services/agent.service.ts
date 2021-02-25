@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BehaviorSubject } from 'rxjs';
-import { Agent } from './models/agent.model';
+import { Agent } from '../models/agent.model';
 import { BrainService } from './brain.service';
 
 @Injectable()
@@ -24,10 +24,9 @@ export class AgentService {
     this._agents.next([agent, ...currentAgents]);
   }
 
-  agentFactory(funds: number, brain: string) {
+  async agentFactory(funds: number, brain: string) {
     const agent = new Agent();
-    agent.brain = this.brainService.brainFactory(agent, brain);
-    agent.funds = funds;
+    agent.brain = await this.brainService.brainFactory(agent, brain);
     return agent;
   }
 }

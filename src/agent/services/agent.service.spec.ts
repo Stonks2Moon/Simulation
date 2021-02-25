@@ -1,10 +1,7 @@
-import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Agent } from './models/agent.model';
+import { Agent } from '../models/agent.model';
 import { AgentService } from './agent.service';
 import { BrainService } from './brain.service';
-import { MarketService } from './market.service';
-import { RandomBrain } from './brains/random.brain';
 
 describe('AgentService', () => {
   let service: AgentService;
@@ -36,13 +33,13 @@ describe('AgentService', () => {
     expect(service.currentAgents).toContain(mockAgent);
   });
 
-  it('should create an agent', () => {
-    const agent = service.agentFactory(100, 'random');
+  it('should create an agent', async () => {
+    const agent = await service.agentFactory(100, 'random');
     expect(agent).toBeInstanceOf(Agent);
   });
 
-  it('should create an agent with correct funds', () => {
-    const agent = service.agentFactory(100, 'random');
+  it('should create an agent with correct funds', async () => {
+    const agent = await service.agentFactory(100, 'random');
     expect(agent.funds).toEqual(100);
   });
 

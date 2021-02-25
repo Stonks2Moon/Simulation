@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AgentResolver } from './agent.resolver';
-import { AgentService } from './agent.service';
-import { BrainService } from './brain.service';
+
+import { AgentService } from './services/agent.service';
+import { BrainService } from './services/brain.service';
 import { MarketController } from '../market/market.controller';
 import { MarketModule } from '../market/market.module';
 
