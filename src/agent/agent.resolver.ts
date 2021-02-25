@@ -17,9 +17,9 @@ export class AgentResolver {
   }
 
   @Cron('* * * * * *')
-  runSimulation() {
+  async runSimulation() {
     this.agentService.registerNewAgent(
-      this.agentService.agentFactory(Math.random() * 1000, 'random'),
+      await this.agentService.agentFactory(Math.random() * 1000, 'random'),
     );
   }
 

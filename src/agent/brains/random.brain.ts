@@ -1,46 +1,47 @@
+import { Logger, LoggerService } from '@nestjs/common';
+import { timer } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
+
+import { PromiseOrValue } from '../../util.types';
 import { MarketService } from '../market.service';
 import { Agent } from '../models/agent.model';
 import { Brain } from '../models/brain.model';
 
+/**
+ * A Random Test-Brain, which creates orders as it pleases
+ */
 export class RandomBrain extends Brain {
+  private alive = false;
+  private agent: Readonly<Agent>;
+  private marketService: Readonly<MarketService>;
+  private logger = new Logger();
 
-  
-
-  kill() {
-    throw new Error('Method not implemented.');
-  }
-  animate() {
-    throw new Error('Method not implemented.');
-  }
-
-  constructor(
-    private readonly marketService: MarketService,
-    private readonly agent: Agent,
-  ) {
-    super();
-    this.marketService.onInformationAvailable.subscribe((information) => {
-      setTimeout(() => {
-        this.act();
-      }, Math.random() * 1000); // Brainlag
-      this.act();
-    });
+  onAgentInit(agent: Readonly<Agent>): PromiseOrValue<void> {
+    this.agent = agent;
   }
 
-
-  onAgentInit(agent: Readonly<Agent>) {
-   
-  }
-  onMarketInit(marketService: Readonly<MarketService>) {
-   
+  onMarketInit(marketService: Readonly<MarketService>): PromiseOrValue<void> {
+    this.marketService = marketService;
   }
 
-  
+  animate(): PromiseOrValue<void> {
+    this.alive = true;
+    this.marketService.onInformationAvailable
+      .pipe(takeWhile(() => this.alive))
+      .subscribe(() => {
+        this.logger.log(
+          `Agent ${this.agent.id} with brain ${this.constructor.name} creates an order`,
+        );
+        // this.marketService.placeOrder({
+        // })
+      });
+  }
 
+  kill(): PromiseOrValue<void> {
+    this.alive = false;
+  }
 
-
-  act() {
-    const order = {};
-    // TODO:
-    console.log(`Agent ${this.agent.id} created an order`);
+  isAlive(): PromiseOrValue<boolean> {
+    return this.alive;
   }
 }

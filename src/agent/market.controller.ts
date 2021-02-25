@@ -9,6 +9,6 @@ export class MarketController {
   public marketCallback(
     @Param() reference: string
   ) {
-    this.marketService.processCallback(reference);
+    // this.marketService.processCallback(reference);
   }
 }

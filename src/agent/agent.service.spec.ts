@@ -36,13 +36,13 @@ describe('AgentService', () => {
     expect(service.currentAgents).toContain(mockAgent);
   });
 
-  it('should create an agent', () => {
-    const agent = service.agentFactory(100, 'random');
+  it('should create an agent', async () => {
+    const agent = await service.agentFactory(100, 'random');
     expect(agent).toBeInstanceOf(Agent);
   });
 
-  it('should create an agent with correct funds', () => {
-    const agent = service.agentFactory(100, 'random');
+  it('should create an agent with correct funds', async () => {
+    const agent = await service.agentFactory(100, 'random');
     expect(agent.funds).toEqual(100);
   });
 
