@@ -41,6 +41,6 @@ export class RandomBrain extends Brain {
   act() {
     const order = {};
     // TODO:
-    console.log(`Agent ${this.agent.id} created an order`);
+    // console.log(`Agent ${this.agent.id} created an order`);
   }
 }
