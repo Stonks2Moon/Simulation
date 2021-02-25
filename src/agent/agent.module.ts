@@ -7,7 +7,6 @@ import { MarketController } from './market.controller';
 import { MarketService } from './market.service';
 
 @Module({
-  imports: [ConfigModule],
   providers: [AgentResolver, AgentService, BrainService, MarketService],
   controllers: [MarketController],
 })

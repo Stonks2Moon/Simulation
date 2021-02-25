@@ -16,7 +16,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     AgentModule,
     ScheduleModule.forRoot(),
-    ConfigModule.forRoot()
+    ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [AppController],
   providers: [AppService, BaselineService],
