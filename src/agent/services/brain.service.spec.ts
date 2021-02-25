@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Agent } from '../models/agent.model';
 import { BrainService } from './brain.service';
-import { MarketService } from '../market.service';
+import { MarketService } from '../../market/market.service';
 import { Brain } from '../models/brain.model';
 import { of } from 'rxjs';
 
