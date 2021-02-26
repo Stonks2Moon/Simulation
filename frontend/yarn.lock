@@ -135,6 +135,15 @@
   dependencies:
     tslib "^2.0.0"
 
+"@angular/cdk@^11.0.0":
+  version "11.2.2"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-11.2.2.tgz#f541069db3f5705d8c064138f6cd94568fe1b658"
+  integrity sha512-p3lRDPlnOuJtLWEd020QOyn0ERyc1LF7OLi90hTdzMMxe9fT3v6sQJVRs8jIY3NTmpIm/pNDGi77+1/vKerLPQ==
+  dependencies:
+    tslib "^2.0.0"
+  optionalDependencies:
+    parse5 "^5.0.0"
+
 "@angular/cli@~11.2.2":
   version "11.2.2"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-11.2.2.tgz#ca56894f1a4d1f4e411408b8185b711614c3195a"
@@ -1127,6 +1136,11 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.7.0"
 
+"@nebular/eva-icons@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@nebular/eva-icons/-/eva-icons-7.0.0.tgz#08034bfb8a2c0778ca4a52517e5e56896f2c51ab"
+  integrity sha512-u3dJgIF97lufaRod4bf/OZcTG3Arne+/M9z+WDI8bU/3sVtlYVyPDE4508tkBjFp2P1XUDSXZnK5NLJ9a/+5tA==
+
 "@nebular/theme@7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@nebular/theme/-/theme-7.0.0.tgz#e239e19f12159205ffe247bdb03a282b5b721888"
@@ -1224,7 +1238,7 @@
     puka "^1.0.1"
     read-package-json-fast "^2.0.1"
 
-"@schematics/angular@11.2.2":
+"@schematics/angular@11.2.2", "@schematics/angular@~11.2.2":
   version "11.2.2"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-11.2.2.tgz#ff69a66b6e1acf5aa36ed0795973f3f57d893d0b"
   integrity sha512-TcxPy58adUnkirGXyZVVSMuKkA0eIz2PWSQWEgB9l7kO+5LvDOn+RMoc6AVx0s/bU9nH+eozBUJ1XAD/E8QnYQ==
@@ -3627,6 +3641,11 @@ etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+
+eva-icons@^1.1.2:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/eva-icons/-/eva-icons-1.1.3.tgz#d4a88a93e92250c769703eb90920752ab0f72c0a"
+  integrity sha512-QBSEWNbEx1H0numXP1qgxKVCZHonRaky5ft4pGzQBcO4cy7mEja6TuJ8rc7BqX2pmkvetVQWKDH+DK/8y7GTag==
 
 eventemitter3@^4.0.0:
   version "4.0.7"
@@ -6306,6 +6325,11 @@ parse5-sax-parser@^6.0.1:
   integrity sha512-kXX+5S81lgESA0LsDuGjAlBybImAChYRMT+/uKCEXFBFOeEhS52qUCydGhU3qLRD8D9DVjaUo821WK7DM4iCeg==
   dependencies:
     parse5 "^6.0.1"
+
+parse5@^5.0.0:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/parse5/-/parse5-5.1.1.tgz#f68e4e5ba1852ac2cadc00f4555fff6c2abb6178"
+  integrity sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==
 
 parse5@^6.0.1:
   version "6.0.1"
