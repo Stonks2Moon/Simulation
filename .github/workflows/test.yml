@@ -16,7 +16,9 @@ jobs:
         with:
           node-version: 14.x
       - run: yarn install
+        working-directory: "backend"
       - run: yarn test:cov --forceExit
+        working-directory: "backend"
       - name: Publish test coverage report
         uses: EndBug/add-and-commit@v4
         with:
