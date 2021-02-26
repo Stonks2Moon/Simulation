@@ -4,6 +4,7 @@ import { BaselineService } from '../baseline/baseline.service';
 import { MarketService, OrderType, PlaceOrderInput } from './market.service';
 import { createHash } from 'crypto';
 import { filter, take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 const generateMockOrder = (): PlaceOrderInput => {
   return {
@@ -87,21 +88,31 @@ describe('MarketService', () => {
     expect(service.orderQueue.size).toEqual(1);
   });
 
-  // it('should generate new market data every second', (done) => {
-  //   let counter = 0;
-  //   service.onInformationAvailable
-  //     .pipe(
-  //       filter((v) => !!v),
-  //       take(2),
-  //     )
-  //     .subscribe({
-  //       next: (v) => {
-  //         counter++;
-  //       },
-  //       complete: () => {
-  //         expect(counter).toEqual(2);
-  //         done();
-  //       },
-  //     });
-  // });
+  it('should generate new market data every second', (done) => {
+    let counter = 0;
+    service.onInformationAvailable
+      .pipe(
+        filter((v) => !!v),
+        take(2),
+      )
+      .subscribe({
+        next: (v) => {
+          counter++;
+        },
+        complete: () => {
+          expect(counter).toEqual(2);
+          done();
+        },
+      });
+  });
+
+  it('should properly shutdown open subscriptions', () => {
+    const sub = (service as any).refreshSubscription as Subscription;
+
+    expect(sub.closed).toBeFalsy();
+
+    service.beforeApplicationShutdown();
+
+    expect(sub.closed).toBeTruthy();
+  });
 });
