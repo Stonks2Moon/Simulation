@@ -55,32 +55,38 @@ export class ChartComponent implements OnInit {
     // dataZoom: [
     //   {
     //     type: 'inside',
-    //     start: 0,
-    //     end: 10,
     //   },
     //   {
     //     handleSize: '80%',
     //     handleStyle: {
     //       color: '#fff',
-    //       shadowBlur: 3,
-    //       shadowColor: 'rgba(0, 0, 0, 0.6)',
-    //       shadowOffsetX: 2,
-    //       shadowOffsetY: 2,
     //     },
     //   },
     // ],
     xAxis: {
       type: 'time',
       splitLine: {
-        show: false,
+        show: true,
+        lineStyle: {
+          opacity: .05
+        }
       },
+      axisLabel: {
+        color: 'rgb(255,255,255)'
+      }
     },
     yAxis: {
       type: 'value',
       boundaryGap: [0, '100%'],
       splitLine: {
-        show: false,
+        show: true,
+        lineStyle: {
+          opacity: .05
+        }
       },
+      axisLabel: {
+        color: 'rgb(255,255,255)'
+      }
     },
     series: [
       {
@@ -88,7 +94,7 @@ export class ChartComponent implements OnInit {
         smooth: true,
         sampling: 'average',
         itemStyle: {
-          color: 'rgb(255, 70, 131)',
+          color: 'rgb(255, 125, 50)',
         },
         areaStyle: {
           color: new graphic.LinearGradient(0, 0, 0, 1, [

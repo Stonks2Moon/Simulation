@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SzenarioService } from '../@data/szenario.service';
 
 @Component({
   selector: 'app-szenario',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SzenarioComponent implements OnInit {
 
-  constructor() { }
+  constructor(private readonly szenarioService: SzenarioService) { }
 
   ngOnInit(): void {
+    this.szenarioService.getAvailableSzenarios()
   }
 
 }
