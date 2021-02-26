@@ -8,9 +8,11 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { ChartComponent } from './chart/chart.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { RouterModule } from '@angular/router';
+import { SzenarioComponent } from './szenario/szenario.component';
+import { InputboxComponent } from './inputbox/inputbox.component';
 
 @NgModule({
-  declarations: [AppComponent, ChartComponent],
+  declarations: [AppComponent, ChartComponent, SzenarioComponent, InputboxComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
