@@ -1,42 +1,37 @@
 <nb-card>
     <nb-card-body>
-            <nb-layout>
-                <nb-layout-column>
-                    <nb-layout>
-                        <nb-layout-column>
-                            <h2 style="font-size: 1.5em; color: hsl(29.4, 100%, 50%);">Stylefaktor 1</h2>
-                        </nb-layout-column>
-                        <nb-layout-column>
-                            <input type="text" nbInput placeholder="Text field">
-                        </nb-layout-column>
-                    </nb-layout>
-                    <nb-layout>
-                        <nb-layout-column>
-                            <h2 style="font-size: 1.5em; color: hsl(29.4, 100%, 50%);">Stylefaktor 3</h2>
-                        </nb-layout-column>
-                        <nb-layout-column>
-                            <input type="text" nbInput placeholder="Text field">
-                        </nb-layout-column>
-                    </nb-layout>
-                </nb-layout-column>
-                <nb-layout-column>
-                    <nb-layout>
-                        <nb-layout-column>
-                            <h2 style="font-size: 1.5em; color: hsl(25, 100%, 50%);">Stylefaktor 2</h2>
-                        </nb-layout-column>
-                        <nb-layout-column>
-                            <input type="text" nbInput placeholder="Text field">
-                        </nb-layout-column>
-                    </nb-layout>
-                    <nb-layout>
-                        <nb-layout-column>
-                            <h2 style="font-size: 1.5em; color: hsl(25, 100%, 50%);">Stylefaktor 4</h2>
-                        </nb-layout-column>
-                        <nb-layout-column>
-                            <input type="text" nbInput placeholder="Text field">
-                        </nb-layout-column>
-                    </nb-layout>
-                </nb-layout-column>
-            </nb-layout>
+        <h3>Overwrite Settings:</h3>
+        <nb-card>
+            <nb-card-header>
+                <label>
+                    <label>Setting 1:</label>
+                    <input type="text" [formControl]="inputFormControl" class="input" nbInput placeholder="current Value"/>
+                </label>
+            </nb-card-header>
+        </nb-card>
+        <nb-card>
+            <nb-card-header>
+                <label>
+                    <label>Setting 2:</label>
+                    <input type="text" [formControl]="inputFormControl" class="input" nbInput placeholder="current Value"/>
+                </label>
+            </nb-card-header>
+        </nb-card>
+        <nb-card>
+            <nb-card-header>
+                <label>
+                    <label>Setting 3:</label>
+                    <input type="text" [formControl]="inputFormControl" class="input" nbInput placeholder="current Value"/>
+                </label>
+            </nb-card-header>
+        </nb-card>
+        <nb-card>
+            <nb-card-header>
+                <label>
+                    <label>Setting 4:</label>
+                    <input type="text" [formControl]="inputFormControl" class="input" nbInput placeholder="current Value"/>
+                </label>
+            </nb-card-header>
+        </nb-card>
     </nb-card-body>
   </nb-card>
