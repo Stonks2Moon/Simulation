@@ -100,7 +100,7 @@ export class ChartComponent implements OnInit {
           color: new graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
-              color: 'rgb(255, 125, 50)',
+              color: 'rgb(255, 125, 0)',
             },
             {
               offset: 1,
