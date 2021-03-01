@@ -32,5 +32,6 @@
         "**/*.idx": true,
         "**/*.ilg": true,
         "**/*.ind": true
-    }
+    },
+    "git.ignoreLimitWarning": true
 }
