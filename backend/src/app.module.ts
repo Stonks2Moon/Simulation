@@ -8,7 +8,7 @@ import { AgentModule } from './agent/agent.module';
 import { ConfigModule } from '@nestjs/config';
 import { NewsModule } from './news/news.module';
 import { MarketModule } from './market/market.module';
-import { SzenarioModule } from './scenarios/szenario.module';
+import { SzenarioModule } from './szenarios/szenario.module';
 
 @Module({
   imports: [
