@@ -72,7 +72,7 @@
     ],
     "coveragePathIgnorePatterns": ["\\.module\\.ts$", "main.ts"],
     "coverageReporters": ["html"],
-    "coverageDirectory": "../docs/coverage",
+    "coverageDirectory": "../../docs/coverage",
     "testEnvironment": "node"
   }
 }
