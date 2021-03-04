@@ -1,10 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class BaselineService {
-  private readonly logger = new Logger(BaselineService.name);
-
   private nextPrice: number;
 
   private x1: number;
@@ -14,11 +11,6 @@ export class BaselineService {
   private value = 0;
   private points = [];
   private t: number;
-
-  @Cron(CronExpression.EVERY_SECOND)
-  runSimulation() {
-    // this.logger.debug(this.generateNextPrice());
-  }
 
   boxMuller(r: number[]) {
     let phase = 0;
