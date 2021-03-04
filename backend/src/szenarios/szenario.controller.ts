@@ -9,4 +9,9 @@ export class SzenarioController {
   public loadSzenario(@Param('szenarioId', ParseIntPipe) szenarioId: number) {
     return this.szenarioService.getSzenario(szenarioId);
   }
+
+  @Get()
+  public getAvailable() {
+    return this.szenarioService.get();
+  }
 }

@@ -2,12 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { readFile, readdir } from 'fs/promises';
 import { join } from 'path';
 import { from } from 'rxjs';
-import {
-  map,
-  mergeAll,
-  switchMap,
-  toArray,
-} from 'rxjs/operators';
+import { map, mergeAll, switchMap, toArray } from 'rxjs/operators';
+import { AgentService } from 'src/agent/services/agent.service';
+import { BrainService } from 'src/agent/services/brain.service';
 
 const SZENARIO_FOLDER = join(__dirname, '../assets/szenarios');
 
@@ -15,7 +12,7 @@ const SZENARIO_FOLDER = join(__dirname, '../assets/szenarios');
 export class SzenarioService {
   private availableSzenarios = [];
 
-  constructor() {
+  constructor(private readonly agentService: AgentService) {
     this.loadSzenarios();
   }
 
@@ -32,13 +29,23 @@ export class SzenarioService {
         toArray(),
       )
       .toPromise();
-  }
+
+    //TEMP
+    this.availableSzenarios = [this.availableSzenarios[9]];
+
+
+        //TEMP
+      await  this.agentService.agentFactory(0,'szenario')
+
+  } // TODO: Add filter for non transformed jsons
 
   public getSzenario(id: number) {
-    console.log(this.availableSzenarios[1]);
     if (id > this.availableSzenarios.length) throw new BadRequestException();
-    const a = this.availableSzenarios[id];
-    console.log(a, id);
-    return a;
+    return this.availableSzenarios[id];
+  }
+
+  get() {
+    console.log(this.availableSzenarios.length);
+    return this.availableSzenarios;
   }
 }

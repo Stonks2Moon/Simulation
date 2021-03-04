@@ -5,6 +5,7 @@ import { Brain } from '../models/brain.model';
 import { RandomBrain } from '../brains/random.brain';
 import { Agent } from '../models/agent.model';
 import { CycleBrain } from '../brains/cycle.brain';
+import { SzenarioBrain } from '../brains/szenario.brain';
 
 type Constructor<T> = new (...args: any[]) => T;
 
@@ -15,6 +16,7 @@ export class BrainService {
   constructor(private readonly marketService: MarketService) {
     this.registeredBrains.set('random', RandomBrain);
     this.registeredBrains.set('cycle', CycleBrain);
+    this.registeredBrains.set('szenario', SzenarioBrain);
   }
 
   async brainFactory(agent: Agent, name: string): Promise<Brain> {
