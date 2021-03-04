@@ -1,6 +1,8 @@
-import glob, os, json
+import glob
+import json
+import os
 
-os.chdir('src/assets/szenarios')
+os.chdir('backend/src/assets/szenarios')
 
 def get_time(d):
     return d.get('time')
@@ -24,7 +26,7 @@ def read_and_transform(file):
             if index == lastItemIndex:
                 d['delta'] = 0
             else:
-                d['delta'] = d.get('close') - data[index + 1].get('close')
+                d['delta'] = (d.get('close') - data[index + 1].get('close'))/d.get('close')
             # Delete unnecessary information to reduce filesize
             delete_unused_keys(d)
         with open('Transformed ' + file, 'w') as out:
