@@ -3,6 +3,7 @@ import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 import { from } from 'rxjs';
 import { filter, map, mergeAll, switchMap, toArray } from 'rxjs/operators';
+import { Agent } from 'src/agent/models/agent.model';
 import { AgentService } from 'src/agent/services/agent.service';
 
 const SZENARIO_FOLDER = join(__dirname, '../assets/szenarios');
@@ -13,6 +14,7 @@ export class SzenarioService {
 
   private isRunningSzenario = false;
   private runningSzenario: number;
+  private szenarioAgents: Agent[] = [];
 
   constructor(private readonly agentService: AgentService) {
     this.loadSzenarios();
@@ -43,7 +45,16 @@ export class SzenarioService {
     return this.availableSzenarios;
   }
 
-  runSzenario(szenarioId: number) {
-    this.agentService.agentFactory('szenario', this.getSzenario(szenarioId));
+  async runSzenario(szenarioId: number) {
+    await Promise.all(this.szenarioAgents.map((agent) => agent.brain.kill()));
+    this.szenarioAgents = [];
+
+    this.isRunningSzenario = true; //TODO: Ende des szenarios
+    this.runningSzenario = szenarioId;
+    const agent = await this.agentService.agentFactory(
+      'szenario',
+      this.getSzenario(szenarioId),
+    );
+    this.szenarioAgents.push(agent);
   }
 }
