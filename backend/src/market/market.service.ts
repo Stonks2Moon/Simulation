@@ -35,7 +35,7 @@ export interface PlaceOrderInput {
 */
 @Injectable()
 export class MarketService implements BeforeApplicationShutdown {
-  private _currentMarketInformation = new ReplaySubject<number>();
+  private _currentMarketInformation = new ReplaySubject<number>(1);//TODO: Buffer größe
   public orderQueue = new Map<string, PlaceOrderInput>();
   private refreshSubscription: Subscription;
 
@@ -59,7 +59,9 @@ export class MarketService implements BeforeApplicationShutdown {
   private course = 100;//COURSE
   private async refreshCurrentStockMarket() {
     const value = this.baselineService.generateNextPrice();
-    if(value) this.course += value
+    if(value) {
+      this.course += value
+    }
     this._currentMarketInformation.next(this.course);
   }
 

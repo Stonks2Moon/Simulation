@@ -1,6 +1,6 @@
 import { Logger, LoggerService } from '@nestjs/common';
 import { timer } from 'rxjs';
-import { last, map, take, takeWhile } from 'rxjs/operators';
+import { last, map, take, takeLast, takeWhile } from 'rxjs/operators';
 
 import { PromiseOrValue } from '../../util.types';
 import { MarketService, OperationType, OrderType } from '../../market/market.service';
@@ -2031,14 +2031,17 @@ export class SzenarioBrain extends Brain {
     this.marketService = marketService;
   }
 
+  onData(data) {
+    console.log('data', data)
+  }
+
   animate(): PromiseOrValue<void> {
     this.alive = true;
 
     this.currentTime
       .pipe(
-        map((time) => {
-          return addMinutes(this.startDate, time);
-        }),
+        takeWhile(_=>this.alive),
+        map((time) => addMinutes(this.startDate, time)),
       )
       .subscribe(async (time) => {
         const datapoint = testDATA.find((d) => {

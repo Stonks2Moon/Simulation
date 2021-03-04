@@ -11,6 +11,9 @@ const SZENARIO_FOLDER = join(__dirname, '../assets/szenarios');
 export class SzenarioService {
   private availableSzenarios = [];
 
+  private isRunningSzenario = false;
+  private runningSzenario: number;
+
   constructor(private readonly agentService: AgentService) {
     this.loadSzenarios();
   }
@@ -29,9 +32,6 @@ export class SzenarioService {
         toArray(),
       )
       .toPromise();
-
-    //TEMP
-    await this.agentService.agentFactory(0, 'szenario');
   }
 
   public getSzenario(id: number) {
@@ -41,5 +41,9 @@ export class SzenarioService {
 
   get() {
     return this.availableSzenarios;
+  }
+
+  runSzenario(szenarioId: number) {
+    this.agentService.agentFactory('szenario', this.getSzenario(szenarioId));
   }
 }

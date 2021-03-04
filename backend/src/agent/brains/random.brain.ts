@@ -49,4 +49,8 @@ export class RandomBrain extends Brain {
   isAlive(): PromiseOrValue<boolean> {
     return this.alive;
   }
+
+  onData(data: any) {
+    
+  }
 }

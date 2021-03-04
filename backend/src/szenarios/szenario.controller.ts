@@ -6,8 +6,8 @@ export class SzenarioController {
   constructor(private readonly szenarioService: SzenarioService) {}
 
   @Get(':szenarioId')
-  public loadSzenario(@Param('szenarioId', ParseIntPipe) szenarioId: number) {
-    return this.szenarioService.getSzenario(szenarioId);
+  public runSzenario(@Param('szenarioId', ParseIntPipe) szenarioId: number) {
+    return this.szenarioService.runSzenario(szenarioId);
   }
 
   @Get()

@@ -2,7 +2,6 @@ import { PromiseOrValue } from 'src/util.types';
 import { MarketService } from '../../market/market.service';
 import { Agent } from './agent.model';
 
-
 export abstract class Brain {
   /**
    * The Brainname
@@ -16,12 +15,19 @@ export abstract class Brain {
   abstract onAgentInit(agent: Readonly<Agent>): PromiseOrValue<void>;
 
   /**
-   * Registers the global stock marget
+   * Registers the global stock market
    * @param marketService The Global Stockmarket
    */
   abstract onMarketInit(
     marketService: Readonly<MarketService>,
   ): PromiseOrValue<void>;
+
+  /**
+   * Registers additional data which the brain can use for decision making.
+   * Data is provided when creating a brain or an agent
+   * @param data The additional data to provide to the brain.
+   */
+  onData(...data: any[]): PromiseOrValue<void> {}
 
   /**
    * The Go command, at which all participating components are constructed.

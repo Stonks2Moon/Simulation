@@ -19,11 +19,12 @@ export class BrainService {
     this.registeredBrains.set('szenario', SzenarioBrain);
   }
 
-  async brainFactory(agent: Agent, name: string): Promise<Brain> {
+  async brainFactory(agent: Agent, name: string, ...data: any[]): Promise<Brain> {
     const con = this.registeredBrains.get(name);
     const brainInstance = new con();
     await brainInstance.onAgentInit(agent);
     await brainInstance.onMarketInit(this.marketService);
+    await brainInstance.onData(...data);
     await brainInstance.animate();
     return brainInstance;
   }

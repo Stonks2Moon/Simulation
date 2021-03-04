@@ -69,4 +69,5 @@ export class CycleBrain extends Brain {
   isAlive(): PromiseOrValue<boolean> {
     return this.alive;
   }
+
 }
