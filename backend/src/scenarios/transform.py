@@ -1,6 +1,6 @@
 import glob, os, json
 
-os.chdir('src/scenarios')
+os.chdir('src/assets/szenarios')
 
 def get_time(d):
     return d.get('time')
@@ -11,7 +11,7 @@ def delete_unused_keys(d):
     del d['high']
     del d['low']
 
-def read_and_transform(file: str):
+def read_and_transform(file):
     with open(file) as json_file:
         data = json.load(json_file)
 
