@@ -4170,6 +4170,13 @@ moment-timezone@^0.5.x:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
 
+moonstonks-boersenapi@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/moonstonks-boersenapi/-/moonstonks-boersenapi-1.1.0.tgz#cc753ee503fb9e86155c20e9297daf7a909d59a6"
+  integrity sha512-CBCrV2ZAgsqmvcN/Mr4Cg2I07Fkt2OuTiu7y9W4HBd97Muy/Sck2feYwzd8lgmP8O9i+0CfrGWyRpIQrqs2XaQ==
+  dependencies:
+    node-fetch "^2.6.1"
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
