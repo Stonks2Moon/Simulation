@@ -1,6 +1,92 @@
 % !TEX root =  ../master.tex
 \chapter{Anforderungsanalyse}
+
+Da dieses Projekt ohne Rahmenbedingungen und Abhängigkeiten zu vorhandenen Systemen, fällt an dieser Stelle die Ist-Analyse und die Abgrenzung zu bereits bestehenden Lösungen weg. Unsere Anwendung bzw. das Gesamtprojekt findet sozusagen auf der Grünen Wiese statt. Nachfolgend werden zuerst die Funktionalen und Nicht-Funktionalen Anforderungen der Simulation erläutert, bevor diese übersichtlich zusammengefasst werden. Im Anschluss werden kurz die Anforderungen aus unserer Sicht zu den anderen Teilprojekten erläutert.
 \section{Funktionale Anforderungen}
+	\begin{itemize}
+		\item Anmeldung % Vielleicht nach Zwischenpräsentatio implementieren
+			Damit das Markteschen nicht durch jede Person beeinflusst werden kann, soll die Anwendung durch ein Login geschützt werden. So können nur dedizierte Personen Szenarios auswählen und wichtige Marktfaktoren beeinflussen. Denkbar wäre hierdurch auch das Verteilen von Berechtigungen. So ließe es sich sinnvoll umsetzen, dass Informationen über das durch die Simulation gehandelte Order Volumen und Preise für alle einsehbar machen und schreibende Operationen, die das Marktgeschehen beeinflussen könnte ausgewählten Personen vorbehalten werden.
+			
+		\item Auswahl vordefinierter Szenarien
+			Es soll eine Liste an vordefinierten Szenarien geben. Diese Szenarien können bestimmte Ereignisse sein, wie der Rücktritt einzelner Vorstandsmitglieder, auf die der Markt in einem vorher definierten Rahmen reagiert. Diese Reaktion soll automatisch mit dem Beginn des nächsten Szenarios durch die Simulation auf den Markt übertragen werden.
+			
+		\item Übersicht über die gerade gehandelten Trades
+			Es sollte eine graphische Übersicht geben, die einen Überblick über die aktuell gehandelten Volumina und Preise verschafft. So soll es ermöglicht werden einen besseren Einblick zu bekommen, was die Simulation gerade macht und wie die durch die Szenarien gewünschten Effekte am Markt erreicht werden.
+			
+		\item Dynamische Einflussnahme des Marktgeschehens
+			Neben den Szenarien soll auch durch andere Faktoren Einfluss auf das Marktgeschehen genommen werden können. Diese Faktoren sollen sein:
+				\begin{itemize}
+					\item Skalierfaktor, der Bestimmt wie lange ein ausgewähltes Szenario abläuft
+					\item Anzahl der zur Verfügung stehenden Wertpapiere
+					\item Anzahl der Trades pro Stunde
+					\item tbd.
+				\end{itemize}
+			%TODO: hier müssen bestimmt noch weitere ergänzt werden
+			
+		\item Kommunikation von Events
+			Bestimmte Ereignisse beeinflussen das Marktgeschen. Damit Privatkunden und Unternehmen, die an der Börse handeln entsprechend ihren Interessen reagieren können, müssen sie über solche Ereignisse aktiv informiert werden. Ob und wie sie auf diese Nachrichten reagieren bleibt ihnen selbst überlassen.
+			
+		\item Reaktion auf Marktgeschehen durch Privat- und Unternehmensbroker
+			Um die Simulation möglichst realistisch zu gestalten, muss auch das Verhalten und die Trades der anderen Marktteilnehmer, also der Privat- und Unternehmensbroker berücksichtigt werden, Wichtig ist hier jedoch, das nicht eine einzelne Transaktion eines Privatkundens schon die Marktpreise zum Schwanken bringt, sondern dass Transaktionen erst eine kritische Masse erreichen müssen um wirklich auf dem Markt ins Gewicht zu fallen. 
+			
+		\item Anpassung der Dauer eines Szenarios
+			Um das schnelle Testen von Anlagestrategien zu ermöglichen soll die Länge der Szenarien skalierbar sein. 
+			
+		\item Anzahl der Trades, Mengengerüst
+			Die Anzahl der Trades soll wählbar sein und skalierbar sein. 
+	\end{itemize}
 \section{Nicht-Funktionale Anforderungen}
+		\begin{itemize}
+		\item Geschwindigkeit
+			Für Nutzer ist die Geschwindigkeit besonders wichtig. Lang ladende Anwendungen
+			sind nervig in der Benutzung. Lange Ladezeiten lenken beispielsweise
+			ab und demotivieren die Nutzung der Anwendung. Über lange Ladezeiten
+			beschweren sich in einer Umfrage mehr als 70.\%, wobei 25\% aller Nutzer bereits bei 4
+			Sekunden die Seite verlassen.22 Aus diesem Grund sollte die Ladezeit gering gehalten
+			werden. % siehe 22loadingTimes. Learning Analytics
+			
+			Hinzu kommt der wichtige Faktor, dass diese Anwendung hoch skalierbar sein soll und auch mit Großen Ordervolumen umgehen soll. Aus diesem Grund ist es doppelt wichtig, dass sowohl Backend als auch Frontend schnell arbeiten und somit schnell neue Aufgaben erledigen können.
+			
+		\item Skalierbarkeit
+			Um das bereits angesprochene hohe Ordervolumen händeln zu können muss die Anwendung gut skalieren können, ohne das mit zunehmender Zahl der Transaktionen die Reaktion und die Performance der Anwendung immer schlechter wird. 
+			
+		\item Zero Downtime Deployment
+			Um den Handel für ein anstehendes Release nicht unterbrechen zu müssen, muss diese Anwendung Zero Downtime Deployments ermöglichen. So können sämtliche Software Änderungen unabhängig der Tageszeit oder des Handelsvolumen eingespielt werden können. 
+	\end{itemize}
 \section{Begrenzung von theoretischen Grundlagen}
 \section{Zusammenfassung}
+	\begin{table}[h]
+		\centering
+		\begin{tabularx}{.8\textwidth}{l|X}
+			Nr.     & Beschreibung                              \\\hline
+			F1      & Am System soll eine Anmeldung möglich sein                  \\
+			F2      & Nutzer sollen eine Übersicht über die aktuell druch die Simulation gehandelten Volumen und Preise bekommen  \\
+			F3      & Das Markteschen soll dynamisch beeinflusst werden   \\
+			F4      & Es sollen vordefinierte Szenarien für diverse Kursverläufe ausgewählt werden können \\
+			F5      & Events, die das Marktgeschehen beeinflussen sollen aktiv kommuniziert werden  \\
+			F6      & Es soll auf das Marktgeschehen durch andere Privat- und Unternehmensbroker reagiert werden  \\
+			F7      & Die Zeiteinheiten und somit die Dauer eines Szenarios sollte angepasst werden können  \\
+			F8		& Die Anzahl der Trades soll beeinflusst werden können \\\hline
+			NF1     & Anwendung lädt schnell                    \\
+			NF2     & Die Anwendung ist vor allem in Bezug auf die Anzahl der Trades skalierbar                \\
+			NF3     & Änderungen können ohne Downtime und damit ohne Unterbrechung des Marktes eingespielt werden   \\
+		\end{tabularx}
+		\caption{Zusammengefasste Anforderungen}
+		\label{tab:anforderungen}
+	\end{table}
+\section{Anforderungen an andere Teams}
+	Im Falle der Simulation bestehen keine Abhängigkeiten zu anderen Brokern. Bei den Gruppen Privatkunden und Unternehmensbrokern handelt es sich abstrakt betrachtet auch um die Entwicklung eines Brokers, der an einer Börse Wertpapiere kaufen und verkaufen möchte. Genauso wie bei der Simulation handelt es sich damit um Broker bzw. Clients der Börse, die sich lediglich in ihrer Zielgruppe und dem Zweck unterscheiden. Somit bleibt als einzige Schnittelle die Börse. Dabei wurden folgende Anforderungen aufgestellt:
+	
+	\textbf{GET-Requests}
+		\begin{itemize}
+			\item aktueller Preis eines Wertpapieres
+		\end{itemize}
+	\textbf{POST-Requests}
+		\begin{itemize}
+			\item Order einstellen
+		\end{itemize}
+	\textbf{aktive Benachrichtungen} z.B. über Sockets oder über mit der Transaktion mitgegebenen Links
+		\begin{itemize}
+			\item Buchung der Order
+			\item Handel unterbelichten
+		\end{itemize}
