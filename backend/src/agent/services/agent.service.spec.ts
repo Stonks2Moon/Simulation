@@ -34,7 +34,7 @@ describe('AgentService', () => {
   });
 
   it('should create an agent', async () => {
-    const agent = await service.agentFactory(100, 'random');
+    const agent = await service.agentFactory('random');
     expect(agent).toBeInstanceOf(Agent);
   });
 
