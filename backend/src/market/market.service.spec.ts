@@ -1,7 +1,7 @@
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { BaselineService } from '../baseline/baseline.service';
-import { MarketService, OrderType, PlaceOrderInput } from './market.service';
+import { MarketService, OperationType, OrderType, PlaceOrderInput } from './market.service';
 import { createHash } from 'crypto';
 import { filter, take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -9,10 +9,11 @@ import { Subscription } from 'rxjs';
 const generateMockOrder = (): PlaceOrderInput => {
   return {
     aktenId: 'Testaktie',
-    type: OrderType.SELL,
+    type: OrderType.MARKET_ORDER,
     price: 200,
     stockCount: 6000,
     subsequentOrders: [],
+    operation: OperationType.SELL
   };
 };
 

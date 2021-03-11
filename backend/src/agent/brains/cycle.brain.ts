@@ -4,6 +4,7 @@ import { takeWhile } from 'rxjs/operators';
 import { PromiseOrValue } from '../../util.types';
 import {
   MarketService,
+  OperationType,
   OrderType,
   PlaceOrderInput,
 } from '../../market/market.service';
@@ -47,13 +48,14 @@ export class CycleBrain extends Brain {
           aktenId: 'Moon',
           price: Math.random(),
           stockCount: Math.ceil(Math.random() * 100),
-          type: OrderType.BUY,
+          type: OrderType.MARKET_ORDER,
+          operation: OperationType.BUY
         };
         this.marketService.placeOrder(order);
 
         await sleep(1000);
 
-        const sellOrder = { ...order, type: OrderType.SELL };
+        const sellOrder = { ...order, operation: OperationType.SELL };
         this.marketService.placeOrder(sellOrder);
 
         await sleep(1000);
@@ -67,4 +69,5 @@ export class CycleBrain extends Brain {
   isAlive(): PromiseOrValue<boolean> {
     return this.alive;
   }
+
 }

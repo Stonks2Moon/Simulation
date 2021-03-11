@@ -5,8 +5,15 @@ import { createHash } from 'crypto';
 import { BaselineService } from '../baseline/baseline.service';
 
 export enum OrderType {
-  SELL,
+  MARKET_ORDER,
+  LIMIT_ORDER,
+  STOP_MARKET_ORDER,
+  STOP_LIMIT_ORDER
+}
+
+export enum OperationType {
   BUY,
+  SELL
 }
 
 export interface PlaceOrderInput {
@@ -14,6 +21,7 @@ export interface PlaceOrderInput {
   type: OrderType;
   stockCount: number;
   price: number | 'market';
+  operation: OperationType;
   subsequentOrders?: PlaceOrderInput[];
 }
 
@@ -27,7 +35,7 @@ export interface PlaceOrderInput {
 */
 @Injectable()
 export class MarketService implements BeforeApplicationShutdown {
-  private _currentMarketInformation = new ReplaySubject<number>();
+  private _currentMarketInformation = new ReplaySubject<number>(1);//TODO: Buffer größe
   public orderQueue = new Map<string, PlaceOrderInput>();
   private refreshSubscription: Subscription;
 
@@ -48,9 +56,13 @@ export class MarketService implements BeforeApplicationShutdown {
     return this._currentMarketInformation.asObservable();
   }
 
+  private course = 100;//COURSE
   private async refreshCurrentStockMarket() {
     const value = this.baselineService.generateNextPrice();
-    this._currentMarketInformation.next(value);
+    if(value) {
+      this.course += value
+    }
+    this._currentMarketInformation.next(this.course);
   }
 
   public processCallback(orderHash: string) {
@@ -87,7 +99,6 @@ export class MarketService implements BeforeApplicationShutdown {
     if (order.subsequentOrders?.length) {
       this.orderQueue.set(key, order);
     }
-
     const _callcackURL = this.createCallbackURL(key);
     return;
   }
