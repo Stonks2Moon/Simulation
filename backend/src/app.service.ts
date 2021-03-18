@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getHello() {
     return {
-      hello: 'world'
+      hello: 'world 2'
     };
   }
 }
