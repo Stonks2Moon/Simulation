@@ -22,5 +22,6 @@ ENV NODE_ENV production
 COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
 COPY ./*.json /app/
+COPY .env .env
 
 CMD ["node", "--expose-gc", "dist/main.js" ]
