@@ -45,7 +45,7 @@ export class SzenarioBrain extends Brain {
         map((time) => addMinutes(this.startDate, time)),
       )
       .subscribe(async (time) => {
-        console.log(this.szenarioData.length, time);
+        console.log(time);
         const datapoint = this.szenarioData.find(
           (d) => new Date(d.time).getTime() === time.getTime(),
         );
