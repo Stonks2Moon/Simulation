@@ -99,8 +99,6 @@ export class MarketService implements BeforeApplicationShutdown {
       this.orderQueue.set(key, order);
     }
     const _callcackURL = this.createCallbackURL(key);
-    console.log('presend', order);
-
     const body: any = {
       shareId: order.aktenId,
       amount: order.stockCount,
@@ -109,9 +107,6 @@ export class MarketService implements BeforeApplicationShutdown {
       onComplete: 'abc',
       onDelete: 'abc',
       type: order.operation,
-
-      limit: +order.price.toFixed(2),
-      // stop: 0,
     }
     if(order.price){
       body.limit = +order.price.toFixed(2)
@@ -129,7 +124,6 @@ export class MarketService implements BeforeApplicationShutdown {
       },
     );
 
-    console.log(a.data);
 
     return;
   }

@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 import { from } from 'rxjs';
-import { filter, map, mergeAll, switchMap, toArray } from 'rxjs/operators';
+import { filter, map, mergeAll, switchMap, tap, toArray } from 'rxjs/operators';
 import { Agent } from 'src/agent/models/agent.model';
 import { AgentService } from 'src/agent/services/agent.service';
 
@@ -33,11 +33,12 @@ export class SzenarioService {
         map((fileContent) => JSON.parse(fileContent)),
         toArray(),
       )
-      .toPromise();
+      .toPromise() as any;
   }
 
   public getSzenario(id: number) {
     if (id > this.availableSzenarios.length) throw new BadRequestException();
+    console.log(this.availableSzenarios[id])
     return this.availableSzenarios[id];
   }
 

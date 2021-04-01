@@ -17,8 +17,8 @@ export class SzenarioBrain extends Brain {
   private marketService: Readonly<MarketService>;
   private logger = new Logger();
 
-  private startDate = new Date(2019, 9, 22, 4, 51); //TODO: Das ist szenario 4
-  private currentTime = timer(0, 1000);
+  private startDate = new Date(2020, 9, 26, 4, 0); //TODO: Das ist szenario 4
+  private currentTime = timer(0, 10000);
   private szenarioData: any;
 
   onAgentInit(agent: Readonly<Agent>): PromiseOrValue<void> {
@@ -58,19 +58,50 @@ export class SzenarioBrain extends Brain {
         const volume = datapoint.volume;
         console.log(currentMarket, target);
 
+
+        const matchingVolume = Math.floor(0.4 * volume);
+        const limitSellVolume = Math.floor(0.1 * volume);
+        const limitBuyVolume = Math.floor(0.1 * volume)
+
         this.marketService.placeOrder({
-          stockCount: volume,
+          stockCount: matchingVolume,
           aktenId: '6037e67c8407c737441517d6',
-          price: target,
           operation: OperationType.BUY,
+          price: target
         });
 
         this.marketService.placeOrder({
-          stockCount: volume,
+          stockCount: matchingVolume,
           aktenId: '6037e67c8407c737441517d6',
-          price: target,
           operation: OperationType.SELL,
+          price: target
         });
+
+        for(let i = 0; i<10;i++){
+          this.marketService.placeOrder({
+            stockCount: Math.max(1, limitBuyVolume/10),
+            aktenId: '6037e67c8407c737441517d6',
+            operation: OperationType.BUY,
+            price: target - Math.random()
+          });
+        }
+
+        for(let i = 0; i<10;i++){
+          this.marketService.placeOrder({
+            stockCount: Math.max(1, limitSellVolume/10),
+            aktenId: '6037e67c8407c737441517d6',
+            operation: OperationType.SELL,
+            price: target + Math.random()
+          });
+        }
+       
+
+       
+
+
+
+
+
       });
   }
 
