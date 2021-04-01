@@ -1,6 +1,11 @@
-import { BeforeApplicationShutdown, Injectable, Logger } from '@nestjs/common';
+import {
+  BeforeApplicationShutdown,
+  HttpService,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ReplaySubject, Subscription, timer } from 'rxjs';
+import { of, ReplaySubject, Subscription, timer } from 'rxjs';
 import { createHash } from 'crypto';
 import { BaselineService } from '../baseline/baseline.service';
 import axios from 'axios';
@@ -13,7 +18,7 @@ export enum OperationType {
 export interface PlaceOrderInput {
   aktenId: string;
   stockCount: number;
-  price: number | 'market';
+  price?: number;
   operation: OperationType;
   subsequentOrders?: PlaceOrderInput[];
 }
@@ -35,6 +40,7 @@ export class MarketService implements BeforeApplicationShutdown {
   constructor(
     private readonly configService: ConfigService,
     private readonly baselineService: BaselineService,
+    private readonly httpService: HttpService,
   ) {
     this.refreshSubscription = timer(0, 1000).subscribe(() =>
       this.refreshCurrentStockMarket(),
@@ -49,13 +55,13 @@ export class MarketService implements BeforeApplicationShutdown {
     return this._currentMarketInformation.asObservable();
   }
 
-  private course = 100; //COURSE
   private async refreshCurrentStockMarket() {
-    const value = this.baselineService.generateNextPrice();
-    if (value) {
-      this.course += value;
-    }
-    this._currentMarketInformation.next(this.course);
+    const response = await this.httpService
+      .get(
+        'https://boerse.moonstonks.space/share/price/6037e67c8407c737441517d6',
+      )
+      .toPromise();
+    this._currentMarketInformation.next(+response.data);
   }
 
   public processCallback(orderHash: string) {
@@ -88,28 +94,37 @@ export class MarketService implements BeforeApplicationShutdown {
    */
   public async placeOrder<T = any>(order: PlaceOrderInput): Promise<T> {
     const key = createHash('md5').update(JSON.stringify(order)).digest('hex');
-
+    
     if (order.subsequentOrders?.length) {
       this.orderQueue.set(key, order);
     }
     const _callcackURL = this.createCallbackURL(key);
-    console.log('presend', order)
+    console.log('presend', order);
+
+    const body: any = {
+      shareId: order.aktenId,
+      amount: order.stockCount,
+      onPlace: 'abc',
+      onMatch: 'abc',
+      onComplete: 'abc',
+      onDelete: 'abc',
+      type: order.operation,
+
+      // limit: +order.price.toFixed(2),
+      // stop: 0,
+    }
+    if(order.price){
+      body.limit = +order.price.toFixed(2)
+    }
+
+
     const a = await axios.post(
       'https://boerse.moonstonks.space/order',
-      {
-        shareId: order.aktenId,
-        amount: order.stockCount,
-        onPlace: 'abc',
-        onMatch: 'abc',
-        onComplete: 'abc',
-        onDelete: 'abc',
-        type: order.operation,
-        // limit: order.price,
-        // stop: 0,
-      },
+      body,
       {
         headers: {
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDc3Mzc5YzE4ZTM1MTNmNGEyZTRjNiIsImRpc3BsYXlOYW1lIjoiU2ltKHApdWxhdGlvbnMgR3J1cHBlIiwidHlwZSI6InNpbXVsYXRpb24iLCJpYXQiOjE2MTU0NTg0NDF9.44A1cJvmf0ZUUIMwNFj8hFZFhbIqDP6_gbspXzrOoyk',
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDc3Mzc5YzE4ZTM1MTNmNGEyZTRjNiIsImRpc3BsYXlOYW1lIjoiU2ltKHApdWxhdGlvbnMgR3J1cHBlIiwidHlwZSI6InNpbXVsYXRpb24iLCJpYXQiOjE2MTU0NTg0NDF9.44A1cJvmf0ZUUIMwNFj8hFZFhbIqDP6_gbspXzrOoyk',
         },
       },
     );

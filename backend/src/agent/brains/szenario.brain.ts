@@ -3,10 +3,7 @@ import { addMinutes } from 'date-fns';
 import { timer } from 'rxjs';
 import { map, take, takeWhile } from 'rxjs/operators';
 
-import {
-  MarketService,
-  OperationType,
-} from '../../market/market.service';
+import { MarketService, OperationType } from '../../market/market.service';
 import { PromiseOrValue } from '../../util.types';
 import { Agent } from '../models/agent.model';
 import { Brain } from '../models/brain.model';
@@ -60,20 +57,18 @@ export class SzenarioBrain extends Brain {
         const diff = target - currentMarket;
         const volume = datapoint.volume;
         console.log(currentMarket, target);
-        //SELL Order
+
         this.marketService.placeOrder({
           stockCount: volume,
           aktenId: '6037e67c8407c737441517d6',
-          price: target,
-          operation: OperationType.SELL,
+          operation: OperationType.BUY,
         });
 
-        //Buy order
         this.marketService.placeOrder({
           stockCount: volume,
           aktenId: '6037e67c8407c737441517d6',
-          price: target,
-          operation: OperationType.BUY,
+          // price: target - 1,
+          operation: OperationType.SELL,
         });
       });
   }

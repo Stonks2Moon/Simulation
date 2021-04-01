@@ -56,5 +56,11 @@ export class SzenarioService {
       this.getSzenario(szenarioId),
     );
     this.szenarioAgents.push(agent);
+
+    const agent2 = await this.agentService.agentFactory(
+      'random',
+      this.getSzenario(szenarioId),
+    );
+    this.szenarioAgents.push(agent2);
   }
 }

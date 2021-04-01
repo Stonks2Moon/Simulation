@@ -31,13 +31,13 @@ export class RandomBrain extends Brain {
     this.alive = true;
     this.marketService.onInformationAvailable
       .pipe(takeWhile(() => this.alive))
-      .subscribe(() => {
+      .subscribe((v) => {
         this.logger.log(
           `Agent ${this.agent.id} with brain ${this.constructor.name} creates an order`,
         );
         this.marketService.placeOrder({
           aktenId: '6037e67c8407c737441517d6',
-          price: Math.ceil(Math.random() * 100),
+          price: Math.random() + v,
           stockCount: Math.ceil(Math.random() * 100),
           operation: Math.random() > 0.5 ? OperationType.BUY : OperationType.SELL,
         });
