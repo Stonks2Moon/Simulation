@@ -6,7 +6,6 @@ import { PromiseOrValue } from '../../util.types';
 import {
   MarketService,
   OperationType,
-  OrderType,
 } from '../../market/market.service';
 import { Agent } from '../models/agent.model';
 import { Brain } from '../models/brain.model';
@@ -37,11 +36,10 @@ export class RandomBrain extends Brain {
           `Agent ${this.agent.id} with brain ${this.constructor.name} creates an order`,
         );
         this.marketService.placeOrder({
-          aktenId: '',
-          price: Math.random(),
-          type: OrderType.MARKET_ORDER,
+          aktenId: '6037e67c8407c737441517d6',
+          price: Math.ceil(Math.random() * 100),
           stockCount: Math.ceil(Math.random() * 100),
-          operation: Math.random() > 0 ? OperationType.BUY : OperationType.SELL,
+          operation: Math.random() > 0.5 ? OperationType.BUY : OperationType.SELL,
         });
       });
   }

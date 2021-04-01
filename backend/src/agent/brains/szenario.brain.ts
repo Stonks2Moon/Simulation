@@ -6,7 +6,6 @@ import { map, take, takeWhile } from 'rxjs/operators';
 import {
   MarketService,
   OperationType,
-  OrderType,
 } from '../../market/market.service';
 import { PromiseOrValue } from '../../util.types';
 import { Agent } from '../models/agent.model';
@@ -64,18 +63,16 @@ export class SzenarioBrain extends Brain {
         //SELL Order
         this.marketService.placeOrder({
           stockCount: volume,
-          aktenId: 'moon',
+          aktenId: '6037e67c8407c737441517d6',
           price: target,
-          type: OrderType.MARKET_ORDER,
           operation: OperationType.SELL,
         });
 
         //Buy order
         this.marketService.placeOrder({
           stockCount: volume,
-          aktenId: 'moon',
+          aktenId: '6037e67c8407c737441517d6',
           price: target,
-          type: OrderType.MARKET_ORDER,
           operation: OperationType.BUY,
         });
       });

@@ -3,22 +3,15 @@ import { ConfigService } from '@nestjs/config';
 import { ReplaySubject, Subscription, timer } from 'rxjs';
 import { createHash } from 'crypto';
 import { BaselineService } from '../baseline/baseline.service';
-
-export enum OrderType {
-  MARKET_ORDER,
-  LIMIT_ORDER,
-  STOP_MARKET_ORDER,
-  STOP_LIMIT_ORDER
-}
+import axios from 'axios';
 
 export enum OperationType {
-  BUY,
-  SELL
+  BUY = 'buy',
+  SELL = 'sell',
 }
 
 export interface PlaceOrderInput {
   aktenId: string;
-  type: OrderType;
   stockCount: number;
   price: number | 'market';
   operation: OperationType;
@@ -35,7 +28,7 @@ export interface PlaceOrderInput {
 */
 @Injectable()
 export class MarketService implements BeforeApplicationShutdown {
-  private _currentMarketInformation = new ReplaySubject<number>(1);//TODO: Buffer größe
+  private _currentMarketInformation = new ReplaySubject<number>(1); //TODO: Buffer größe
   public orderQueue = new Map<string, PlaceOrderInput>();
   private refreshSubscription: Subscription;
 
@@ -56,11 +49,11 @@ export class MarketService implements BeforeApplicationShutdown {
     return this._currentMarketInformation.asObservable();
   }
 
-  private course = 100;//COURSE
+  private course = 100; //COURSE
   private async refreshCurrentStockMarket() {
     const value = this.baselineService.generateNextPrice();
-    if(value) {
-      this.course += value
+    if (value) {
+      this.course += value;
     }
     this._currentMarketInformation.next(this.course);
   }
@@ -100,6 +93,29 @@ export class MarketService implements BeforeApplicationShutdown {
       this.orderQueue.set(key, order);
     }
     const _callcackURL = this.createCallbackURL(key);
+    console.log('presend', order)
+    const a = await axios.post(
+      'https://boerse.moonstonks.space/order',
+      {
+        shareId: order.aktenId,
+        amount: order.stockCount,
+        onPlace: 'abc',
+        onMatch: 'abc',
+        onComplete: 'abc',
+        onDelete: 'abc',
+        type: order.operation,
+        // limit: order.price,
+        // stop: 0,
+      },
+      {
+        headers: {
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDc3Mzc5YzE4ZTM1MTNmNGEyZTRjNiIsImRpc3BsYXlOYW1lIjoiU2ltKHApdWxhdGlvbnMgR3J1cHBlIiwidHlwZSI6InNpbXVsYXRpb24iLCJpYXQiOjE2MTU0NTg0NDF9.44A1cJvmf0ZUUIMwNFj8hFZFhbIqDP6_gbspXzrOoyk',
+        },
+      },
+    );
+
+    console.log(a.data);
+
     return;
   }
 }

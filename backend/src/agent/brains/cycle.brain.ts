@@ -5,7 +5,6 @@ import { PromiseOrValue } from '../../util.types';
 import {
   MarketService,
   OperationType,
-  OrderType,
   PlaceOrderInput,
 } from '../../market/market.service';
 import { Agent } from '../models/agent.model';
@@ -48,7 +47,6 @@ export class CycleBrain extends Brain {
           aktenId: 'Moon',
           price: Math.random(),
           stockCount: Math.ceil(Math.random() * 100),
-          type: OrderType.MARKET_ORDER,
           operation: OperationType.BUY
         };
         this.marketService.placeOrder(order);
