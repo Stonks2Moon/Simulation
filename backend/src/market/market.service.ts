@@ -110,7 +110,7 @@ export class MarketService implements BeforeApplicationShutdown {
       onDelete: 'abc',
       type: order.operation,
 
-      // limit: +order.price.toFixed(2),
+      limit: +order.price.toFixed(2),
       // stop: 0,
     }
     if(order.price){

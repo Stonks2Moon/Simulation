@@ -61,13 +61,14 @@ export class SzenarioBrain extends Brain {
         this.marketService.placeOrder({
           stockCount: volume,
           aktenId: '6037e67c8407c737441517d6',
+          price: target,
           operation: OperationType.BUY,
         });
 
         this.marketService.placeOrder({
           stockCount: volume,
           aktenId: '6037e67c8407c737441517d6',
-          // price: target - 1,
+          price: target,
           operation: OperationType.SELL,
         });
       });
