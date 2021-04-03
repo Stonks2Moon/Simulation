@@ -22,6 +22,7 @@
     "@angular/router": "^11.2.3",
     "@nebular/eva-icons": "7.0.0",
     "@nebular/theme": "7.0.0",
+    "bootstrap": "^4.6.0",
     "echarts": "^5.0.2",
     "eva-icons": "^1.1.2",
     "ngx-echarts": "^6.0.0",

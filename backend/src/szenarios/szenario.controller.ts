@@ -14,4 +14,9 @@ export class SzenarioController {
   public getAvailable() {
     return this.szenarioService.get();
   }
+
+  @Get(':id')
+  public get(@Param('id', ParseIntPipe) id: number) {
+    return this.szenarioService.get(id);
+  }
 }

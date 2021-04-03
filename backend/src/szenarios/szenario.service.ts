@@ -21,7 +21,7 @@ export class SzenarioService {
   }
 
   private async loadSzenarios() {
-    this.availableSzenarios = await from(readdir(SZENARIO_FOLDER))
+    this.availableSzenarios = (await from(readdir(SZENARIO_FOLDER))
       .pipe(
         mergeAll(),
         filter((fileName) => fileName.startsWith('Transformed')),
@@ -33,16 +33,17 @@ export class SzenarioService {
         map((fileContent) => JSON.parse(fileContent)),
         toArray(),
       )
-      .toPromise() as any;
+      .toPromise()) as any;
   }
 
   public getSzenario(id: number) {
     if (id > this.availableSzenarios.length) throw new BadRequestException();
-    console.log(this.availableSzenarios[id])
+    console.log(this.availableSzenarios[id]);
     return this.availableSzenarios[id];
   }
 
-  get() {
+  get(id?: number) {
+    if (id) return this.getSzenario(id);
     return this.availableSzenarios;
   }
 
