@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
 
   stocks: Stock[] = []
   selectedStock: string|null = null;
+  szenarios: any[] = [];
 
   constructor(private readonly http: HttpClient) {}
 
@@ -30,6 +31,10 @@ export class AppComponent implements OnInit {
       .get<boolean>('https://boerse.moonstonks.space/market/isOpen')
       .toPromise();
 
-    this.stocks = await this.http.get<Stock[]>('https://boerse.moonstonks.space/share').toPromise()
+    this.stocks = await this.http.get<Stock[]>('https://boerse.moonstonks.space/share').toPromise();
+
+    this.szenarios = await this.http.get<any[]>('http://localhost:3000/api/szenarios').toPromise()
+
+    console.log(this.szenarios)
   }
 }

@@ -18,7 +18,7 @@ export class SzenarioBrain extends Brain {
   private logger = new Logger();
 
   private startDate = new Date(2020, 9, 26, 4, 0); //TODO: Das ist szenario 4
-  private currentTime = timer(0, 1000);
+  private currentTime = timer(0, 500);
   private szenarioData: any;
 
   onAgentInit(agent: Readonly<Agent>): PromiseOrValue<void> {

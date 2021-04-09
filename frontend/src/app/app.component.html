@@ -73,7 +73,8 @@
                   Select a stock on which to execute a szenario
                 </div>
               </div>
-              <div class="row"><!--TODO: Button-Group?-->
+              <div class="row">
+                <!--TODO: Button-Group?-->
                 <div class="col">
                   <nb-select
                     placeholder="Select a stock"
@@ -107,38 +108,86 @@
           </nb-step>
 
           <nb-step [label]="'Szenario'">
-            <!--TODO-->
             <div class="step-container">
-            <div class="row">
-              <div class="col">
-                <app-szenario></app-szenario>
+              <div class="row">
+                <div class="col">
+                  <app-szenario></app-szenario>
+                </div>
               </div>
-            </div>
 
-            <div class="row">
-              <div class="col-2">
-                <button nbButton nbStepperPrevious fullWidth>Back</button>
+              <div class="row">
+                <div class="col-2">
+                  <button nbButton nbStepperPrevious fullWidth>Back</button>
+                </div>
+                <div class="col-2">
+                  <button nbButton nbStepperNext fullWidth>Next</button>
+                </div>
               </div>
-              <div class="col-2">
-                <button nbButton nbStepperNext fullWidth>Next</button>
-              </div>
-            </div>
             </div>
           </nb-step>
 
-          <nb-step [label]="'Run'"> 
-            <!-- TODO: -->
+          <nb-step [label]="'Settings'">
+            <div class="step-container">
+              <div class="row">
+                <div class="col">Select the szenario settings</div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <!-- TODO: Default -->
+                  <input
+                    type="number"
+                    min="1"
+                    max="60"
+                    placeholder="speed"
+                    class="form-control"
+                    name="token"
+                    required
+                    nbInput
+                    fullWidth
+                    ngModel
+                    #token="ngModel"
+                    [status]="token.invalid ? 'danger' : 'basic'"
+                  />
+                  <app-inputbox></app-inputbox>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-2">
+                  <button nbButton nbStepperPrevious fullWidth>Back</button>
+                </div>
+                <div class="col-2">
+                  <button nbButton nbStepperNext fullWidth>Next</button>
+                </div>
+              </div>
+            </div>
+          </nb-step>
+
+
+
+          <nb-step [label]="'Run'">
+            <div class="step-container">
+              <div class="row">
+                <div class="col">
+                  <app-chart></app-chart>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-2">
+                  <button nbButton nbStepperPrevious fullWidth>Back</button>
+                </div>
+              </div>
+            </div>
           </nb-step>
         </nb-stepper>
       </nb-card-body>
+
+      {{szenarios|json}}
     </nb-card>
-
-    <!--TODO: Executing-->
-
-    <app-chart></app-chart>
-
-    <app-inputbox></app-inputbox>
   </nb-layout-column>
+
+  
 
   <nb-layout-footer fixed> 2021 </nb-layout-footer>
 </nb-layout>

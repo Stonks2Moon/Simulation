@@ -10,7 +10,10 @@ const SZENARIO_FOLDER = join(__dirname, '../assets/szenarios');
 
 @Injectable()
 export class SzenarioService {
-  private availableSzenarios = [];
+  private availableSzenarios: {
+    name: string;
+    data: { time: string; valume: number; delta: number }[];
+  }[] = [];
 
   private isRunningSzenario = false;
   private runningSzenario: number;
@@ -21,19 +24,16 @@ export class SzenarioService {
   }
 
   private async loadSzenarios() {
-    this.availableSzenarios = (await from(readdir(SZENARIO_FOLDER))
-      .pipe(
-        mergeAll(),
-        filter((fileName) => fileName.startsWith('Transformed')),
-        map((fileName) => join(SZENARIO_FOLDER, fileName)),
-        map((path) => readFile(path, 'utf-8')),
-        toArray(),
-        switchMap((files) => Promise.all(files)),
-        mergeAll(),
-        map((fileContent) => JSON.parse(fileContent)),
-        toArray(),
-      )
-      .toPromise()) as any;
+    for (const fileName of await readdir(SZENARIO_FOLDER)) {
+      if (!fileName.startsWith('Transformed')) continue;
+
+      const path = join(SZENARIO_FOLDER, fileName);
+      const contents = JSON.parse(await readFile(path, 'utf-8'));
+      this.availableSzenarios.push({
+        name: fileName,
+        data: contents,
+      });
+    }
   }
 
   public getSzenario(id: number) {
@@ -55,13 +55,13 @@ export class SzenarioService {
     this.runningSzenario = szenarioId;
     const agent = await this.agentService.agentFactory(
       'szenario',
-      this.getSzenario(szenarioId),
+      this.getSzenario(szenarioId).data,
     );
     this.szenarioAgents.push(agent);
 
     const agent2 = await this.agentService.agentFactory(
       'random',
-      this.getSzenario(szenarioId),
+      this.getSzenario(szenarioId).data,
     );
     this.szenarioAgents.push(agent2);
   }
