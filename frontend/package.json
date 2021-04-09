@@ -23,6 +23,7 @@
     "@nebular/eva-icons": "7.0.0",
     "@nebular/theme": "7.0.0",
     "bootstrap": "^4.6.0",
+    "date-fns": "^2.20.0",
     "echarts": "^5.0.2",
     "eva-icons": "^1.1.2",
     "ngx-echarts": "^6.0.0",

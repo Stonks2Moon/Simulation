@@ -4,12 +4,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbCardModule, NbInputModule, NbToggleModule, NbButtonGroupModule, NbStepperModule, NbButtonModule, NbSelectModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbCardModule, NbInputModule, NbToggleModule, NbButtonGroupModule, NbStepperModule, NbButtonModule, NbSelectModule, NbSpinnerModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { ChartComponent } from './chart/chart.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { RouterModule } from '@angular/router';
-import { SzenarioComponent } from './szenario/szenario.component';
 import { InputboxComponent } from './inputbox/inputbox.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -17,7 +16,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     AppComponent,
     ChartComponent,
-    SzenarioComponent,
     InputboxComponent,
   ],
   imports: [
@@ -39,7 +37,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       echarts: () => import('echarts'),
     }),
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NbSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -5,14 +5,16 @@ import { from } from 'rxjs';
 import { filter, map, mergeAll, switchMap, tap, toArray } from 'rxjs/operators';
 import { Agent } from 'src/agent/models/agent.model';
 import { AgentService } from 'src/agent/services/agent.service';
+import { SzenarioStartDto } from './szenarioStart.dto';
 
 const SZENARIO_FOLDER = join(__dirname, '../assets/szenarios');
 
 @Injectable()
 export class SzenarioService {
   private availableSzenarios: {
+    id: number;
     name: string;
-    data: { time: string; valume: number; delta: number }[];
+    data: { time: string; volume: number; delta: number }[];
   }[] = [];
 
   private isRunningSzenario = false;
@@ -30,6 +32,7 @@ export class SzenarioService {
       const path = join(SZENARIO_FOLDER, fileName);
       const contents = JSON.parse(await readFile(path, 'utf-8'));
       this.availableSzenarios.push({
+        id: this.availableSzenarios.length,
         name: fileName,
         data: contents,
       });
@@ -47,21 +50,21 @@ export class SzenarioService {
     return this.availableSzenarios;
   }
 
-  async runSzenario(szenarioId: number) {
+  async runSzenario(szenario: SzenarioStartDto) { //TODO: Stock, Token, Speed
     await Promise.all(this.szenarioAgents.map((agent) => agent.brain.kill()));
     this.szenarioAgents = [];
 
     this.isRunningSzenario = true; //TODO: Ende des szenarios
-    this.runningSzenario = szenarioId;
+    this.runningSzenario = szenario.szenario;
     const agent = await this.agentService.agentFactory(
       'szenario',
-      this.getSzenario(szenarioId).data,
+      this.getSzenario(szenario.szenario).data,
     );
     this.szenarioAgents.push(agent);
 
     const agent2 = await this.agentService.agentFactory(
       'random',
-      this.getSzenario(szenarioId).data,
+      this.getSzenario(szenario.szenario).data,
     );
     this.szenarioAgents.push(agent2);
   }

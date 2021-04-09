@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { EChartsOption } from 'echarts';
-import { graphic } from 'echarts';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { EChartsOption, graphic, SeriesOption } from 'echarts';
+
+import { Szenario } from '../app.component';
+import { eachMinuteOfInterval } from 'date-fns';
 
 // var data = [Math.random() * 300];
 
@@ -19,74 +21,12 @@ let value = Math.random() * 1000;
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss'],
 })
-export class ChartComponent implements OnInit {
-  private data: any[] = [];
+export class ChartComponent implements OnChanges, OnInit {
+  @Input()
+  szenarios: Szenario[] | null = null;
 
-  private nextPrice: any;
-
-  private x1: any;
-  private x2: any;
-  private w: any;
-  private z: any;
-  private value: any = 0;
-  private points: any = [];
-  private t: any;
-
-  boxMuller(r: any[]) {
-    let phase = 0;
-    if (!phase) {
-      this.x1 = 2.0 * r[0] - 1.0;
-      this.x2 = 2.0 * r[1] - 1.0;
-      this.w = this.x1 * this.x1 + this.x2 * this.x2;
-      if (this.w >= 1.0) {
-        this.w = Math.sqrt((-2.0 * Math.log(this.w)) / this.w);
-        this.z = this.x1 * this.w;
-      } else {
-        this.z = this.x2 * this.w;
-      }
-    } else {
-      this.z = this.x2 * this.w;
-    }
-
-    if (this.z == this.z) {
-      this.value += this.z;
-      this.points.push([this.t, this.value]);
-      this.points.map((point: any) => {
-        this.calculations(point[1]);
-        point = point.slice(-1);
-      });
-      this.points = this.points.slice(-1);
-    }
-    phase ^= 1;
-  }
-
-  calculations(result: number) {
-    const base = 0;
-    const scale = 30;
-
-    if (base != 0) {
-      result = base + result * (base / scale);
-    }
-
-    this.nextPrice = result;
-  }
-
-  generateNextPrice(): number {
-    this.boxMuller([Math.random(), Math.random()]);
-    return this.nextPrice + 30;
-  }
-
-  randomData() {
-    now = new Date(+now + oneDay);
-    value = this.generateNextPrice()
-    return {
-      name: now.toString(),
-      value: [
-        [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
-        value,
-      ],
-    };
-  }
+  @Input()
+  selectedSzenario: number | null = null;
 
   chartOptions: EChartsOption = {
     tooltip: {
@@ -108,45 +48,42 @@ export class ChartComponent implements OnInit {
         animation: false,
       },
     },
-    // dataZoom: [
-    //   {
-    //     type: 'inside',
-    //   },
-    //   {
-    //     handleSize: '80%',
-    //     handleStyle: {
-    //       color: '#fff',
-    //     },
-    //   },
-    // ],
     xAxis: {
       type: 'time',
+      name: 'Time',
+      nameTextStyle: {
+        color: '#FFF',
+      },
       splitLine: {
         show: true,
         lineStyle: {
-          opacity: .05
-        }
+          opacity: 0.05,
+        },
       },
       axisLabel: {
-        color: 'rgb(255,255,255)'
-      }
+        color: 'rgb(255,255,255)',
+      },
     },
     yAxis: {
+      name: 'Delta',
+      nameTextStyle: {
+        color: '#FFF',
+      },
       type: 'value',
       boundaryGap: [0, '100%'],
       splitLine: {
         show: true,
         lineStyle: {
-          opacity: .05
-        }
+          opacity: 0.05,
+        },
       },
       axisLabel: {
-        color: 'rgb(255,255,255)'
-      }
+        color: 'rgb(255,255,255)',
+      },
     },
     series: [
       {
-        data: this.data,
+        data: [],
         smooth: true,
         sampling: 'average',
         itemStyle: {
@@ -170,24 +107,45 @@ export class ChartComponent implements OnInit {
     ],
   };
 
-  mergeData = {}
+  mergeData = {};
 
-  constructor() {}
+  ngOnChanges() {
+    if (this.szenarios === null || this.selectedSzenario === null) return;
+    const data = this.szenarios?.find(({ id }) => id === this.selectedSzenario);
+    if (!data) return;
 
-  ngOnInit(): void {
-    for (var i = 0; i < 1000; i++) {
-      this.data.push(this.randomData());
-    }
+    const sorted = data.data
+      .map(({ time }) => new Date(time))
+      .sort((a, b) => b.getTime() - a.getTime());
 
-    setInterval(() => {
-      for (var i = 0; i < 5; i++) {
-        this.data.shift();
-        this.data.push(this.randomData());
-      }
+    const interval = eachMinuteOfInterval({
+      start: sorted[sorted.length - 1],
+      end: sorted[0],
+    });
 
-      // this.chartOptions.series[0].data = this.data;
+    const chartData = interval.map((d) => {
+      const point = data.data.find(
+        ({ time }) => new Date(time).getTime() === d.getTime()
+      );
 
-      this.mergeData = { ...this.chartOptions };
-    }, 1000);
+      const delta = point?.delta || 0;
+
+      return {
+        name: d.toString(),
+        value: [
+          [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('/') +
+            ` ${d.getUTCHours()}:${d.getMinutes()}`,
+          delta,
+        ],
+      };
+    });
+
+    (this.chartOptions.series as SeriesOption[])[0].data = chartData;
+
+    this.mergeData = { ...this.chartOptions };
+  }
+
+  ngOnInit() {
+    this.mergeData = { ...this.chartOptions };
   }
 }

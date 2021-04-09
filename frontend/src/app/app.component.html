@@ -35,9 +35,7 @@
                     required
                     nbInput
                     fullWidth
-                    ngModel
-                    #token="ngModel"
-                    [status]="token.invalid ? 'danger' : 'basic'"
+                    [(ngModel)]="token"
                   />
                 </div>
               </div>
@@ -50,7 +48,7 @@
                 <div class="col-2">
                   <button
                     nbButton
-                    [disabled]="token.invalid"
+                    [disabled]="!token"
                     nbStepperNext
                     fullWidth
                   >
@@ -60,6 +58,25 @@
               </div>
             </form>
           </nb-step>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           <nb-step [label]="'Stock'">
             <form #nameForm="ngForm" class="step-container">
@@ -74,7 +91,6 @@
                 </div>
               </div>
               <div class="row">
-                <!--TODO: Button-Group?-->
                 <div class="col">
                   <nb-select
                     placeholder="Select a stock"
@@ -107,83 +123,186 @@
             </form>
           </nb-step>
 
+
+
+
+
+
+
+
+
+
+
+
+
           <nb-step [label]="'Szenario'">
-            <div class="step-container">
+            <form #nameForm="ngForm" class="step-container">
               <div class="row">
                 <div class="col">
-                  <app-szenario></app-szenario>
+                  <h4>Select a Szenario</h4>
                 </div>
               </div>
-
               <div class="row">
+                <div class="col">
+                  Select a Szenario to execute
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <nb-select
+                    placeholder="Select a Szenario"
+                    fullWidth
+                    [(selected)]="selectedSzenario"
+                  >
+                    <nb-option
+                      *ngFor="let szenario of szenarios"
+                      [value]="szenario.id"
+                      >{{ szenario.name }}</nb-option
+                    >
+                  </nb-select>
+                </div>
+              </div>
+              <div class="row mt-3 justify-content-center">
                 <div class="col-2">
                   <button nbButton nbStepperPrevious fullWidth>Back</button>
                 </div>
                 <div class="col-2">
-                  <button nbButton nbStepperNext fullWidth>Next</button>
+                  <button
+                    nbButton
+                    [disabled]="selectedSzenario === null"
+                    nbStepperNext
+                    fullWidth
+                  >
+                    Next
+                  </button>
                 </div>
               </div>
-            </div>
+              <div class="row">
+                <div class="col">
+                  <app-chart [selectedSzenario]="selectedSzenario" [szenarios]="szenarios"></app-chart>
+                </div>
+              </div>
+            </form>
           </nb-step>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           <nb-step [label]="'Settings'">
-            <div class="step-container">
+            <form #nameForm="ngForm" class="step-container">
               <div class="row">
-                <div class="col">Select the szenario settings</div>
+                <div class="col">
+                  <h4>Settings</h4>
+                </div>
               </div>
               <div class="row">
                 <div class="col">
-                  <!-- TODO: Default -->
-                  <input
-                    type="number"
-                    min="1"
-                    max="60"
-                    placeholder="speed"
-                    class="form-control"
-                    name="token"
-                    required
-                    nbInput
-                    fullWidth
-                    ngModel
-                    #token="ngModel"
-                    [status]="token.invalid ? 'danger' : 'basic'"
-                  />
-                  <app-inputbox></app-inputbox>
+                  Change szenario settings
                 </div>
               </div>
-
               <div class="row">
+                <div class="col">
+                  <label>Speed multiplicator</label>
+                  <input
+                  type="number"
+                  min="1"
+                  max="120"
+                  name="speedMultiplicator"
+                  placeholder="speed"
+                  class="form-control"
+                  required
+                  nbInput
+                  fullWidth
+                  [(ngModel)]="speedMultiplicator"
+                />
+                </div>
+              </div>
+              <div class="row mt-3 justify-content-center">
                 <div class="col-2">
                   <button nbButton nbStepperPrevious fullWidth>Back</button>
                 </div>
                 <div class="col-2">
-                  <button nbButton nbStepperNext fullWidth>Next</button>
+                  <button
+                    nbButton
+                    nbStepperNext
+                    fullWidth
+                  >
+                    Next
+                  </button>
                 </div>
               </div>
-            </div>
+            </form>
           </nb-step>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
           <nb-step [label]="'Run'">
-            <div class="step-container">
+            <form #nameForm="ngForm" class="step-container">
               <div class="row">
                 <div class="col">
-                  <app-chart></app-chart>
+                  <h4>Run</h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  Execute the szenario
                 </div>
               </div>
 
               <div class="row">
+                <div class="col">
+                  <nb-card>
+                    <nb-card-body class="p-5">
+                      <nb-spinner [message]="'Running...'" [size]="'giant'"></nb-spinner>
+                    </nb-card-body>
+                  </nb-card>
+                </div>
+              </div>
+
+              <div class="row mt-3 justify-content-center">
                 <div class="col-2">
                   <button nbButton nbStepperPrevious fullWidth>Back</button>
                 </div>
+                <div class="col-2">
+                  <button nbButton fullWidth (click)="start()">Start</button><!--TODO: Stop -->
+                </div>
               </div>
-            </div>
+            </form>
           </nb-step>
         </nb-stepper>
       </nb-card-body>
 
-      {{szenarios|json}}
+     
     </nb-card>
   </nb-layout-column>
 
