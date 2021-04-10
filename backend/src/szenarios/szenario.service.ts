@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 import { from } from 'rxjs';
@@ -9,13 +10,44 @@ import { SzenarioStartDto } from './szenarioStart.dto';
 
 const SZENARIO_FOLDER = join(__dirname, '../assets/szenarios');
 
+class Data {
+  @ApiProperty({
+    description: 'When a order will be placed',
+  })
+  time: string;
+
+  @ApiProperty({
+    description: 'The order volume',
+  })
+  volume: number;
+
+  @ApiProperty({
+    description: 'The stock change rate',
+  })
+  delta: number;
+}
+
+export class Szenario {
+  @ApiProperty({
+    description: 'The id of the szenario',
+  })
+  id: number;
+
+  @ApiProperty({
+    description: 'The name of the szenario',
+  })
+  name: string;
+
+  @ApiProperty({
+    description: 'The szenario information, which will be used in the szenario',
+    type: [Data]
+  })
+  data: Data[];
+}
+
 @Injectable()
 export class SzenarioService {
-  private availableSzenarios: {
-    id: number;
-    name: string;
-    data: { time: string; volume: number; delta: number }[];
-  }[] = [];
+  private availableSzenarios: Szenario[] = [];
 
   private isRunningSzenario = false;
   private runningSzenario: number;
@@ -50,7 +82,8 @@ export class SzenarioService {
     return this.availableSzenarios;
   }
 
-  async runSzenario(szenario: SzenarioStartDto) { //TODO: Stock, Token, Speed
+  async runSzenario(szenario: SzenarioStartDto, token: string) {
+    //TODO: Stock, Token, Speed
     await Promise.all(this.szenarioAgents.map((agent) => agent.brain.kill()));
     this.szenarioAgents = [];
 
@@ -59,12 +92,18 @@ export class SzenarioService {
     const agent = await this.agentService.agentFactory(
       'szenario',
       this.getSzenario(szenario.szenario).data,
+      token,
+      szenario.stock,
+      szenario.speedMultiplicator
     );
     this.szenarioAgents.push(agent);
 
     const agent2 = await this.agentService.agentFactory(
       'random',
       this.getSzenario(szenario.szenario).data,
+      token,
+      szenario.stock,
+      szenario.speedMultiplicator
     );
     this.szenarioAgents.push(agent2);
   }

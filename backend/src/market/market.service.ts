@@ -21,6 +21,7 @@ export interface PlaceOrderInput {
   price?: number;
   operation: OperationType;
   subsequentOrders?: PlaceOrderInput[];
+  token: string;
 }
 
 /*
@@ -82,49 +83,29 @@ export class MarketService implements BeforeApplicationShutdown {
     this.orderQueue.delete(orderHash);
   }
 
-  private createCallbackURL(orderHash: string): string {
-    // TODO: richtige URL
-    return `${this.configService.get('BASE_URL')}/whatever/${orderHash}`;
-  }
-
-  /**
-   * 1. Überprüfen, ob die Order eingequeued werden muss oder nicht
-   * 1.1 JA -- es wird ein md5 Hash generiert, der als Key für die `orderQueue`-Map genommen wird
-   * 1.2 NEIN --  es wird eine CallbackURL erstellt, die bei der Kommunikation mit der Börse verwendet wird
-   */
-  public async placeOrder<T = any>(order: PlaceOrderInput): Promise<T> {
+  public async placeOrder(order: PlaceOrderInput): Promise<void> {
     const key = createHash('md5').update(JSON.stringify(order)).digest('hex');
-    
+
     if (order.subsequentOrders?.length) {
       this.orderQueue.set(key, order);
     }
-    const _callcackURL = this.createCallbackURL(key);
     const body: any = {
       shareId: order.aktenId,
       amount: order.stockCount,
-      onPlace: 'abc',
-      onMatch: 'abc',
-      onComplete: 'abc',
-      onDelete: 'abc',
+      onPlace: '_',
+      onMatch: '_',
+      onComplete: '_',
+      onDelete: '_',
       type: order.operation,
-    }
-    if(order.price){
-      body.limit = +order.price.toFixed(2)
+    };
+    if (order.price) {
+      body.limit = +order.price.toFixed(2);
     }
 
-
-    const a = await axios.post(
-      'https://boerse.moonstonks.space/order',
-      body,
-      {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDc3Mzc5YzE4ZTM1MTNmNGEyZTRjNiIsImRpc3BsYXlOYW1lIjoiU2ltKHApdWxhdGlvbnMgR3J1cHBlIiwidHlwZSI6InNpbXVsYXRpb24iLCJpYXQiOjE2MTU0NTg0NDF9.44A1cJvmf0ZUUIMwNFj8hFZFhbIqDP6_gbspXzrOoyk',
-        },
+    await axios.post('https://boerse.moonstonks.space/order', body, {
+      headers: {
+        Authorization: order.token,
       },
-    );
-
-
-    return;
+    });
   }
 }

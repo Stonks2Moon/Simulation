@@ -36,6 +36,8 @@ export class AppComponent implements OnInit {
 
   speedMultiplicator = 60;
 
+  isRunning = false;
+
   constructor(private readonly http: HttpClient) {}
 
   async ngOnInit() {
@@ -57,6 +59,7 @@ export class AppComponent implements OnInit {
   }
 
   async start() {
+    this.isRunning = true;
     await this.http.post('http://localhost:3000/api/szenarios', {
       szenario: this.selectedSzenario,
       stock: this.selectedStock,

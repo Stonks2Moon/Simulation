@@ -21,6 +21,9 @@ export class SzenarioBrain extends Brain {
   private currentTime = timer(0, 500);
   private szenarioData: any;
 
+  private token: string;
+  private stock: string;
+
   onAgentInit(agent: Readonly<Agent>): PromiseOrValue<void> {
     this.agent = agent;
   }
@@ -29,8 +32,11 @@ export class SzenarioBrain extends Brain {
     this.marketService = marketService;
   }
 
-  onData(szenarioData: any[]) {
+  onData(szenarioData: any[], token: string, stock: string, speedMultiplicator: number) {
     this.szenarioData = szenarioData;
+    this.token = token;
+    this.stock = stock;
+    // TODO: Speed
   }
 
   animate(): PromiseOrValue<void> {
@@ -65,33 +71,37 @@ export class SzenarioBrain extends Brain {
 
         this.marketService.placeOrder({
           stockCount: matchingVolume,
-          aktenId: '6037e67c8407c737441517d6',
+          aktenId: this.stock,
           operation: OperationType.BUY,
-          price: target
+          price: target,
+          token: this.token
         });
 
         this.marketService.placeOrder({
           stockCount: matchingVolume,
-          aktenId: '6037e67c8407c737441517d6',
+          aktenId: this.stock,
           operation: OperationType.SELL,
-          price: target
+          price: target,
+          token: this.token
         });
 
         for(let i = 0; i<10;i++){
           this.marketService.placeOrder({
             stockCount: Math.max(1, limitBuyVolume/10),
-            aktenId: '6037e67c8407c737441517d6',
+            aktenId: this.stock,
             operation: OperationType.BUY,
-            price: target - Math.random()
+            price: target - Math.random(),
+            token: this.token
           });
         }
 
         for(let i = 0; i<10;i++){
           this.marketService.placeOrder({
             stockCount: Math.max(1, limitSellVolume/10),
-            aktenId: '6037e67c8407c737441517d6',
+            aktenId: this.stock,
             operation: OperationType.SELL,
-            price: target + Math.random()
+            price: target + Math.random(),
+            token: this.token
           });
         }
        
