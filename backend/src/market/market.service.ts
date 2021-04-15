@@ -2,13 +2,9 @@ import {
   BeforeApplicationShutdown,
   HttpService,
   Injectable,
-  Logger,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { of, ReplaySubject, Subscription, timer } from 'rxjs';
 import { createHash } from 'crypto';
-import { BaselineService } from '../baseline/baseline.service';
-import axios from 'axios';
+import { ReplaySubject, Subscription, timer } from 'rxjs';
 
 export enum OperationType {
   BUY = 'buy',
@@ -34,14 +30,12 @@ export interface PlaceOrderInput {
 */
 @Injectable()
 export class MarketService implements BeforeApplicationShutdown {
-  private _currentMarketInformation = new ReplaySubject<number>(1); //TODO: Buffer größe
+  private _currentMarketInformation = new ReplaySubject<number>(1);
   public orderQueue = new Map<string, PlaceOrderInput>();
   private refreshSubscription: Subscription;
   private stock: string;
 
   constructor(
-    private readonly configService: ConfigService,
-    private readonly baselineService: BaselineService,
     private readonly httpService: HttpService,
   ) {}
 
@@ -97,11 +91,13 @@ export class MarketService implements BeforeApplicationShutdown {
       body.limit = +order.price.toFixed(2);
     }
 
-    await axios.post('https://boerse.moonstonks.space/order', body, {
-      headers: {
-        Authorization: order.token,
-      },
-    });
+    await this.httpService
+      .post('https://boerse.moonstonks.space/order', body, {
+        headers: {
+          Authorization: order.token,
+        },
+      })
+      .toPromise();
   }
 
   setWatch(interval: number, stock: string) {
