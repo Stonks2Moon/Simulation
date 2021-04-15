@@ -37,19 +37,16 @@ export class MarketService implements BeforeApplicationShutdown {
   private _currentMarketInformation = new ReplaySubject<number>(1); //TODO: Buffer größe
   public orderQueue = new Map<string, PlaceOrderInput>();
   private refreshSubscription: Subscription;
+  private stock: string;
 
   constructor(
     private readonly configService: ConfigService,
     private readonly baselineService: BaselineService,
     private readonly httpService: HttpService,
-  ) {
-    this.refreshSubscription = timer(0, 1000).subscribe(() =>
-      this.refreshCurrentStockMarket(),
-    );
-  }
+  ) {}
 
   beforeApplicationShutdown() {
-    this.refreshSubscription.unsubscribe();
+    this.refreshSubscription?.unsubscribe();
   }
 
   get onInformationAvailable() {
@@ -58,9 +55,7 @@ export class MarketService implements BeforeApplicationShutdown {
 
   private async refreshCurrentStockMarket() {
     const response = await this.httpService
-      .get(
-        'https://boerse.moonstonks.space/share/price/6037e67c8407c737441517d6',
-      )
+      .get('https://boerse.moonstonks.space/share/price/' + this.stock)
       .toPromise();
     this._currentMarketInformation.next(+response.data);
   }
@@ -107,5 +102,13 @@ export class MarketService implements BeforeApplicationShutdown {
         Authorization: order.token,
       },
     });
+  }
+
+  setWatch(interval: number, stock: string) {
+    this.stock = stock;
+    if (this.refreshSubscription) this.refreshSubscription.unsubscribe();
+    this.refreshSubscription = timer(0, interval).subscribe(() =>
+      this.refreshCurrentStockMarket(),
+    );
   }
 }

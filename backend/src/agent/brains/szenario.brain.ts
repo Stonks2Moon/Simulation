@@ -32,11 +32,16 @@ export class SzenarioBrain extends Brain {
     this.marketService = marketService;
   }
 
-  onData(szenarioData: any[], token: string, stock: string, speedMultiplicator: number) {
+  onData(
+    szenarioData: any[],
+    token: string,
+    stock: string,
+    speedMultiplicator: number,
+  ) {
     this.szenarioData = szenarioData;
     this.token = token;
     this.stock = stock;
-    // TODO: Speed
+    this.marketService.setWatch(1000, stock);
   }
 
   animate(): PromiseOrValue<void> {
@@ -58,23 +63,28 @@ export class SzenarioBrain extends Brain {
           .pipe(take(1))
           .toPromise();
 
+        // if (datapoint.delta < -0.01) {
+        //   //notStonks
+        // } else if (datapoint.delta > 0.01) {
+        //   //Stonks
+        // }
+
         const target = currentMarket * (1 + datapoint.delta);
 
         const diff = target - currentMarket;
         const volume = datapoint.volume;
         console.log(currentMarket, target);
 
-
         const matchingVolume = Math.floor(0.4 * volume);
         const limitSellVolume = Math.floor(0.1 * volume);
-        const limitBuyVolume = Math.floor(0.1 * volume)
+        const limitBuyVolume = Math.floor(0.1 * volume);
 
         this.marketService.placeOrder({
           stockCount: matchingVolume,
           aktenId: this.stock,
           operation: OperationType.BUY,
           price: target,
-          token: this.token
+          token: this.token,
         });
 
         this.marketService.placeOrder({
@@ -82,36 +92,28 @@ export class SzenarioBrain extends Brain {
           aktenId: this.stock,
           operation: OperationType.SELL,
           price: target,
-          token: this.token
+          token: this.token,
         });
 
-        for(let i = 0; i<10;i++){
+        for (let i = 0; i < 10; i++) {
           this.marketService.placeOrder({
-            stockCount: Math.max(1, limitBuyVolume/10),
+            stockCount: Math.max(1, limitBuyVolume / 10),
             aktenId: this.stock,
             operation: OperationType.BUY,
             price: target - Math.random(),
-            token: this.token
+            token: this.token,
           });
         }
 
-        for(let i = 0; i<10;i++){
+        for (let i = 0; i < 10; i++) {
           this.marketService.placeOrder({
-            stockCount: Math.max(1, limitSellVolume/10),
+            stockCount: Math.max(1, limitSellVolume / 10),
             aktenId: this.stock,
             operation: OperationType.SELL,
             price: target + Math.random(),
-            token: this.token
+            token: this.token,
           });
         }
-       
-
-       
-
-
-
-
-
       });
   }
 

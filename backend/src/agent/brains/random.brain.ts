@@ -57,6 +57,5 @@ export class RandomBrain extends Brain {
   onData(_: any, token: string, stock: string) {
     this.token = token;
     this.stock = stock;
-     // TODO: Speed
   }
 }
