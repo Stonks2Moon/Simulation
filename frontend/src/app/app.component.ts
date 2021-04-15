@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
   async stop() {
     await this.http
       .post(
-        environment.simulation_url + 'szenarios/stop',
+        environment.simulation_url + 'api/szenarios/stop',
         {},
         {
           headers: {
