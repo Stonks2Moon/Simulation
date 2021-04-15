@@ -1,0 +1,55 @@
+% !TEX root =  ../master.tex
+\chapter{Konzeption}
+\section{Herleitung und Betrachtung verschiedener Szenarien}
+Damit mit der Simulation der Markt möglich genau widergespiegelt werden kann, steht zunächst die Frage offen,
+wie ein typischer Handelstag an der Börse aussieht. Um dies analysieren zu können, wird ein Aktienkurs betrachetet, 
+der in den letzten Jahren meistens sehr stabil war und nicht im Rahmen von Marktmanipulation durch Kommunities 
+(z.B. GameStop) beeinträchtigt wurde - die SAP Aktie. Nachdem es bei einer Aktie unterschiedliche Szenarien geben, 
+wurden die fünf häufigsten Szenarien ausgewählt:
+\begin{itemize}
+    \item Normaler Handelstags mit einem durchschnittlichen Handelsvolumen
+    \item Positive Nachricht an einem Handelstag
+    \item Negative Nachricht an einem Handelstag
+    \item Niedriges Handelsvomlumen 
+    \item Hohes Handelsvolumen
+\end{itemize}
+Für das erste Szenario wurde der 22.10.2019 ausgewählt. An diesem Tag gab es eine Preisdifferenz von knappen 3\$ 
+zwischen Open-Preis und Close-Preis. Außerdem wurden gut 1.000.000 Aktien an der NASDAQ-Börse gehandelt. \\
+Am 24.04.2019 wurde die Bilanz des ersten Quatals veröffentlicht. Diese sind deutlich besser ausgefallen als erwartet 
+und damit gab es auch eine deutliche Auswirkung auf den Aktienmarkt. Die Aktie hatte einen Unterschied von 8\$ zwischen 
+Open und Close und ein Handelsvolumen von knapp 4.700.000 gehandelten Aktien. \\
+Das dritte Szeanrio ist der erste Handelstag nach den Veröffentlichung der Quatalszahlen (26.10.2020). Aus diesen war 
+herauszulesen, dass es einen deutlichen Zurückgang des Gewinnes gab und danach ist der Aktienkurs von 149\$ (Freitag Close) 
+auf 115\$ (Montag Close) gefallen. Zusätzlich gab es ein sehr hohes Handelsvolumen von 11.000.000 Aktien. \\
+Als Beispieltag für ein gering gehandeltes Volumen wurde Weihnachten 2019 genommen. An diesem Tag wurden nur 117.000 Aktien gehandelt 
+und es gab eine Preisdifferenz von Open und Close von 1\$. \\
+In den letzten Jahren war der Handelstag mit dem größten Handelsvolumen der 26.10.2020. Um für zwei Szenarien nicht den gleichen 
+Tag zu nehmen wurde der 28.10.2020 genommen, an dem das Handelsvolumen noch bei 5.500.000 Aktien wegen den Auswirkungen der 
+Quatalszahlen war. \\
+Die Daten für alle Szenarien sind von der NASDAQ-Börse aus New York und wurden auf Minutenbasis gespeichert. 
+\section{Umwandlung von Szenarien in Orders}
+Nachdem die Daten der verschiedenen Szenarien in JSON-Format vorliegen müssen diese zunächst noch angepasst werden. Die 
+Szenarien sollen später für verschiedene Aktien verwendet werden. Um dies zu ermöglichen werden die Aktienkurse nicht in 
+absoluten Zahlen gespeichert, sondern es wird die Änderungsrate des Aktienkurses im Vergleich zum Aktienkurs eine Minute davor 
+ausgerechnet und abgespeichert. Dadurch ist es möglich das Szenario mit beliebigen Aktien durchzuspielen. \\
+Im nächsten Schritt müssen anhand der Daten Orders erstellt werden, um die Aktienkurs zu simulieren. Dafür muss es jeweils eine Limit-Buy-Order 
+und eine Limit-Sell-Order zum gleichen Preis geben, damit die Orders matchen und es einen neuen Aktienpreis gibt. Der Preis für die 
+Limit-Orders wird aus dem aktuellen Aktienpreis und der Änderungsrate berechnet. Alleine mit diesem Vorgang würde es schon reichen 
+den Aktienkurs eines Szenarios durchzuspielen, denn es würden sich immer direkt die beiden Orders matchen und der neue Aktienpreis 
+wäre gesetzt. Nachdem aber durch die Simulation der gesamte Markt widergespiegelt werden soll, müssen mehr Orders gestellt werden, damit 
+andere Markteilnehmer auch eine Chance haben eine Aktie zu kaufen. Zusätzlich darf es nicht passieren, dass andere Marktteilnehmer 
+den Aktienkurs mit \enquote{komischen} Orders beeinflussen. Damit diese Probleme gelöst werden, müssen immer eine gewisse Anzahl an Orders 
+im Orderbuch stehen. Diese Orders sollten immer relativ nahe am aktuellen Kurs sein, damit andere Marktteilnehmer zu normalen Preise die 
+Aktie kaufen können und Limit-Orders mit \enquote{komischen} Preisen nicht zum matchen kommen. \\
+Für die Befüllung des Orderbuches werden fünf Buy- und fünf Sell-Limit-Orders jeweils ein paar Prozent über und unter dem aktuellen 
+Preis gesetzt. Dabei wird eine Aufteilung von 80 zu 20 Prozent verwendet, also 80 Prozent des Ordersvolumens einer Minute werden in jeweils 
+in die beiden matchenden Orders aufgeteilt und die restlichen 20 Prozent werden für Orders zum Befüllen des Orderbuches benutzt.
+\section{Benachrichtigungen über Marktereignisse}
+Nachdem bei einer Simulation nicht nur die Daten simuliert werden sollen, sondern ein normaler Handelstag, wäre es sinnvoll auch Nachrichten 
+zu dem Unternehmen der Aktie zu veröffentlichen. Dabei können automatisiert Nachrichten über Telegram versendet werden, wenn der Kurs beispielsweise 
+an einer bestimmten Stelle angekommen ist. Für unsere Szenarien wäre zum Beispiel Nachrichten wie: \enquote{Unternehmen XY veröffentlicht Quatalszahlen. 
+Gewinneinbruch von 20\%!} sinnvoll zu veröffentlichen. Diese Nachrichten werden dann durch einen Nachrichtenbot versendet und anschließend sollte zu 
+sehen sein, dass der Aktienkurs nach unten geht. Diese Möglichkeit hat den Vorteil für die Marktteilnehmner, dass sie reagieren können und nicht 
+rein spekulativ handeln müssen.
+\section{Berücksichtigung des Handelns anderer Marktteilnehmern}
+TODO: eventuell weglassen, wenn Geschäftskunden keine Auswirkung haben.
