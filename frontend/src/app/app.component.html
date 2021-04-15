@@ -240,8 +240,9 @@
                     nbButton
                     nbStepperNext
                     fullWidth
+                    (click)="start()"
                   >
-                    Next
+                    Start
                   </button>
                 </div>
               </div>
@@ -287,14 +288,11 @@
                     </nb-card-body>
                   </nb-card>
                 </div>
-              </div>
+              </div><!--TODO: Respond to szenario finished-->
 
               <div class="row mt-3 justify-content-center">
                 <div class="col-2">
-                  <button nbButton nbStepperPrevious fullWidth>Back</button>
-                </div>
-                <div class="col-2">
-                  <button nbButton fullWidth (click)="start()" *ngIf="!isRunning">Start</button><!--TODO: Stop + check-->
+                  <button nbButton nbStepperPrevious fullWidth (click)="stop()">Stop</button>
                 </div>
               </div>
             </form>

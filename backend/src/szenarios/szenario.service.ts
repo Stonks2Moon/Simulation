@@ -40,7 +40,7 @@ export class Szenario {
 
   @ApiProperty({
     description: 'The szenario information, which will be used in the szenario',
-    type: [Data]
+    type: [Data],
   })
   data: Data[];
 }
@@ -94,7 +94,7 @@ export class SzenarioService {
       this.getSzenario(szenario.szenario).data,
       token,
       szenario.stock,
-      szenario.speedMultiplicator
+      szenario.speedMultiplicator,
     );
     this.szenarioAgents.push(agent);
 
@@ -103,8 +103,14 @@ export class SzenarioService {
       this.getSzenario(szenario.szenario).data,
       token,
       szenario.stock,
-      szenario.speedMultiplicator
+      szenario.speedMultiplicator,
     );
     this.szenarioAgents.push(agent2);
+  }
+
+  async stopCurrentSzenario() {
+    await Promise.all(this.szenarioAgents.map(({ brain }) => brain.kill()));
+    this.szenarioAgents = [];
+    this.isRunningSzenario = false;
   }
 }

@@ -42,7 +42,7 @@ export class SzenarioController {
     description: 'Szenario description',
   })
   @HttpCode(200)
-  @ApiResponse({ status: 200, description: 'Szenario Started' })
+  @ApiResponse({ status: 200, description: 'Szenario started' })
   @ApiUnauthorizedResponse({ description: 'Missing token' })
   @ApiOperation({ description: 'Starts a szenario' })
   public runSzenario(
@@ -51,5 +51,13 @@ export class SzenarioController {
   ) {
     if (!auth) throw new UnauthorizedException(); // TODO:
     return this.szenarioService.runSzenario(szenarioDto, auth);
+  }
+
+  @Post('/stop')
+  @HttpCode(200)
+  @ApiResponse({ status: 200, description: 'Szenario stopped' })
+  @ApiOperation({ description: 'Stop the current szenario' })
+  public stopCurrentSzenario() {
+    return this.szenarioService.stopCurrentSzenario();
   }
 }

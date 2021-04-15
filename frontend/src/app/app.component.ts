@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
 
   speedMultiplicator = 60;
 
-  isRunning = false;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -59,12 +58,19 @@ export class AppComponent implements OnInit {
   }
 
   async start() {
-    this.isRunning = true;
     await this.http.post('http://localhost:3000/api/szenarios', {
       szenario: this.selectedSzenario,
       stock: this.selectedStock,
       speedMultiplicator: this.speedMultiplicator,
     }, {
+      headers: {
+        Authorization: 'Bearer ' + this.token
+      }
+    }).toPromise()
+  }
+
+  async stop() {
+    await this.http.post('http://localhost:3000/api/szenarios/stop', {}, {
       headers: {
         Authorization: 'Bearer ' + this.token
       }
