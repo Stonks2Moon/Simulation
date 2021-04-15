@@ -3,6 +3,7 @@ import {
   HttpService,
   Injectable,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { createHash } from 'crypto';
 import { ReplaySubject, Subscription, timer } from 'rxjs';
 
@@ -37,6 +38,7 @@ export class MarketService implements BeforeApplicationShutdown {
 
   constructor(
     private readonly httpService: HttpService,
+    private readonly configService: ConfigService
   ) {}
 
   beforeApplicationShutdown() {
@@ -49,7 +51,7 @@ export class MarketService implements BeforeApplicationShutdown {
 
   private async refreshCurrentStockMarket() {
     const response = await this.httpService
-      .get('https://boerse.moonstonks.space/share/price/' + this.stock)
+      .get(this.configService.get('BOERSE_URL') + 'share/price/' + this.stock)
       .toPromise();
     this._currentMarketInformation.next(+response.data);
   }
@@ -92,7 +94,7 @@ export class MarketService implements BeforeApplicationShutdown {
     }
 
     await this.httpService
-      .post('https://boerse.moonstonks.space/order', body, {
+      .post(this.configService.get('BOERSE_URL') + 'order', body, {
         headers: {
           Authorization: order.token,
         },

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 type Stock = {
   price: number;
@@ -28,52 +28,61 @@ export class AppComponent implements OnInit {
 
   stocks: Stock[] = [];
   szenarios: Szenario[] = [];
-  
-  
+
   selectedStock: string | null = null;
   selectedSzenario: number | null = null;
   token: string | null = null;
 
   speedMultiplicator = 60;
 
-
   constructor(private readonly http: HttpClient) {}
 
   async ngOnInit() {
     console.log('start');
     this.isOpen = await this.http
-      .get<boolean>('https://boerse.moonstonks.space/market/isOpen')
+      .get<boolean>(environment.boerse_url + 'market/isOpen')
       .toPromise();
 
     this.stocks = await this.http
-      .get<Stock[]>('https://boerse.moonstonks.space/share')
+      .get<Stock[]>(environment.boerse_url + 'share')
       .toPromise();
 
     this.szenarios = await this.http
-      .get<Szenario[]
-      >('http://localhost:3000/api/szenarios')
+      .get<Szenario[]>(environment.simulation_url + 'api/szenarios')
       .toPromise();
 
     console.log(this.szenarios);
   }
 
   async start() {
-    await this.http.post('http://localhost:3000/api/szenarios', {
-      szenario: this.selectedSzenario,
-      stock: this.selectedStock,
-      speedMultiplicator: this.speedMultiplicator,
-    }, {
-      headers: {
-        Authorization: 'Bearer ' + this.token
-      }
-    }).toPromise()
+    await this.http
+      .post(
+        environment.simulation_url + 'api/szenarios',
+        {
+          szenario: this.selectedSzenario,
+          stock: this.selectedStock,
+          speedMultiplicator: this.speedMultiplicator,
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.token,
+          },
+        }
+      )
+      .toPromise();
   }
 
   async stop() {
-    await this.http.post('http://localhost:3000/api/szenarios/stop', {}, {
-      headers: {
-        Authorization: 'Bearer ' + this.token
-      }
-    }).toPromise()
+    await this.http
+      .post(
+        environment.simulation_url + 'szenarios/stop',
+        {},
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.token,
+          },
+        }
+      )
+      .toPromise();
   }
 }
