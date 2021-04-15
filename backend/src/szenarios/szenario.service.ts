@@ -83,7 +83,6 @@ export class SzenarioService {
   }
 
   async runSzenario(szenario: SzenarioStartDto, token: string) {
-    //TODO: Stock, Token, Speed
     await Promise.all(this.szenarioAgents.map((agent) => agent.brain.kill()));
     this.szenarioAgents = [];
 

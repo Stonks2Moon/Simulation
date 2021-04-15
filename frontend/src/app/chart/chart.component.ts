@@ -4,18 +4,6 @@ import { EChartsOption, graphic, SeriesOption } from 'echarts';
 import { Szenario } from '../app.component';
 import { eachMinuteOfInterval } from 'date-fns';
 
-// var data = [Math.random() * 300];
-
-// for (var i = 1; i < 20000; i++) {
-//     var now = new Date(base += oneDay);
-//     date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-//     data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]));
-// }
-
-let now = new Date(1997, 9, 3);
-const oneDay = 24 * 3600 * 1000;
-let value = Math.random() * 1000;
-
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',

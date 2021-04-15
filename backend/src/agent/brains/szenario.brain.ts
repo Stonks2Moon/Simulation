@@ -13,23 +13,23 @@ import { Brain } from '../models/brain.model';
  */
 export class SzenarioBrain extends Brain {
   private alive = false;
-  private agent: Readonly<Agent>;
   private marketService: Readonly<MarketService>;
-  private logger = new Logger();
 
-  private startDate = new Date(2020, 9, 26, 4, 0); //TODO: Das ist szenario 4
-  private currentTime = timer(0, 500);
+  private startDate = null;
   private szenarioData: any;
 
   private token: string;
   private stock: string;
+  private speedMultiplicator: number;
 
-  onAgentInit(agent: Readonly<Agent>): PromiseOrValue<void> {
-    this.agent = agent;
-  }
+  onAgentInit(agent: Readonly<Agent>): PromiseOrValue<void> {}
 
   onMarketInit(marketService: Readonly<MarketService>): PromiseOrValue<void> {
     this.marketService = marketService;
+  }
+
+  private convertSpeedMultiplicator(factor: number) {
+    return 60000 / factor;
   }
 
   onData(
@@ -41,12 +41,20 @@ export class SzenarioBrain extends Brain {
     this.szenarioData = szenarioData;
     this.token = token;
     this.stock = stock;
-    this.marketService.setWatch(1000, stock);
+    this.marketService.setWatch(
+      this.convertSpeedMultiplicator(speedMultiplicator),
+      stock,
+    );
+
+    const sorted = szenarioData
+      .map(({ time }) => new Date(time))
+      .sort((a, b) => a.getTime() - b.getTime());
+    this.startDate = sorted[0];
   }
 
   animate(): PromiseOrValue<void> {
     this.alive = true;
-    this.currentTime
+    timer(0, this.convertSpeedMultiplicator(this.speedMultiplicator))
       .pipe(
         takeWhile((_) => this.alive),
         map((time) => addMinutes(this.startDate, time)),
@@ -58,16 +66,9 @@ export class SzenarioBrain extends Brain {
         );
         if (!datapoint) return;
 
-        //delta sind prozentpunkte
         const currentMarket = await this.marketService.onInformationAvailable
           .pipe(take(1))
           .toPromise();
-
-        // if (datapoint.delta < -0.01) {
-        //   //notStonks
-        // } else if (datapoint.delta > 0.01) {
-        //   //Stonks
-        // }
 
         const target = currentMarket * (1 + datapoint.delta);
 
