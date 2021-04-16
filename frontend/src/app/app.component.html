@@ -46,37 +46,13 @@
                   </button>
                 </div>
                 <div class="col-2">
-                  <button
-                    nbButton
-                    [disabled]="!token"
-                    nbStepperNext
-                    fullWidth
-                  >
+                  <button nbButton [disabled]="!token" nbStepperNext fullWidth>
                     Next
                   </button>
                 </div>
               </div>
             </form>
           </nb-step>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
           <nb-step [label]="'Stock'">
             <form #nameForm="ngForm" class="step-container">
@@ -123,18 +99,6 @@
             </form>
           </nb-step>
 
-
-
-
-
-
-
-
-
-
-
-
-
           <nb-step [label]="'Szenario'">
             <form #nameForm="ngForm" class="step-container">
               <div class="row">
@@ -143,9 +107,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col">
-                  Select a Szenario to execute
-                </div>
+                <div class="col">Select a Szenario to execute</div>
               </div>
               <div class="row">
                 <div class="col">
@@ -179,28 +141,14 @@
               </div>
               <div class="row">
                 <div class="col">
-                  <app-chart [selectedSzenario]="selectedSzenario" [szenarios]="szenarios"></app-chart>
+                  <app-chart
+                    [selectedSzenario]="selectedSzenario"
+                    [szenarios]="szenarios"
+                  ></app-chart>
                 </div>
               </div>
             </form>
           </nb-step>
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
           <nb-step [label]="'Settings'">
             <form #nameForm="ngForm" class="step-container">
@@ -210,25 +158,23 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col">
-                  Change szenario settings
-                </div>
+                <div class="col">Change szenario settings</div>
               </div>
               <div class="row">
                 <div class="col">
                   <label>Speed multiplicator</label>
                   <input
-                  type="number"
-                  min="1"
-                  max="120"
-                  name="speedMultiplicator"
-                  placeholder="speed"
-                  class="form-control"
-                  required
-                  nbInput
-                  fullWidth
-                  [(ngModel)]="speedMultiplicator"
-                />
+                    type="number"
+                    min="1"
+                    max="120"
+                    name="speedMultiplicator"
+                    placeholder="speed"
+                    class="form-control"
+                    required
+                    nbInput
+                    fullWidth
+                    [(ngModel)]="speedMultiplicator"
+                  />
                 </div>
               </div>
               <div class="row mt-3 justify-content-center">
@@ -236,36 +182,13 @@
                   <button nbButton nbStepperPrevious fullWidth>Back</button>
                 </div>
                 <div class="col-2">
-                  <button
-                    nbButton
-                    nbStepperNext
-                    fullWidth
-                    (click)="start()"
-                  >
+                  <button nbButton nbStepperNext fullWidth (click)="start()">
                     Start
                   </button>
                 </div>
               </div>
             </form>
           </nb-step>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
           <nb-step [label]="'Run'">
             <form #nameForm="ngForm" class="step-container">
@@ -275,36 +198,45 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col">
-                  Execute the szenario
-                </div>
+                <div class="col">Execute the szenario</div>
               </div>
 
               <div class="row">
                 <div class="col">
                   <nb-card>
                     <nb-card-body class="p-5">
-                      <nb-spinner [message]="'Running...'" [size]="'giant'"></nb-spinner>
+                      <nb-spinner
+                        [message]="'Running...'"
+                        [size]="'medium'"
+                      ></nb-spinner>
+                      <div class="row">
+                        <div class="col">
+                          <nb-progress-bar
+                            [displayValue]="false"
+                            [value]="progress"
+                            status="primary"
+                            size="giant"
+                          ></nb-progress-bar>
+                        </div>
+                      </div>
                     </nb-card-body>
                   </nb-card>
                 </div>
-              </div><!--TODO: Respond to szenario finished-->
+              </div>
 
               <div class="row mt-3 justify-content-center">
                 <div class="col-2">
-                  <button nbButton nbStepperPrevious fullWidth (click)="stop()">Stop</button>
+                  <button nbButton nbStepperPrevious fullWidth (click)="stop()">
+                    Stop
+                  </button>
                 </div>
               </div>
             </form>
           </nb-step>
         </nb-stepper>
       </nb-card-body>
-
-     
     </nb-card>
   </nb-layout-column>
-
-  
 
   <nb-layout-footer fixed> 2021 </nb-layout-footer>
 </nb-layout>

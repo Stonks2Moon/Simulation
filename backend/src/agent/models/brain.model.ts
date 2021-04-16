@@ -23,6 +23,14 @@ export abstract class Brain {
   ): PromiseOrValue<void>;
 
   /**
+   * Returns the finishing state in percent
+   * @returns the percent of finished or null if no state is important
+   */
+  getStatus(): number | null {
+    return null;
+  }
+
+  /**
    * Registers additional data which the brain can use for decision making.
    * Data is provided when creating a brain or an agent
    * @param data The additional data to provide to the brain.

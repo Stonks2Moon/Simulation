@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Subscription, timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
 type Stock = {
@@ -34,6 +36,9 @@ export class AppComponent implements OnInit {
   token: string | null = null;
 
   speedMultiplicator = 60;
+
+  progress = 0;
+  progressSubscription: Subscription | null = null;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -70,6 +75,16 @@ export class AppComponent implements OnInit {
         }
       )
       .toPromise();
+
+    this.progressSubscription = timer(0, 500)
+      .pipe(
+        switchMap((_) =>
+          this.http.get<number>(environment.simulation_url + 'szenarios/status')
+        )
+      )
+      .subscribe((val) => {
+        this.progress = +val.toFixed(2);
+      });
   }
 
   async stop() {
@@ -84,5 +99,6 @@ export class AppComponent implements OnInit {
         }
       )
       .toPromise();
+    this.progressSubscription?.unsubscribe();
   }
 }

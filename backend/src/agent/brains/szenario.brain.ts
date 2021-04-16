@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { addMinutes } from 'date-fns';
+import { addMinutes, differenceInSeconds } from 'date-fns';
 import { timer } from 'rxjs';
 import { map, take, takeWhile } from 'rxjs/operators';
 
@@ -16,6 +16,8 @@ export class SzenarioBrain extends Brain {
   private marketService: Readonly<MarketService>;
 
   private startDate = null;
+  private endDate = null;
+  private finishedPercent = 0;
   private szenarioData: any;
 
   private token: string;
@@ -41,6 +43,7 @@ export class SzenarioBrain extends Brain {
     this.szenarioData = szenarioData;
     this.token = token;
     this.stock = stock;
+    this.speedMultiplicator = speedMultiplicator;
     this.marketService.setWatch(
       this.convertSpeedMultiplicator(speedMultiplicator),
       stock,
@@ -48,8 +51,14 @@ export class SzenarioBrain extends Brain {
 
     const sorted = szenarioData
       .map(({ time }) => new Date(time))
-      .sort((a, b) => a.getTime() - b.getTime());
-    this.startDate = sorted[0];
+      .sort((a, b) => b.getTime() - a.getTime());
+
+    this.startDate = sorted[sorted.length - 1];
+    this.endDate = sorted[0];
+  }
+
+  getStatus() {
+    return this.finishedPercent;
   }
 
   animate(): PromiseOrValue<void> {
@@ -60,10 +69,14 @@ export class SzenarioBrain extends Brain {
         map((time) => addMinutes(this.startDate, time)),
       )
       .subscribe(async (time) => {
-        console.log(time);
         const datapoint = this.szenarioData.find(
           (d) => new Date(d.time).getTime() === time.getTime(),
         );
+
+        const totalDuration = differenceInSeconds(this.startDate, this.endDate);
+        const progressDuration = differenceInSeconds(this.startDate, time);
+        this.finishedPercent = (progressDuration / totalDuration) * 100;
+
         if (!datapoint) return;
 
         const currentMarket = await this.marketService.onInformationAvailable

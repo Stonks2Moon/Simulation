@@ -57,6 +57,15 @@ export class SzenarioService {
     this.loadSzenarios();
   }
 
+  async getSzenarioProgress() {
+    if (this.runningSzenario === null || !this.isRunningSzenario) return 100;
+
+    const percentages = this.szenarioAgents
+      .map(({ brain }) => brain.getStatus())
+      .filter((v) => v !== null);
+    return percentages.reduce((a, b) => a + b, 0) / percentages.length;
+  }
+
   private async loadSzenarios() {
     for (const fileName of await readdir(SZENARIO_FOLDER)) {
       const path = join(SZENARIO_FOLDER, fileName);
@@ -71,11 +80,12 @@ export class SzenarioService {
 
   public getSzenario(id: number) {
     if (id > this.availableSzenarios.length) throw new BadRequestException();
-    console.log(this.availableSzenarios[id]);
     return this.availableSzenarios[id];
   }
 
-  get(id?: number) {
+  get(): Szenario[];
+  get(id: number): Szenario;
+  get(id?: number): Szenario | Szenario[] {
     if (id) return this.getSzenario(id);
     return this.availableSzenarios;
   }

@@ -36,6 +36,16 @@ export class SzenarioController {
     return this.szenarioService.get();
   }
 
+  @Get('status')
+  @ApiResponse({
+    status: 200,
+    type: Number,
+  })
+  @ApiOperation({ description: 'Gets the execution state of a szenario in percent. 100 means its a the szenario is finished' })
+  public async getSzenarioProgress() {
+    return this.szenarioService.getSzenarioProgress();
+  }
+
   @Post()
   @ApiBody({
     type: SzenarioStartDto,
