@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
       .toPromise();
 
     this.szenarios = await this.http
-      .get<Szenario[]>(environment.simulation_url + 'api/szenarios')
+      .get<Szenario[]>(environment.simulation_url + 'szenarios')
       .toPromise();
 
     console.log(this.szenarios);
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
   async start() {
     await this.http
       .post(
-        environment.simulation_url + 'api/szenarios',
+        environment.simulation_url + 'szenarios',
         {
           szenario: this.selectedSzenario,
           stock: this.selectedStock,
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
   async stop() {
     await this.http
       .post(
-        environment.simulation_url + 'api/szenarios/stop',
+        environment.simulation_url + 'szenarios/stop',
         {},
         {
           headers: {
