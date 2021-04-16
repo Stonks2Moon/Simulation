@@ -4,7 +4,7 @@ COPY package.json ./
 COPY yarn.lock ./
 RUN yarn install
 COPY ./ .
-RUN yarn build
+RUN yarn build --prod
 
 FROM nginx:alpine as production-stage
 RUN mkdir /app
