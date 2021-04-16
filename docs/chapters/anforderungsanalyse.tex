@@ -4,16 +4,16 @@
 Da dieses Projekt ohne Rahmenbedingungen und Abhängigkeiten zu vorhandenen Systemen, fällt an dieser Stelle die Ist-Analyse und die Abgrenzung zu bereits bestehenden Lösungen weg. Unsere Anwendung bzw. das Gesamtprojekt findet sozusagen auf der Grünen Wiese statt. Nachfolgend werden zuerst die Funktionalen und Nicht-Funktionalen Anforderungen der Simulation erläutert, bevor diese übersichtlich zusammengefasst werden. Im Anschluss werden kurz die Anforderungen aus unserer Sicht zu den anderen Teilprojekten erläutert.
 \section{Funktionale Anforderungen}
 	\begin{itemize}
-		\item Anmeldung % Vielleicht nach Zwischenpräsentatio implementieren
+		\item Anmeldung: \\
 			Damit das Markteschen nicht durch jede Person beeinflusst werden kann, soll die Anwendung durch ein Login geschützt werden. So können nur dedizierte Personen Szenarios auswählen und wichtige Marktfaktoren beeinflussen. Denkbar wäre hierdurch auch das Verteilen von Berechtigungen. So ließe es sich sinnvoll umsetzen, dass Informationen über das durch die Simulation gehandelte Order Volumen und Preise für alle einsehbar machen und schreibende Operationen, die das Marktgeschehen beeinflussen könnte ausgewählten Personen vorbehalten werden.
-			
-		\item Auswahl vordefinierter Szenarien
+		
+		\item Auswahl vordefinierter Szenarien: \\
 			Es soll eine Liste an vordefinierten Szenarien geben. Diese Szenarien können bestimmte Ereignisse sein, wie der Rücktritt einzelner Vorstandsmitglieder, auf die der Markt in einem vorher definierten Rahmen reagiert. Diese Reaktion soll automatisch mit dem Beginn des nächsten Szenarios durch die Simulation auf den Markt übertragen werden.
 			
-		\item Übersicht über die gerade gehandelten Trades
+		\item Übersicht über die gerade gehandelten Trades: \\
 			Es sollte eine graphische Übersicht geben, die einen Überblick über die aktuell gehandelten Volumina und Preise verschafft. So soll es ermöglicht werden einen besseren Einblick zu bekommen, was die Simulation gerade macht und wie die durch die Szenarien gewünschten Effekte am Markt erreicht werden.
 			
-		\item Dynamische Einflussnahme des Marktgeschehens
+		\item Dynamische Einflussnahme des Marktgeschehens: \\
 			Neben den Szenarien soll auch durch andere Faktoren Einfluss auf das Marktgeschehen genommen werden können. Diese Faktoren sollen sein:
 				\begin{itemize}
 					\item Skalierfaktor, der Bestimmt wie lange ein ausgewähltes Szenario abläuft
@@ -23,21 +23,21 @@ Da dieses Projekt ohne Rahmenbedingungen und Abhängigkeiten zu vorhandenen Syst
 				\end{itemize}
 			%TODO: hier müssen bestimmt noch weitere ergänzt werden
 			
-		\item Kommunikation von Events
+		\item Kommunikation von Events: \\
 			Bestimmte Ereignisse beeinflussen das Marktgeschen. Damit Privatkunden und Unternehmen, die an der Börse handeln entsprechend ihren Interessen reagieren können, müssen sie über solche Ereignisse aktiv informiert werden. Ob und wie sie auf diese Nachrichten reagieren bleibt ihnen selbst überlassen.
 			
-		\item Reaktion auf Marktgeschehen durch Privat- und Unternehmensbroker
+		\item Reaktion auf Marktgeschehen durch Privat- und Unternehmensbroker: \\
 			Um die Simulation möglichst realistisch zu gestalten, muss auch das Verhalten und die Trades der anderen Marktteilnehmer, also der Privat- und Unternehmensbroker berücksichtigt werden, Wichtig ist hier jedoch, das nicht eine einzelne Transaktion eines Privatkundens schon die Marktpreise zum Schwanken bringt, sondern dass Transaktionen erst eine kritische Masse erreichen müssen um wirklich auf dem Markt ins Gewicht zu fallen. 
 			
-		\item Anpassung der Dauer eines Szenarios
+		\item Anpassung der Dauer eines Szenarios: \\
 			Um das schnelle Testen von Anlagestrategien zu ermöglichen soll die Länge der Szenarien skalierbar sein. 
 			
-		\item Anzahl der Trades, Mengengerüst
+		\item Anzahl der Trades, Mengengerüst: \\
 			Die Anzahl der Trades soll wählbar sein und skalierbar sein. 
 	\end{itemize}
 \section{Nicht-Funktionale Anforderungen}
 		\begin{itemize}
-		\item Geschwindigkeit
+		\item Geschwindigkeit: \\
 			Für Nutzer ist die Geschwindigkeit besonders wichtig. Lang ladende Anwendungen
 			sind nervig in der Benutzung. Lange Ladezeiten lenken beispielsweise
 			ab und demotivieren die Nutzung der Anwendung. Über lange Ladezeiten
@@ -47,10 +47,10 @@ Da dieses Projekt ohne Rahmenbedingungen und Abhängigkeiten zu vorhandenen Syst
 			
 			Hinzu kommt der wichtige Faktor, dass diese Anwendung hoch skalierbar sein soll und auch mit Großen Ordervolumen umgehen soll. Aus diesem Grund ist es doppelt wichtig, dass sowohl Backend als auch Frontend schnell arbeiten und somit schnell neue Aufgaben erledigen können.
 			
-		\item Skalierbarkeit
+		\item Skalierbarkeit: \\
 			Um das bereits angesprochene hohe Ordervolumen händeln zu können muss die Anwendung gut skalieren können, ohne das mit zunehmender Zahl der Transaktionen die Reaktion und die Performance der Anwendung immer schlechter wird. 
 			
-		\item Zero Downtime Deployment
+		\item Zero Downtime Deployment: \\
 			Um den Handel für ein anstehendes Release nicht unterbrechen zu müssen, muss diese Anwendung Zero Downtime Deployments ermöglichen. So können sämtliche Software Änderungen unabhängig der Tageszeit oder des Handelsvolumen eingespielt werden können. 
 	\end{itemize}
 \section{Begrenzung von theoretischen Grundlagen}
