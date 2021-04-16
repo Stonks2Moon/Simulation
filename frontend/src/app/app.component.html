@@ -12,7 +12,7 @@
 
     <nb-card *ngIf="isOpen">
       <nb-card-body>
-        <nb-stepper orientation="horizontal">
+        <nb-stepper orientation="horizontal" [disableStepNavigation]="false">
           <nb-step [label]="'Token'">
             <form #nameForm="ngForm" class="step-container">
               <div class="row">
