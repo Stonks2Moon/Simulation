@@ -11,10 +11,9 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Simulation')
     .setVersion('1.0')
-    .setBasePath('/api')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(3000);
 }

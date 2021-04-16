@@ -49,7 +49,7 @@ export class SzenarioController {
     @Body() szenarioDto: SzenarioStartDto,
     @Headers('Authorization') auth: string,
   ) {
-    if (!auth) throw new UnauthorizedException(); // TODO:
+    if (!auth) throw new UnauthorizedException();
     return this.szenarioService.runSzenario(szenarioDto, auth);
   }
 
