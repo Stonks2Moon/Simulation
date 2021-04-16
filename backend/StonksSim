@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "af11d1b8-cdcf-4ef1-bf6c-f4662e1ee198",
+		"name": "Simulation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CurrentPrice",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDc3Mzc5YzE4ZTM1MTNmNGEyZTRjNiIsImRpc3BsYXlOYW1lIjoiU2ltKHApdWxhdGlvbnMgR3J1cHBlIiwidHlwZSI6InNpbXVsYXRpb24iLCJpYXQiOjE2MTU0NTg0NDF9.44A1cJvmf0ZUUIMwNFj8hFZFhbIqDP6_gbspXzrOoyk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://boerse.moonstonks.space/share/price/6037e67c8407c737441517d6",
+					"protocol": "https",
+					"host": [
+						"boerse",
+						"moonstonks",
+						"space"
+					],
+					"path": [
+						"share",
+						"price",
+						"6037e67c8407c737441517d6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "StartSzenario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/szenarios/4",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"szenarios",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

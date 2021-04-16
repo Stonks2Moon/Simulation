@@ -1,28 +1,24 @@
-import { BeforeApplicationShutdown, Injectable, Logger } from '@nestjs/common';
+import {
+  BeforeApplicationShutdown,
+  HttpService,
+  Injectable,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ReplaySubject, Subscription, timer } from 'rxjs';
 import { createHash } from 'crypto';
-import { BaselineService } from '../baseline/baseline.service';
-
-export enum OrderType {
-  MARKET_ORDER,
-  LIMIT_ORDER,
-  STOP_MARKET_ORDER,
-  STOP_LIMIT_ORDER
-}
+import { ReplaySubject, Subscription, timer } from 'rxjs';
 
 export enum OperationType {
-  BUY,
-  SELL
+  BUY = 'buy',
+  SELL = 'sell',
 }
 
 export interface PlaceOrderInput {
   aktenId: string;
-  type: OrderType;
   stockCount: number;
-  price: number | 'market';
+  price?: number;
   operation: OperationType;
   subsequentOrders?: PlaceOrderInput[];
+  token: string;
 }
 
 /*
@@ -35,34 +31,29 @@ export interface PlaceOrderInput {
 */
 @Injectable()
 export class MarketService implements BeforeApplicationShutdown {
-  private _currentMarketInformation = new ReplaySubject<number>(1);//TODO: Buffer größe
+  private _currentMarketInformation = new ReplaySubject<number>(1);
   public orderQueue = new Map<string, PlaceOrderInput>();
   private refreshSubscription: Subscription;
+  private stock: string;
 
   constructor(
-    private readonly configService: ConfigService,
-    private readonly baselineService: BaselineService,
-  ) {
-    this.refreshSubscription = timer(0, 1000).subscribe(() =>
-      this.refreshCurrentStockMarket(),
-    );
-  }
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService
+  ) {}
 
   beforeApplicationShutdown() {
-    this.refreshSubscription.unsubscribe();
+    this.refreshSubscription?.unsubscribe();
   }
 
   get onInformationAvailable() {
     return this._currentMarketInformation.asObservable();
   }
 
-  private course = 100;//COURSE
   private async refreshCurrentStockMarket() {
-    const value = this.baselineService.generateNextPrice();
-    if(value) {
-      this.course += value
-    }
-    this._currentMarketInformation.next(this.course);
+    const response = await this.httpService
+      .get(this.configService.get('BOERSE_URL') + 'share/price/' + this.stock)
+      .toPromise();
+    this._currentMarketInformation.next(+response.data);
   }
 
   public processCallback(orderHash: string) {
@@ -83,23 +74,39 @@ export class MarketService implements BeforeApplicationShutdown {
     this.orderQueue.delete(orderHash);
   }
 
-  private createCallbackURL(orderHash: string): string {
-    // TODO: richtige URL
-    return `${this.configService.get('BASE_URL')}/whatever/${orderHash}`;
-  }
-
-  /**
-   * 1. Überprüfen, ob die Order eingequeued werden muss oder nicht
-   * 1.1 JA -- es wird ein md5 Hash generiert, der als Key für die `orderQueue`-Map genommen wird
-   * 1.2 NEIN --  es wird eine CallbackURL erstellt, die bei der Kommunikation mit der Börse verwendet wird
-   */
-  public async placeOrder<T = any>(order: PlaceOrderInput): Promise<T> {
+  public async placeOrder(order: PlaceOrderInput): Promise<void> {
     const key = createHash('md5').update(JSON.stringify(order)).digest('hex');
 
     if (order.subsequentOrders?.length) {
       this.orderQueue.set(key, order);
     }
-    const _callcackURL = this.createCallbackURL(key);
-    return;
+    const body: any = {
+      shareId: order.aktenId,
+      amount: order.stockCount,
+      onPlace: '_',
+      onMatch: '_',
+      onComplete: '_',
+      onDelete: '_',
+      type: order.operation,
+    };
+    if (order.price) {
+      body.limit = +order.price.toFixed(2);
+    }
+
+    await this.httpService
+      .post(this.configService.get('BOERSE_URL') + 'order', body, {
+        headers: {
+          Authorization: order.token,
+        },
+      })
+      .toPromise();
+  }
+
+  setWatch(interval: number, stock: string) {
+    this.stock = stock;
+    if (this.refreshSubscription) this.refreshSubscription.unsubscribe();
+    this.refreshSubscription = timer(0, interval).subscribe(() =>
+      this.refreshCurrentStockMarket(),
+    );
   }
 }

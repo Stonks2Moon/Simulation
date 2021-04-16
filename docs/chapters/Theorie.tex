@@ -1,4 +1,63 @@
 % !TEX root =  ../master.tex
 \chapter{Theoretische Herleitungen}
 \section{Betrachtung von Marktfaktoren}
+
+Der erste verfolgte Ansatz, um einen realistischen Aktienmarkt zu simulieren, stellte das Fama-French-Dreifaktorenmodell dar. Bei diesem Modell ist die individuelle Wertpapierrendite, sowohl von individuellen Marktfaktoren, als auch von Marktfaktoren, die auf den gesamten betrachteten Markt wirken, erklärt. \\
+Dieses Modell hat sich im Rahmen der Simulation als ungeeignet herausgestellt, jedoch sind anhand der verwendeten Marktfaktoren einige Marktentwicklungen zu erklären, die entsprechend die Wertentwicklung eines Wertpapiers beeinflussen.\\
+Darauffolgend ist die Simulation mithilfe von praxisnahen Szenarien durchgeführt, welche im folgenden Kapitel näher dargestellt sind. An dieser Stelle sei darauf hingewiesen, dass bei der Erklärung der unterschiedlichen Szenarien teilweise auf das Fama-French-Dreifaktorenmodells referenziert und damit begründet wird.
+
+Das Fama-French-Dreifaktorenmodell erklärt die Aktienrendite ($r_i$) anhand von den Aktien-individuellen Marktfaktoren:
+\begin{itemize}
+	\item Aktienmarktrisikoprämie : ($R_M$)
+	\item Größe des Unternehmens : (${SMB}$)
+	\item Buchwert-Kurs-Verhältnis : ($HML$)
+	\item Risikofreier Zinssatz : ($r_F$)
+\end{itemize}
+
+Bestimmung der potentiellen Aktienrendite erfolgt in dem (vereinfachten) Modell nach mit folgender Formel:
+
+$$ r_i = r_F + R_M + \beta_{iSMB} \cdot SMB + \beta_{iHML} \cdot HML$$
+
+($r_F$), ($R_M$), ($\beta_{iSMB}$), ($\beta_{iHML}$) sind Faktoren, die auf den gesamten Markt wirken. Je nach Marktentwicklung und -Situation können die $\beta$-Werte positiv oder negativ sein.
+
+Der risikofreie Zinssatz ($r_F$) ist in Europa zu Zeiten der Nullzinspolitik der EZB faktisch zu vernachlässigen.
+
+Die Aktienmarktrisikoprämie ($R_M$) ist abhängig auf die vorherrschenden Risiken, die auf den Markt wirken. 
+
+Ein positives ($\beta_{iSMB}$) wirkt sich bei einer kleinen Marktkapitalisierung positiv auf den Aktienkurs aus, eine große Marktkapitalisierung entsprechend negativ. Analog ist dieser Effekt bei einem negativen ($\beta_{iSMB}$) gegensätzlich.
+
+Ein positives ($\beta_{iHML}$) wirkt sich bei einem steigenden Kurs-Buchwert-Verhältnis positiv aus, bei einem sinkenden entsprechend negativ. Analog ist dieser Effekt bei einem negativen ($\beta_{iHML}$) gegensätzlich.
+
+Hierbei ist hervorzuheben, dass die Aktienrendite sich über beide Faktoren ($SMB$ : Marktkapitalisierung = Aktienkurs $\cdot$ Umlaufende Aktien) und \\
+($HML$ : Kurs-Buchwert-Verhältnis = $\frac{\text{Kurswert der Aktie}}{\text{Buchwert der Aktie}} $) auf den Aktienkurs bezieht. Daher könnte hierbei für jeden individuellen Aktienkurs eine potentielle Aktienrendite errechnet werden, womit Kauf- oder Verkaufsentscheidungen begründet sein können. Jedoch können diese Entscheidungen nicht konsistent die Marktentwicklung simulieren, da sich der Markt in vielen Aspekten (besonders in außergewöhnlichen Situationen, z.B. einer weltweiten Pandemie) unberechenbar verhält und eine solche Simulation nicht im Rahmen dieses Projekts umsetzbar gewesen wäre.\\
+Aus diesen Erkenntnissen ist die Entscheidung gefallen, vergangene Kurstage eines DAX-Unternehmens zu betrachten, welche exemplarisch spezifische Situationen darstellen sollen.
+
 \section{Unterschiedliche Szenarien}
+
+Um eine möglichst realistische Simulation des Wertverlaufs einer Aktie darzustellen, sind fünf verschiedene Markttage der SAP-Aktie der letzten zwei Jahren betrachtet und die Entwicklung an diesen Tagen als Vorlage für die Simulation genommen worden.
+% TODO: HIER VLLT NOCH BISSI WAS ERGÄNZEN ODER UMSCHREIBEN
+
+Folgend sind die fünf ausgewählten Markttage aufgeführt, wobei jeweils die Begründung für den expliziten Tag gegeben ist.
+\begin{enumerate}
+	\item Rapider Kursfall nach Firmenübernahme : 26.10.2020
+	
+		Dieses Szenario ist einem Kurstag entnommen, bei welchem der Markt auf die große Übernahme reagiert. Hierbei handelt es sich um einen Montag, wo die Information der Übernahme freitags zuvor nach Handelsschluss öffentlich gemacht wurde. Bei einer solchen großen Übernahme wird der Buchwert einer Aktie negativ beeinflusst, was den nachhaltigen Einbruch des Aktienkurses erklären könnte. Dies ist ebenfalls nach dem Fama-French-Dreifaktorenmodell plausibel, wenn das ($\beta_{iHML}$) einen negativen Wert annimmt (und die Aktienrendite konstant bleibt).
+	
+	\item Geringes gehandeltes Volumen : 01.10.2020
+	
+		Innerhalb dieses Markttages sind besonders wenig Aktienanteile gehandelt, wobei auch der Aktienkurs relativ konstant verläuft. Somit könnten in diesem Szenario der Simulation einzelne Akteure den Preis der Aktien massiv beeinflussen.  
+		
+	\item Hohes gehandeltes Volumen : 19.06.2020
+	
+		Dieser betrachtete Markttag stellt das Gegenteil zu dem vorherigen Markttag dar. Viele Käufer und Verkäufer handeln, womit einzelne Akteure keinen wesentlichen Einfluss auf den Kurswert ausüben könnten.
+	
+	\item Positive Nachricht : 24.04.2019
+	
+		Innerhalb dieses Markttages sind besser ausgefallene Gewinne aus dem vorherigen Quartal veröffentlicht wurden, wobei der Kurswert an diesem Tag rasant anstieg. Damit verringert sich das Kurs-Buchwert-Verhältnis, wobei analog bei einem negativen ($\beta_{iHML}$) der Aktienkurs (bei gleicher Aktienrendite) steigt.
+	
+	\item Normaler Handelstag mit durchschnittlichem Volumen : 22.10.2019
+	
+		Dieser Tag wurde als letztes Szenario betrachtet, um einen möglichst durchschnittlich verlaufenden Markttag darstellen zu können.
+	
+\end{enumerate}
+

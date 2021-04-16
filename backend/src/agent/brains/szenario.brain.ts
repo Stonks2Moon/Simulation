@@ -3,11 +3,7 @@ import { addMinutes } from 'date-fns';
 import { timer } from 'rxjs';
 import { map, take, takeWhile } from 'rxjs/operators';
 
-import {
-  MarketService,
-  OperationType,
-  OrderType,
-} from '../../market/market.service';
+import { MarketService, OperationType } from '../../market/market.service';
 import { PromiseOrValue } from '../../util.types';
 import { Agent } from '../models/agent.model';
 import { Brain } from '../models/brain.model';
@@ -17,29 +13,48 @@ import { Brain } from '../models/brain.model';
  */
 export class SzenarioBrain extends Brain {
   private alive = false;
-  private agent: Readonly<Agent>;
   private marketService: Readonly<MarketService>;
-  private logger = new Logger();
 
-  private startDate = new Date(2019, 9, 22, 4, 51); //TODO: Das ist szenario 4
-  private currentTime = timer(0, 1000);
+  private startDate = null;
   private szenarioData: any;
 
-  onAgentInit(agent: Readonly<Agent>): PromiseOrValue<void> {
-    this.agent = agent;
-  }
+  private token: string;
+  private stock: string;
+  private speedMultiplicator: number;
+
+  onAgentInit(agent: Readonly<Agent>): PromiseOrValue<void> {}
 
   onMarketInit(marketService: Readonly<MarketService>): PromiseOrValue<void> {
     this.marketService = marketService;
   }
 
-  onData(szenarioData: any[]) {
+  private convertSpeedMultiplicator(factor: number) {
+    return 60000 / factor;
+  }
+
+  onData(
+    szenarioData: any[],
+    token: string,
+    stock: string,
+    speedMultiplicator: number,
+  ) {
     this.szenarioData = szenarioData;
+    this.token = token;
+    this.stock = stock;
+    this.marketService.setWatch(
+      this.convertSpeedMultiplicator(speedMultiplicator),
+      stock,
+    );
+
+    const sorted = szenarioData
+      .map(({ time }) => new Date(time))
+      .sort((a, b) => a.getTime() - b.getTime());
+    this.startDate = sorted[0];
   }
 
   animate(): PromiseOrValue<void> {
     this.alive = true;
-    this.currentTime
+    timer(0, this.convertSpeedMultiplicator(this.speedMultiplicator))
       .pipe(
         takeWhile((_) => this.alive),
         map((time) => addMinutes(this.startDate, time)),
@@ -51,7 +66,6 @@ export class SzenarioBrain extends Brain {
         );
         if (!datapoint) return;
 
-        //delta sind prozentpunkte
         const currentMarket = await this.marketService.onInformationAvailable
           .pipe(take(1))
           .toPromise();
@@ -61,23 +75,46 @@ export class SzenarioBrain extends Brain {
         const diff = target - currentMarket;
         const volume = datapoint.volume;
         console.log(currentMarket, target);
-        //SELL Order
+
+        const matchingVolume = Math.floor(0.4 * volume);
+        const limitSellVolume = Math.floor(0.1 * volume);
+        const limitBuyVolume = Math.floor(0.1 * volume);
+
         this.marketService.placeOrder({
-          stockCount: volume,
-          aktenId: 'moon',
+          stockCount: matchingVolume,
+          aktenId: this.stock,
+          operation: OperationType.BUY,
           price: target,
-          type: OrderType.MARKET_ORDER,
-          operation: OperationType.SELL,
+          token: this.token,
         });
 
-        //Buy order
         this.marketService.placeOrder({
-          stockCount: volume,
-          aktenId: 'moon',
+          stockCount: matchingVolume,
+          aktenId: this.stock,
+          operation: OperationType.SELL,
           price: target,
-          type: OrderType.MARKET_ORDER,
-          operation: OperationType.BUY,
+          token: this.token,
         });
+
+        for (let i = 0; i < 10; i++) {
+          this.marketService.placeOrder({
+            stockCount: Math.max(1, limitBuyVolume / 10),
+            aktenId: this.stock,
+            operation: OperationType.BUY,
+            price: target - Math.random(),
+            token: this.token,
+          });
+        }
+
+        for (let i = 0; i < 10; i++) {
+          this.marketService.placeOrder({
+            stockCount: Math.max(1, limitSellVolume / 10),
+            aktenId: this.stock,
+            operation: OperationType.SELL,
+            price: target + Math.random(),
+            token: this.token,
+          });
+        }
       });
   }
 

@@ -3,11 +3,7 @@ import { timer } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
 import { PromiseOrValue } from '../../util.types';
-import {
-  MarketService,
-  OperationType,
-  OrderType,
-} from '../../market/market.service';
+import { MarketService, OperationType } from '../../market/market.service';
 import { Agent } from '../models/agent.model';
 import { Brain } from '../models/brain.model';
 
@@ -19,6 +15,9 @@ export class RandomBrain extends Brain {
   private agent: Readonly<Agent>;
   private marketService: Readonly<MarketService>;
   private logger = new Logger();
+
+  private token: string;
+  private stock: string;
 
   onAgentInit(agent: Readonly<Agent>): PromiseOrValue<void> {
     this.agent = agent;
@@ -32,16 +31,17 @@ export class RandomBrain extends Brain {
     this.alive = true;
     this.marketService.onInformationAvailable
       .pipe(takeWhile(() => this.alive))
-      .subscribe(() => {
+      .subscribe((v) => {
         this.logger.log(
           `Agent ${this.agent.id} with brain ${this.constructor.name} creates an order`,
         );
         this.marketService.placeOrder({
-          aktenId: '',
-          price: Math.random(),
-          type: OrderType.MARKET_ORDER,
+          aktenId: this.stock,
+          price: Math.random() + v,
           stockCount: Math.ceil(Math.random() * 100),
-          operation: Math.random() > 0 ? OperationType.BUY : OperationType.SELL,
+          operation:
+            Math.random() > 0.5 ? OperationType.BUY : OperationType.SELL,
+          token: this.token,
         });
       });
   }
@@ -54,5 +54,8 @@ export class RandomBrain extends Brain {
     return this.alive;
   }
 
-  onData(data: any) {}
+  onData(_: any, token: string, stock: string) {
+    this.token = token;
+    this.stock = stock;
+  }
 }

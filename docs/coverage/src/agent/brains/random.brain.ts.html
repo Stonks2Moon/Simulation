@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.75% </span>
+                <span class="strong">72.22% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/16</span>
+                <span class='fraction'>13/18</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.75% </span>
+                <span class="strong">72.22% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/16</span>
+                <span class='fraction'>13/18</span>
             </div>
         
             
@@ -115,17 +115,16 @@
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -138,7 +137,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -147,6 +145,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,13 +166,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Logger, LoggerService } from '@nestjs/common';
@@ -178,11 +184,7 @@ import { timer } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 &nbsp;
 import { PromiseOrValue } from '../../util.types';
-import {
-  MarketService,
-  OperationType,
-  OrderType,
-} from '../../market/market.service';
+import { MarketService, OperationType } from '../../market/market.service';
 import { Agent } from '../models/agent.model';
 import { Brain } from '../models/brain.model';
 &nbsp;
@@ -194,6 +196,9 @@ export class RandomBrain extends Brain {
   private agent: Readonly&lt;Agent&gt;;
   private marketService: Readonly&lt;MarketService&gt;;
   private logger = new Logger();
+&nbsp;
+  private token: string;
+  private stock: string;
 &nbsp;
   onAgentInit(agent: Readonly&lt;Agent&gt;): PromiseOrValue&lt;void&gt; {
     this.agent = agent;
@@ -207,16 +212,17 @@ export class RandomBrain extends Brain {
     this.alive = true;
     this.marketService.onInformationAvailable
       .pipe(takeWhile(<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >this.alive)</span>)
-      .subscribe(<span class="fstat-no" title="function not covered" >() =</span>&gt; {
+      .subscribe(<span class="fstat-no" title="function not covered" >(v</span>) =&gt; {
 <span class="cstat-no" title="statement not covered" >        this.logger.log(</span>
           `Agent ${this.agent.id} with brain ${this.constructor.name} creates an order`,
         );
 <span class="cstat-no" title="statement not covered" >        this.marketService.placeOrder({</span>
-          aktenId: '',
-          price: Math.random(),
-          type: OrderType.MARKET_ORDER,
+          aktenId: this.stock,
+          price: Math.random() + v,
           stockCount: Math.ceil(Math.random() * 100),
-          operation: Math.random() &gt; 0 ? OperationType.BUY : OperationType.SELL,
+          operation:
+            Math.random() &gt; 0.5 ? OperationType.BUY : OperationType.SELL,
+          token: this.token,
         });
       });
   }
@@ -229,7 +235,10 @@ export class RandomBrain extends Brain {
 <span class="cstat-no" title="statement not covered" >    return this.alive;</span>
   }
 &nbsp;
-  onData(data: any) {}
+  onData(_: any, token: string, stock: string) {
+    this.token = token;
+    this.stock = stock;
+  }
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -238,7 +247,7 @@ export class RandomBrain extends Brain {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Mar 18 2021 12:31:09 GMT+0000 (Coordinated Universal Time)
+                at Fri Apr 16 2021 05:21:29 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../../prettify.js"></script>
