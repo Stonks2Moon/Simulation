@@ -59,13 +59,11 @@ export class SzenarioService {
 
   private async loadSzenarios() {
     for (const fileName of await readdir(SZENARIO_FOLDER)) {
-      if (!fileName.startsWith('Transformed')) continue;
-
       const path = join(SZENARIO_FOLDER, fileName);
       const contents = JSON.parse(await readFile(path, 'utf-8'));
       this.availableSzenarios.push({
         id: this.availableSzenarios.length,
-        name: fileName,
+        name: fileName.replace('.json', ''),
         data: contents,
       });
     }
