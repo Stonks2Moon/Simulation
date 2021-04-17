@@ -2,11 +2,12 @@
 \chapter{Implementierung}
 
 \section{Schnittstellen}
+//TODO @aaron
 // TODO: https://simulation.moonstonks.space/docs/
 
 // TODO: https://stonks2moon.github.io/Simulation/coverage/
 
-\section{Architektur}
+\section{Architektur}\label{sec:Architektur}
 \begin{figure}[ht]
     \includegraphics[width=\textwidth]{img/architecture.png}
     \centering
@@ -17,7 +18,7 @@
 In \autoref{fig:architecture} ist die Architektur der Anwendung dargestellt.
 Alle benötigten Server sind in einem Server-Cluster organisiert.
 Hier werden die Börse, die Kernlogik der Simulation ausgeführt und das Nutzerinterface an den User ausgeliefert. Zentralles Eintrittstor ist dabei ein Reverse-Proxy, welcher die Aufgabe hat, die Daten an die richtigen internen Server weiterzuleiten und Daten, die für den Nutzer sind zu verschlüsseln.
-Innerhalb des Clusters kommunizieren der Simulations-Backend-Server direkt mit der Börse. Dadurch kann dieser Verkehr nicht von außen beeinflusst werden und mögliche Aktieninformationen (beispielsweiße wer welche Aktie handelt) sind geschützt.
+Innerhalb des Clusters kommunizieren der Simulations-Backend-Server direkt mit der Börse. Dadurch kann dieser Verkehr nicht von außen beeinflusst werden und mögliche Aktieninformationen (beispielsweiße welche Person welche Aktie handelt) sind geschützt.
 
 Das Simulations-Frontend dient als grafische Benutzeroberfläche, mit dem das eigentliche Simulations-Backend gesteuert wird. Weitere Informationen dazu finden sich in \autoref{cha:Nutzerhandbuch}.
 
@@ -25,8 +26,8 @@ Unsere Architektur trennt dabei streng die Szenario-Logik vom Nutzerinterface.
 Hat der Nutzer ein Szenario ausgewählt, alle Einstellungen getroffen und das Szenario gestartet, wird eine Anfrage an den Simulations-Backend-Server gesendet. Darauf hin beginnt dieser das entsprechende Szenario auszuführen und mit der Börse zu handeln.
 Dies hat ein paar Vorteile gegenüber der Implementierung sämtlicher Logik innerhalb des Nutzerinterfaces:
 \begin{enumerate}
-    \item Zentralle Nutzersteuerung\\
-        Der Backend-Server kann Ausführungen von Szenarios steuern. So werden beispielsweiße Kollisionen vermieden, wenn mehrere Szenarios von verschiedenen Nutzern gestartet werden würden.
+    \item Zentrale Nutzersteuerung\\
+        Der Backend-Server kann Ausführungen von Szenarien steuern. So werden beispielsweiße Kollisionen vermieden, wenn mehrere Szenarien von verschiedenen Nutzern gestartet werden würden.
     \item Code-Qualität\\
         Durch die Trennung der Logik nach dem Separation-of-Concern und Clean-Code Methodiken wird der Quelltext wartbarer.
     \item Unterbrechungen\\
@@ -34,6 +35,39 @@ Dies hat ein paar Vorteile gegenüber der Implementierung sämtlicher Logik inne
 \end{enumerate}
 
 \section{Szenario}
+Wie in \autoref{sec:Architektur} beschrieben kümmert sich der Backend Server um die Ausführung der Szenarien.
+Sobald die Anfrage durch die \ac{API} im Server eingetroffen ist startet der Server direkt mit der Szenarioausführung. Dafür existiert ein Life-cycle, der mehrere Schritte nacheinander durchläuft (vergleiche \enquote{Endlicher Automat}):
+
+\begin{enumerate}
+    \item Server start\\
+        Der Server wurde gestartet. Ab diesem Zeitpunkt kann der Server anfragen entgegen nehmen.
+    \item Szenarios geladen\\
+        Die Szenarios wurden aus den Quelldaten geladen und können nun gestartet werden.
+    \item Szenario wird gestartet\\
+        Über die \ac{API} wurde der Start eines Szenario angefordert und der Server initialisiert das Szenario.
+        \begin{enumerate}
+            \item Agenten initialisierung\\
+                Die Agenten werden erstellt und bekommen ihre Logik.
+            \item Markt initialisierung\\
+                Die Marktüberwachtung wird gestartet, sodass die Agenten informationen über den aktuellen Aktienpreis haben.
+            \item Daten initialisierung\\
+                Die Agenten werden mit Daten, z.\,B. den Szenarieninformationen oder anderen Einstellungen befüllt.
+            \item Agenten beleben\\
+                Die Agenten werden belebt, sodass diese mit ihrer Logik beginnen und Orders erstellen.
+        \end{enumerate}
+    \item Szenario wird ausgeführt\\
+        Das Szenario wird aktuell ausgeführt und die Agenten arbeiten.
+    \item Szenario wird gestoppt\\
+        Alle Agenten werden aufgefordert ihr Verhalten zu stoppen und das Szenario wird beendet.
+\end{enumerate}
+
+
+
+Nutzer fönnen über die Status-Schnittstelle periodisch anfragen, wie weit das aktuelle Szenario fortgeschritten ist.
+
+// TODO: Hier noch Michis Sequenzdiagramm einfügen
+// TODO: Hier eine State Machine
+// TODO: Definition Agenten und alles 
 
 \section{User Interface}
-//TODO:
+//TODO: @aaron

@@ -5,10 +5,10 @@ Da dieses Projekt ohne Rahmenbedingungen und Abhängigkeiten zu vorhandenen Syst
 \section{Funktionale Anforderungen}
 	\begin{itemize}
 		\item Anmeldung: \\
-			Damit das Markteschen nicht durch jede Person beeinflusst werden kann, soll die Anwendung durch ein Login geschützt werden. So können nur dedizierte Personen Szenarios auswählen und wichtige Marktfaktoren beeinflussen. Denkbar wäre hierdurch auch das Verteilen von Berechtigungen. So ließe es sich sinnvoll umsetzen, dass Informationen über das durch die Simulation gehandelte Order Volumen und Preise für alle einsehbar machen und schreibende Operationen, die das Marktgeschehen beeinflussen könnte ausgewählten Personen vorbehalten werden.
+			Damit das Markteschen nicht durch jede Person beeinflusst werden kann, soll die Anwendung durch ein Login geschützt werden. So können nur dedizierte Personen Szenarien auswählen und wichtige Marktfaktoren beeinflussen. Denkbar wäre hierdurch auch das Verteilen von Berechtigungen. So ließe es sich sinnvoll umsetzen, dass Informationen über das durch die Simulation gehandelte Order Volumen und Preise für alle einsehbar machen und schreibende Operationen, die das Marktgeschehen beeinflussen könnte ausgewählten Personen vorbehalten werden.
 		
 		\item Auswahl vordefinierter Szenarien: \\
-			Es soll eine Liste an vordefinierten Szenarien geben. Diese Szenarien können bestimmte Ereignisse sein, wie der Rücktritt einzelner Vorstandsmitglieder, auf die der Markt in einem vorher definierten Rahmen reagiert. Diese Reaktion soll automatisch mit dem Beginn des nächsten Szenarios durch die Simulation auf den Markt übertragen werden.
+			Es soll eine Liste an vordefinierten Szenarien geben. Diese Szenarien können bestimmte Ereignisse sein, wie der Rücktritt einzelner Vorstandsmitglieder, auf die der Markt in einem vorher definierten Rahmen reagiert. Diese Reaktion soll automatisch mit dem Beginn des nächsten Szenarien durch die Simulation auf den Markt übertragen werden.
 			
 		\item Übersicht über die gerade gehandelten Trades: \\
 			Es sollte eine graphische Übersicht geben, die einen Überblick über die aktuell gehandelten Volumina und Preise verschafft. So soll es ermöglicht werden einen besseren Einblick zu bekommen, was die Simulation gerade macht und wie die durch die Szenarien gewünschten Effekte am Markt erreicht werden.
@@ -29,7 +29,7 @@ Da dieses Projekt ohne Rahmenbedingungen und Abhängigkeiten zu vorhandenen Syst
 		\item Reaktion auf Marktgeschehen durch Privat- und Unternehmensbroker: \\
 			Um die Simulation möglichst realistisch zu gestalten, muss auch das Verhalten und die Trades der anderen Marktteilnehmer, also der Privat- und Unternehmensbroker berücksichtigt werden, Wichtig ist hier jedoch, das nicht eine einzelne Transaktion eines Privatkundens schon die Marktpreise zum Schwanken bringt, sondern dass Transaktionen erst eine kritische Masse erreichen müssen um wirklich auf dem Markt ins Gewicht zu fallen. 
 			
-		\item Anpassung der Dauer eines Szenarios: \\
+		\item Anpassung der Dauer eines Szenarien: \\
 			Um das schnelle Testen von Anlagestrategien zu ermöglichen soll die Länge der Szenarien skalierbar sein. 
 			
 		\item Anzahl der Trades, Mengengerüst: \\
@@ -65,7 +65,7 @@ Da dieses Projekt ohne Rahmenbedingungen und Abhängigkeiten zu vorhandenen Syst
 			F4      & Es sollen vordefinierte Szenarien für diverse Kursverläufe ausgewählt werden können \\
 			F5      & Events, die das Marktgeschehen beeinflussen sollen aktiv kommuniziert werden  \\
 			F6      & Es soll auf das Marktgeschehen durch andere Privat- und Unternehmensbroker reagiert werden  \\
-			F7      & Die Zeiteinheiten und somit die Dauer eines Szenarios sollte angepasst werden können  \\
+			F7      & Die Zeiteinheiten und somit die Dauer eines Szenarien sollte angepasst werden können  \\
 			F8		& Die Anzahl der Trades soll beeinflusst werden können \\\hline
 			NF1     & Anwendung lädt schnell                    \\
 			NF2     & Die Anwendung ist vor allem in Bezug auf die Anzahl der Trades skalierbar                \\
