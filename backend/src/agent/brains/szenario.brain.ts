@@ -75,7 +75,8 @@ export class SzenarioBrain extends Brain {
 
         const totalDuration = differenceInSeconds(this.startDate, this.endDate);
         const progressDuration = differenceInSeconds(this.startDate, time);
-        this.finishedPercent = (progressDuration / totalDuration) * 100;
+        this.finishedPercent =
+          100 * Math.min(1, progressDuration / totalDuration);
 
         if (!datapoint) return;
 
