@@ -39,8 +39,8 @@ Wie in \autoref{sec:Architektur} beschrieben kümmert sich der Backend Server um
 
 Im Kern basiert die Szenarioausführung bildet auf einem Agenten-Ansatz. Agenten sind Computerelemente, die sich in bestimmten Umgebungen befinden und in der Lage sind eigenständige Entscheidungen zu treffen. Die Umgebung ist dabei der Aktienmarkt.
 Da ein hoher Fokus auf eine realitätsnahe Simulation gelegt wird, orientiert sich die Implementierung dieser Agenten an einem Black-Box-Modell.
-Wie in der Realität haben alle Agenten eigenständige Strategien und können sich jederzeit frei entscheiden wann welche Order erstellt wird. Dafür haben die Agenten ein eigenes, asynchroner Gehirn.
-Weder andere Agenten noch der Server haben informationen über das aktuelle Geschehen.
+Wie in der Realität haben alle Agenten eigenständige Strategien und können sich jederzeit frei entscheiden wann welche Order erstellt wird. Dafür haben die Agenten ein eigenes, asynchrones Gehirn.
+Weder andere Agenten noch der Server haben Informationen über das aktuelle Handeln eines einzelnen Agenden.
 
 Sobald die Anfrage durch die \ac{API} im Server eingetroffen ist startet der Server direkt mit der Szenarioausführung. Dafür existiert ein Life-cycle, der mehrere Schritte nacheinander durchläuft (vergleiche \enquote{Endlicher Automat}):
 
@@ -52,11 +52,11 @@ Sobald die Anfrage durch die \ac{API} im Server eingetroffen ist startet der Ser
     \item Szenario wird gestartet\\
         Über die \ac{API} wurde der Start eines Szenario angefordert und der Server initialisiert das Szenario.
         \begin{enumerate}
-            \item Agenten initialisierung\\
+            \item Agenten Initialisierung\\
                 Die Agenten werden erstellt und bekommen ihre Logik.
             \item Markt initialisierung\\
-                Die Marktüberwachtung wird gestartet, sodass die Agenten informationen über den aktuellen Aktienpreis haben.
-            \item Daten initialisierung\\
+                Die Marktüberwachung wird gestartet, sodass die Agenten Informationen über den aktuellen Aktienpreis haben.
+            \item Daten Initialisierung\\
                 Die Agenten werden mit Daten, z.\,B. den Szenarieninformationen oder anderen Einstellungen befüllt.
             \item Agenten beleben\\
                 Die Agenten werden belebt, sodass diese mit ihrer Logik beginnen und Orders erstellen.
