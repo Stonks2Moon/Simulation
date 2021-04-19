@@ -1,9 +1,8 @@
 import { HttpModule, Module } from '@nestjs/common';
-import { BaselineService } from 'src/baseline/baseline.service';
 import { MarketService } from './market.service';
 
 @Module({
-  providers: [MarketService, BaselineService],
+  providers: [MarketService,],
   exports: [MarketService],
   imports: [HttpModule]
 })
