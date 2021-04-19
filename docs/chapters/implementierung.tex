@@ -53,11 +53,12 @@ Sobald die Anfrage durch die \ac{API} im Server eingetroffen ist startet der Ser
         Über die \ac{API} wurde der Start eines Szenario angefordert und der Server initialisiert das Szenario.
         \begin{enumerate}
             \item Agenten Initialisierung\\
-                Die Agenten werden erstellt und bekommen ihre Logik.
+                Die Agenten werden erstellt und bekommen ihre Logik. Dafür werden neue Instanzen dieser Agenten erstellt. Zusätlich wird ihnen ein Verhalten zugewiesen, welches sie später ausführen sollen.
             \item Markt initialisierung\\
                 Die Marktüberwachung wird gestartet, sodass die Agenten Informationen über den aktuellen Aktienpreis haben.
             \item Daten Initialisierung\\
                 Die Agenten werden mit Daten, z.\,B. den Szenarieninformationen oder anderen Einstellungen befüllt.
+                Möglich wäre hier auch eine Implementierung von existierenden Depots dieser Agenten.
             \item Agenten beleben\\
                 Die Agenten werden belebt, sodass diese mit ihrer Logik beginnen und Orders erstellen.
         \end{enumerate}
@@ -66,6 +67,11 @@ Sobald die Anfrage durch die \ac{API} im Server eingetroffen ist startet der Ser
     \item Szenario wird gestoppt\\
         Alle Agenten werden aufgefordert ihr Verhalten zu stoppen und das Szenario wird beendet.
 \end{enumerate}
+
+
+Da dieser Life-cycle bereits einige Schritte hat, ergibt sich eine erhöhte Komplexität, welches die Implementierung verlangsamen könnte.
+Um dies vorzubeugen wurde der Code so gestaltet, dass es mit sehr geringem Aufwand möglich ist neue Verhalten für Agenten zu implementieren. So gibt es innerhalb des Quellcodes eine zentral Schnittstelle die eingebunden wird. Dies ist als eine abstrakte Klasse definiert. Sobald Entwickler diese benutzen, wird von der Entwicklungsumgebung bereits sämtlicher Code generiert. Zusätzlich ist diese Schnittstelle ausführlich innerhalb des Quellcodes dokumentiert, wodurch Entwickler bereits während des Entwickelns über IntelliSense ausführliche Informationen über die richtige Verwendung bekommen.
+
 
 Für die Szenarioumsetzung ist primär das Szenario-Gehirn zuständig. Desen Entscheidungsprozess läuft kontinuierlich nach dem folgendem Muster ab:
 \begin{enumerate}
