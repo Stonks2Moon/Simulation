@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   selectedSzenario: number | null = null;
   token: string | null = null;
 
-  speedMultiplicator = 60;
+  speedMultiplicator = 10;
 
   progress = 0;
   progressSubscription: Subscription | null = null;
