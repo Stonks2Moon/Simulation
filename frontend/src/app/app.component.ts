@@ -15,6 +15,7 @@ type Stock = {
 export type Szenario = {
   id: number;
   name: string;
+  message: string;
   data: { time: string; volume: number; delta: number }[];
 };
 
@@ -60,6 +61,16 @@ export class AppComponent implements OnInit {
   }
 
   async start() {
+    const stockname = this.stocks.find(stock => stock.id === this.selectedStock)?.name;
+
+    const messages = [
+      `${stockname}: Ein ganz normaler Handelstag.`,
+      `Elon Musk twitterte über #${stockname}!`,
+      `${stockname} besitzt zur Zeit ein geringes Handelsvolumen.`,
+      `Breaking News: ${stockname} wird übernommen!`,
+      `${stockname} erfährt sehr hohes Handelsvolumen.`
+    ]
+
     await this.http
       .post(
         environment.simulation_url + 'szenarios',
@@ -67,6 +78,7 @@ export class AppComponent implements OnInit {
           szenario: this.selectedSzenario,
           stock: this.selectedStock,
           speedMultiplicator: this.speedMultiplicator,
+          message: messages[this.selectedSzenario as number]
         },
         {
           headers: {

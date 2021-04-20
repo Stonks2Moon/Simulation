@@ -6,6 +6,7 @@ import { from } from 'rxjs';
 import { filter, map, mergeAll, switchMap, tap, toArray } from 'rxjs/operators';
 import { Agent } from 'src/agent/models/agent.model';
 import { AgentService } from 'src/agent/services/agent.service';
+import { NewsService } from 'src/news/news.service';
 import { SzenarioStartDto } from './szenarioStart.dto';
 
 const SZENARIO_FOLDER = join(__dirname, '../assets/szenarios');
@@ -53,7 +54,10 @@ export class SzenarioService {
   private runningSzenario: number;
   private szenarioAgents: Agent[] = [];
 
-  constructor(private readonly agentService: AgentService) {
+  constructor(
+    private readonly agentService: AgentService,
+    private readonly newsService: NewsService
+  ) {
     this.loadSzenarios();
   }
 
@@ -96,6 +100,9 @@ export class SzenarioService {
 
     this.isRunningSzenario = true; //TODO: Ende des szenarios
     this.runningSzenario = szenario.szenario;
+
+    await this.newsService.sendNews(szenario.message);
+
     const agent = await this.agentService.agentFactory(
       'szenario',
       this.getSzenario(szenario.szenario).data,
