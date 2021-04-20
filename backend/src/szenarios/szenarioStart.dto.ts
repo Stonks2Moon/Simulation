@@ -15,4 +15,9 @@ export class SzenarioStartDto {
     description: 'How fast the szenario should be executed',
   })
   speedMultiplicator: number;
+
+  @ApiProperty({
+    description: 'Which message should be sent into the news channel',
+  })
+  message: string;
 }
