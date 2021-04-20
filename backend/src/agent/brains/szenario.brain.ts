@@ -90,9 +90,9 @@ export class SzenarioBrain extends Brain {
         const volume = datapoint.volume;
         console.log(currentMarket, target);
 
-        const matchingVolume = Math.floor(0.4 * volume);
-        const limitSellVolume = Math.floor(0.1 * volume);
-        const limitBuyVolume = Math.floor(0.1 * volume);
+        const matchingVolume = Math.floor(0.5 * volume);
+        // const limitSellVolume = Math.floor(0.1 * volume);
+        // const limitBuyVolume = Math.floor(0.1 * volume);
 
         this.marketService.placeOrder({
           stockCount: matchingVolume,
@@ -110,25 +110,25 @@ export class SzenarioBrain extends Brain {
           token: this.token,
         });
 
-        for (let i = 0; i < 10; i++) {
-          this.marketService.placeOrder({
-            stockCount: Math.max(1, limitBuyVolume / 10),
-            aktenId: this.stock,
-            operation: OperationType.BUY,
-            price: target - Math.random(),
-            token: this.token,
-          });
-        }
+        // for (let i = 0; i < 10; i++) {
+        //   this.marketService.placeOrder({
+        //     stockCount: Math.max(1, limitBuyVolume / 10),
+        //     aktenId: this.stock,
+        //     operation: OperationType.BUY,
+        //     price: target - Math.random(),
+        //     token: this.token,
+        //   });
+        // }
 
-        for (let i = 0; i < 10; i++) {
-          this.marketService.placeOrder({
-            stockCount: Math.max(1, limitSellVolume / 10),
-            aktenId: this.stock,
-            operation: OperationType.SELL,
-            price: target + Math.random(),
-            token: this.token,
-          });
-        }
+        // for (let i = 0; i < 10; i++) {
+        //   this.marketService.placeOrder({
+        //     stockCount: Math.max(1, limitSellVolume / 10),
+        //     aktenId: this.stock,
+        //     operation: OperationType.SELL,
+        //     price: target + Math.random(),
+        //     token: this.token,
+        //   });
+        // }
       });
   }
 
