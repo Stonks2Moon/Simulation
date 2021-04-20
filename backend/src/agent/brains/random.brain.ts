@@ -39,16 +39,16 @@ export class RandomBrain extends Brain {
         const operation =
           Math.random() > 0.5 ? OperationType.BUY : OperationType.SELL;
 
-        this.marketService.placeOrder({
-          aktenId: this.stock,
-          price:
-            v +
-            (operation === OperationType.BUY ? Math.random() : -Math.random()),
-          stockCount: Math.ceil(Math.random() * 100),
-          operation,
+        // this.marketService.placeOrder({
+        //   aktenId: this.stock,
+        //   price:
+        //     v +
+        //     (operation === OperationType.BUY ? Math.random() : -Math.random()),
+        //   stockCount: Math.ceil(Math.random() * 100),
+        //   operation,
 
-          token: this.token,
-        });
+        //   token: this.token,
+        // });
       });
   }
 
