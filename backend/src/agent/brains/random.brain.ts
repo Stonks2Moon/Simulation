@@ -43,7 +43,7 @@ export class RandomBrain extends Brain {
           aktenId: this.stock,
           price:
             v +
-            (operation === OperationType.SELL ? Math.random() : -Math.random()),
+            (operation === OperationType.BUY ? Math.random() : -Math.random()),
           stockCount: Math.ceil(Math.random() * 100),
           operation,
 
