@@ -35,12 +35,18 @@ export class RandomBrain extends Brain {
         this.logger.log(
           `Agent ${this.agent.id} with brain ${this.constructor.name} creates an order`,
         );
+
+        const operation =
+          Math.random() > 0.5 ? OperationType.BUY : OperationType.SELL;
+
         this.marketService.placeOrder({
           aktenId: this.stock,
-          price: Math.random() + v,
+          price:
+            v +
+            (operation === OperationType.SELL ? Math.random() : -Math.random()),
           stockCount: Math.ceil(Math.random() * 100),
-          operation:
-            Math.random() > 0.5 ? OperationType.BUY : OperationType.SELL,
+          operation,
+
           token: this.token,
         });
       });
