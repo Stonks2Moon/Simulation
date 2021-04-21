@@ -80,7 +80,7 @@
       "main.ts"
     ],
     "coverageReporters": [
-      "html"
+      "text"
     ],
     "coverageDirectory": "../../docs/coverage",
     "testEnvironment": "node"

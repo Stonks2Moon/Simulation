@@ -1,10 +1,8 @@
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { BaselineService } from '../baseline/baseline.service';
 import { MarketService, OperationType, PlaceOrderInput } from './market.service';
 import { createHash } from 'crypto';
-import { filter, take } from 'rxjs/operators';
-import { of, Subscription } from 'rxjs';
+import { of } from 'rxjs';
 import { HttpService } from '@nestjs/common';
 
 const generateMockOrder = (): PlaceOrderInput => {
@@ -30,7 +28,7 @@ describe('MarketService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule],
-      providers: [MarketService, BaselineService, {
+      providers: [MarketService, {
         provide: HttpService,
         useValue: ({
           get: of,
