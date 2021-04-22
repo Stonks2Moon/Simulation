@@ -90,9 +90,9 @@ export class SzenarioBrain extends Brain {
         const volume = datapoint.volume;
         console.log(currentMarket, target);
 
-        const matchingVolume = Math.floor(0.4 * volume);
-        const limitSellVolume = Math.floor(0.1 * volume);
-        const limitBuyVolume = Math.floor(0.1 * volume);
+        const matchingVolume = Math.floor(0.49 * volume);
+        const limitSellVolume = Math.floor(0.01 * volume);
+        const limitBuyVolume = Math.floor(0.01 * volume);
 
         this.marketService.placeOrder({
           stockCount: matchingVolume,
