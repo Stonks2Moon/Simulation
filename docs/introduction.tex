@@ -2,5 +2,38 @@
 \chapter{Einleitung}
 \section{Motivation und Zielsetzung}
 
+	
+	Im Rahmen der Vorlesung \enquote{Projekt} des WWI18SEAC Kurses ist eine fiktionale Börse exemplarisch als Projekt mit unterschiedlichen Projektteams realisiert worden. Die verschiedenen Funktionen des Wertpapierhandels liegen in dem Verantwortungsbereich von unterschiedlichen Teams. Ein Vorlesungsfokus stellt die Koordination und Integration der Gruppen untereinander dar, wobei auch auf fachliche Korrektheit der behandelten Sachverhalte zu achten ist.\\
+	Diese Arbeit stellt die Tätigkeiten des \enquote{Simulation}-Teams dar. Das Ziel der Simulation sind realistische Marktsituationen für unterschiedliche Wertpapiere darzustellen. Simulierte Kursverläufe sollen realitätsnah verschiedene Ordertypen aufweisen und Preisentwicklungen in verschiedenen Ausmaßen nach beinhalten. \\
+	Andere Projektteams realisieren die Funktionalitäten von der zentralen Börse, von einem Privatbroker und von einem Geschäftsbroker. Die simulierten Kurse reagieren auf den Handel von unterschiedlichen Handelsteilnehmer, was für ein realistisches Marktverhalten notwendig ist.\\
+	Als Grundlage für Kursentwicklungen dienen Szenarien, die dem Kursverlauf der SAP-Aktie aus den letzten zwei Jahren entnommen wurden. Hierbei wurde auf Kursdaten der NASDAQ-Börse zurückgegriffen, da diese umfänglich und kostenfrei zur Verfügung stehen. Bei den deutschen Handelsplätzen war dies im Gegensatz nicht der Fall. Die entnommenen Kursverläufe richten sich an unterschiedlichen Ereignissen, um ein möglichst breites Spektrum von Marktverhalten abzudecken.\\
+	Das Ziel der Vorlesung ist die Zusammenarbeit von unterschiedlichen Teams innerhalb eines Projekts mit einem gemeinsamen Projektergebnis zu vermitteln und Grundlegende Verhaltensweisen aufzuzeigen. Das Ziel des Projektes selbst ist, unter Beachtung der fachlichen Korrektheit des Börsenhandels, eine funktionierende Börsenplattform zu realisieren.
+
 
 \section{Aufbau der Arbeit}
+
+	% Theorie
+	% Fama
+	% Szenarien
+	
+	Die Arbeit beginnt mit den theoretischen Ansätzen zur Erstellung der unterschiedlichen Kursverläufe. Erste Überlegungen beschäftigten sich mit dem Fama-French-Dreifaktorenmodell. Bei diesem Modell wird eine Aktienrendite vorhergesagt, welche mithilfe von Marktfaktoren und unterschiedlichen Unternehmens- und Kurseigenschaften berechnet wird. Die Handlungen eines Marktes könnten einer solchen Aktienrendite folgen.\\
+	Diese Renditeberechnung war im Rahmen der Simulation schwierig umzusetzen, wodurch die Entscheidung gefallen ist, diesen Ansatz zu verwerfen. Das Fama-French-Dreifaktorenmodell benötigt zur Berechnung den Unternehmensbuchwert, welcher über die Bilanz von Aktiengesellschaften auszuweisen ist. Diesen realistisch zu simulieren stellte die größte Hürde bei einer Verwendung des Fama-French-Modells dar. \\
+	Als einfacher umzusetzende Alternative ist ein Ansatz verfolgt worden, welcher auf Szenarien beruht und mit vordefinierten Daten umgesetzt ist. Historische Kursdaten sind der NASDAQ-Börse entnommen und die ausgewählten Markttage orientieren sich an unterschiedlichen realen Marktsituationen. Diese variieren von einem verkürzten Handelstag (an Heiligabend wird halbtags gehandelt) bis hin zu einer desaströsen Bilanzveröffentlichung, durch welche ein Massenverkauf und einem damit einhergehenden Kurseinbruch ausgelöst wird.
+	
+	% Anforderungsanalyse
+	% Funktionale Anforderungen
+	% Nicht Funktionale Anforderungen
+	% Begrenzung von theoretischen Grundlagen
+	% Anforderungen an andere Teams
+	
+	Im darauf folgenden Kapitel wird aus den bereits genannten thematischen Rahmenbedingungen Anforderungen an die Simulation abgeleitet. Diese sind zwischen funktionalen und nicht-funktionalen Anforderungen zu unterscheiden. Folglich werden die theoretischen Ansätze in Verbindung mit den herausgearbeiteten Anforderungen kritisch betrachtet und gegebenenfalls eingeschränkt. Als Abschluss dieses Kapitels sind Anforderungen an andere Projektteams dokumentiert.
+	
+	% Konzeption
+	
+	Im Rahmen der Konzeption wird die technischen Umsetzung näher erläutert und konkrete Vorgehensweisen dargestellt. Als Grundlage für die Konzeption dienen die bereits dokumentierten Anforderungen aus dem vorherigen Kapitel. Die entsprechende Konzeption soll funktionale und nicht-funktionale Anforderungen realisieren und Schnittstellen beinhalten, um die Inhalte von Anforderungen an andere Projektteams integrieren zu können. Hauptbestandteile der Konzeption sind das Vorgehen bei unterschiedlichen Szenarien und wie aus diesen Szenarien konkrete Orders abgeleitet werden. Des Weiteren wird konkret Bezug darauf genommen, wie der Einfluss von anderen Marktteilnehmern die Orders des simulierten Marktes beeinflussen.
+	
+	Darauffolgend ist die konkrete Implementierung dokumentiert, wobei die verwendeten Schnittstellen eine besondere Bedeutung haben.\\
+	Als inhaltlich letztes Kapitel ist das Nutzerhandbuch ein Anleitung zur Verwendung des entwickelten Codes, um die gezeigten Funktionalitäten nachvollziehen zu können. Hiermit soll die Simulation in Verbindung mit den anderen Projektbestandteilen auch von Dritten rekonstruiert werden können.
+	
+	Das abschließende Kapitel dieser Dokumentation stellt die Zusammenfassung dar, die einen Überblick über die erbrachten Projektteamleistungen bringen soll und auf die Projektergebnisse kritisch Bezug nimmt.
+	
