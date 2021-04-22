@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SzenarioController } from './szenario.controller';
 import { SzenarioService } from './szenario.service';
+import { SzenarioStartDto } from './szenarioStart.dto';
 
 const mockSzenarios = { id: 1, name: 'testszenario', data: [] };
 
@@ -16,7 +17,9 @@ describe('SzenarioController', () => {
           useValue: {
             getSzenarioProgress: async () => 0,
             get: (id?: number) => mockSzenarios,
-          } as SzenarioService,
+            runSzenario: jest.fn,
+            stopCurrentSzenario: jest.fn,
+          },
         },
       ],
     }).compile();
@@ -36,6 +39,20 @@ describe('SzenarioController', () => {
 
   it('should get szenario progress', async () => {
     const p = await controller.getSzenarioProgress();
-    expect(p).toBe(0)
+    expect(p).toBe(0);
+  });
+
+  it('should start a szenario if needed and reject if no auth', async () => {
+    expect(() =>
+      controller.runSzenario(new SzenarioStartDto(), null),
+    ).toThrowError();
+
+    expect(
+      controller.runSzenario(new SzenarioStartDto(), 'some Auth'),
+    ).toBeTruthy();
+  });
+
+  it('should stop currrent scenarios', () => {
+    expect(controller.stopCurrentSzenario()).toBeTruthy()
   });
 });
