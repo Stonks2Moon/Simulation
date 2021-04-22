@@ -2,10 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
-import { from } from 'rxjs';
-import { filter, map, mergeAll, switchMap, tap, toArray } from 'rxjs/operators';
-import { Agent } from 'src/agent/models/agent.model';
-import { AgentService } from 'src/agent/services/agent.service';
+import { Agent } from '../agent/models/agent.model';
+import { AgentService } from '../agent/services/agent.service';
 import { SzenarioStartDto } from './szenarioStart.dto';
 
 const SZENARIO_FOLDER = join(__dirname, '../assets/szenarios');
