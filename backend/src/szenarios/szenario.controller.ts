@@ -4,16 +4,12 @@ import {
   Get,
   Headers,
   HttpCode,
-  HttpStatus,
-  Param,
-  ParseIntPipe,
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
 import {
   ApiBody,
   ApiOperation,
-  ApiProduces,
   ApiResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -41,7 +37,10 @@ export class SzenarioController {
     status: 200,
     type: Number,
   })
-  @ApiOperation({ description: 'Gets the execution state of a szenario in percent. 100 means its a the szenario is finished' })
+  @ApiOperation({
+    description:
+      'Gets the execution state of a szenario in percent. 100 means its a the szenario is finished',
+  })
   public async getSzenarioProgress() {
     return this.szenarioService.getSzenarioProgress();
   }
