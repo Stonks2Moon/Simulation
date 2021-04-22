@@ -19,11 +19,10 @@ Da dieses Projekt ohne Rahmenbedingungen und Abhängigkeiten zu vorhandenen Syst
 					\item Skalierfaktor, der Bestimmt wie lange ein ausgewähltes Szenario abläuft
 					\item Anzahl der zur Verfügung stehenden Wertpapiere
 					\item Anzahl der Trades pro Stunde
-					\item tbd.
 				\end{itemize}
 			
 		\item Kommunikation von Events: \\
-			Bestimmte Ereignisse beeinflussen das Marktgeschen. Damit Privatkunden und Unternehmen, die an der Börse handeln entsprechend ihren Interessen reagieren können, müssen sie über solche Ereignisse aktiv informiert werden. Ob und wie sie auf diese Nachrichten reagieren bleibt ihnen selbst überlassen.
+			Bestimmte Ereignisse beeinflussen das Marktgeschehen. Damit Privatkunden und Unternehmen, die an der Börse handeln entsprechend ihren Interessen reagieren können, müssen sie über solche Ereignisse aktiv informiert werden. Ob und wie sie auf diese Nachrichten reagieren bleibt ihnen selbst überlassen.
 			
 		\item Reaktion auf Marktgeschehen durch Privat- und Unternehmensbroker: \\
 			Um die Simulation möglichst realistisch zu gestalten, muss auch das Verhalten und die Trades der anderen Marktteilnehmer, also der Privat- und Unternehmensbroker berücksichtigt werden, Wichtig ist hier jedoch, das nicht eine einzelne Transaktion eines Privatkundens schon die Marktpreise zum Schwanken bringt, sondern dass Transaktionen erst eine kritische Masse erreichen müssen um wirklich auf dem Markt ins Gewicht zu fallen. 
@@ -52,8 +51,7 @@ Da dieses Projekt ohne Rahmenbedingungen und Abhängigkeiten zu vorhandenen Syst
 		\item Zero Downtime Deployment: \\
 			Um den Handel für ein anstehendes Release nicht unterbrechen zu müssen, muss diese Anwendung Zero Downtime Deployments ermöglichen. So können sämtliche Software Änderungen unabhängig der Tageszeit oder des Handelsvolumen eingespielt werden können. 
 	\end{itemize}
-\section{Begrenzung von theoretischen Grundlagen}
-	%TODO: Haben wir hier irgendwelche theoretischen Grundlagen zu Begrenzen?
+
 \section{Zusammenfassung}
 	%TODO: Die Tabelle hier springt immer auf die nächste Seite um. Sollten wir noch fixen!
 	\begin{table}[ht!]
@@ -81,13 +79,15 @@ Da dieses Projekt ohne Rahmenbedingungen und Abhängigkeiten zu vorhandenen Syst
 	
 	\textbf{GET-Requests}
 		\begin{itemize}
-			\item aktueller Preis eines Wertpapieres
+			\item aktueller Preis eines Wertpapiers
+			\item im Handel befindliche Wertpapiere
 		\end{itemize}
 	\textbf{POST-Requests}
 		\begin{itemize}
 			\item Order einstellen
+			\item Börsennachricht versenden
 		\end{itemize}
-	\textbf{aktive Benachrichtungen} z.B. über Sockets oder über mit der Transaktion mitgegebenen Links
+	\textbf{Aktive Benachrichtigungen} z.B. über Sockets oder über mit der Transaktion mitgegebenen Links
 		\begin{itemize}
 			\item Buchung der Order
 			\item Handel unterbelichten
