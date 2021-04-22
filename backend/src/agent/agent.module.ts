@@ -7,5 +7,6 @@ import { MarketModule } from '../market/market.module';
 @Module({
   imports: [MarketModule],
   providers: [AgentService, BrainService],
+  exports: [AgentService]
 })
 export class AgentModule {}

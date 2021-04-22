@@ -22,9 +22,9 @@ export class AgentService {
     this._agents.next([agent, ...currentAgents]);
   }
 
-  async agentFactory(funds: number, brain: string) {
+  async agentFactory(brain: string, ...data: any[]) {
     const agent = new Agent();
-    agent.brain = await this.brainService.brainFactory(agent, brain);
+    agent.brain = await this.brainService.brainFactory(agent, brain, ...data);
     return agent;
   }
 }

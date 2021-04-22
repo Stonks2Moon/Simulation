@@ -1,18 +1,18 @@
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { BaselineService } from '../baseline/baseline.service';
-import { MarketService, OrderType, PlaceOrderInput } from './market.service';
+import { MarketService, OperationType, PlaceOrderInput } from './market.service';
 import { createHash } from 'crypto';
-import { filter, take } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { of } from 'rxjs';
+import { HttpService } from '@nestjs/common';
 
 const generateMockOrder = (): PlaceOrderInput => {
   return {
     aktenId: 'Testaktie',
-    type: OrderType.SELL,
+    token: '',
     price: 200,
     stockCount: 6000,
     subsequentOrders: [],
+    operation: OperationType.SELL
   };
 };
 
@@ -28,7 +28,13 @@ describe('MarketService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule],
-      providers: [MarketService, BaselineService],
+      providers: [MarketService, {
+        provide: HttpService,
+        useValue: ({
+          get: of,
+          post: of
+        })
+      }],
     }).compile();
 
     service = module.get<MarketService>(MarketService);
@@ -86,33 +92,5 @@ describe('MarketService', () => {
     );
 
     expect(service.orderQueue.size).toEqual(1);
-  });
-
-  it('should generate new market data every second', (done) => {
-    let counter = 0;
-    service.onInformationAvailable
-      .pipe(
-        filter((v) => !!v),
-        take(2),
-      )
-      .subscribe({
-        next: (v) => {
-          counter++;
-        },
-        complete: () => {
-          expect(counter).toEqual(2);
-          done();
-        },
-      });
-  });
-
-  it('should properly shutdown open subscriptions', () => {
-    const sub = (service as any).refreshSubscription as Subscription;
-
-    expect(sub.closed).toBeFalsy();
-
-    service.beforeApplicationShutdown();
-
-    expect(sub.closed).toBeTruthy();
   });
 });
