@@ -23,7 +23,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{calc} % Used for extra space below footsepline
-\usepackage{acronym}
+\usepackage[nolist]{acronym}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{setspace}
@@ -82,8 +82,8 @@
 	basicstyle=\ttfamily\small}
 
 %	ALGORITHMS
-\renewcommand{\listalgorithmname}{Algorithmenverzeichnis }
-\floatname{algorithm}{Algorithmus}
+%\renewcommand{\listalgorithmname}{Algorithmenverzeichnis }
+%\floatname{algorithm}{Algorithmus}
 
 %		PAGE HEADER / FOOTER
 %	    Warning: There are some redefinitions throughout the master.tex-file!  DON'T CHANGE THESE REDEFINITIONS!
@@ -142,10 +142,10 @@
 	%	Abbildungsverzeichnis
 	\listoffigures
 	%	Tabellenverzeichnis
-	\listoftables
+	% \listoftables
 	%	Listingsverzeichnis / Quelltextverzeichnis
-	\lstlistoflistings
-	% Algorithmenverzeichnis
+	% \lstlistoflistings
+	% Algorithmenverzeichnis 
 	% \listofalgorithms
 }
 
