@@ -2,27 +2,10 @@
 \chapter{Implementierung}
 
 \section{Schnittstellen}
-Die Simulation nutzt verschiedene Schnittstellen und bietet selbst auch einige an. Besonders durch die Aufteilung der Simulation in Frontend- und Backend-Server sind Schnittstellen notwendig.
-Das Frontend nutzt dabei die Schnittstellen anderer Teams (vgl. \autoref{sec:otherTeams}) und des Backend-Servers.
+//TODO @aaron
+// TODO: https://simulation.moonstonks.space/docs/
 
-Die Schnittstellen der Börse sind in \href{https://boerse.moonstonks.space/docs/}{https://boerse.moonstonks.space/docs/} und die Schnittstellen der Simulation in \href{https://simulation.moonstonks.space/docs/}{https://simulation.moonstonks.space/docs/} dokumentiert.
-
-Die Simulation bietet dabei besonders die drei nachfolgenden Schnittstellen an:
-\begin{itemize}
-    \item Verfügbare Szenarios\\
-        Gibt alle verfügbaren Szenarios zurück. Jedes Szenario gibt den Namen und die einzelnen Datenpunkte zurück, die bezogen auf die Uhrzeit die Kursveränderungen definieren.
-    \item Szenario starten\\
-        Diese Schnittstelle kann genutzt werden um ein Szenario zu starten.
-    \item Szenario Status abfragen\\
-        Diese Schnittstelle diehnt zur Abfrage, wie weit fortgeschritte ein Szenario ist. Hierbei wird ein Prozent-Wert zurückgegeben, der die simulierte Zeit repräsentiert. Sollte kein Szenario im Gange sein, gibt diese 100 zurück.
-    \item Szenario stoppen\\
-        Mit dieser Schnittstelle kann ein Szenario gestoppt werden. Die Simulation unterbricht alle ihre Orders und geht in einen Leerlauf.
-\end{itemize}
-
-% TODO: Das hier vielleicht in ein eigenes CI Kapitel verschieben?
-Interne Schnittstellen und Funktionalitäten werden auserdem getestet.
-Dafür ist eine Pipeline definiert, welche bei jeder Anpassung des Quellcodes diesen auf Fehler überprüft.
-Die Ergebnisse werden anschlißend unter \href{https://stonks2moon.github.io/Simulation/coverage/}{https://stonks2moon.github.io/Simulation/coverage/} publiziert.
+// TODO: https://stonks2moon.github.io/Simulation/coverage/
 
 \section{Architektur}\label{sec:Architektur}
 \begin{figure}[ht]
@@ -107,6 +90,8 @@ Für die Szenarioumsetzung ist primär das Szenario-Gehirn zuständig. Desen Ent
     \label{fig:Sequenzdiagramm}
 \end{figure}
 
+// TODO: Hier eine State Machine
+// TODO: Definition Agenten und alles 
 
 \section{User Interface}
 //TODO: @aaron
