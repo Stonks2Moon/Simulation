@@ -1,6 +1,10 @@
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { MarketService, OperationType, PlaceOrderInput } from './market.service';
+import {
+  MarketService,
+  OperationType,
+  PlaceOrderInput,
+} from './market.service';
 import { createHash } from 'crypto';
 import { of } from 'rxjs';
 import { HttpService } from '@nestjs/common';
@@ -12,7 +16,7 @@ const generateMockOrder = (): PlaceOrderInput => {
     price: 200,
     stockCount: 6000,
     subsequentOrders: [],
-    operation: OperationType.SELL
+    operation: OperationType.SELL,
   };
 };
 
@@ -28,13 +32,16 @@ describe('MarketService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule],
-      providers: [MarketService, {
-        provide: HttpService,
-        useValue: ({
-          get: of,
-          post: of
-        })
-      }],
+      providers: [
+        MarketService,
+        {
+          provide: HttpService,
+          useValue: {
+            get: of,
+            post: of,
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<MarketService>(MarketService);
@@ -91,6 +98,22 @@ describe('MarketService', () => {
       'No order for given hash was enqueued',
     );
 
-    expect(service.orderQueue.size).toEqual(1);
+    const rightHash = createHash('md5')
+      .update(JSON.stringify(mockOrder))
+      .digest('hex');
+
+      expect(service.orderQueue.size).toEqual(1);
+      service.processCallback(rightHash);
+      expect(service.orderQueue.size).toEqual(0);
+  });
+
+  it('should call setWatch', async () => {
+    service.setWatch(20, 'Testaktie');
+    await new Promise((res) =>
+      setTimeout(() => {
+        service.beforeApplicationShutdown();
+        res(null);
+      }, 50),
+    );
   });
 });
