@@ -43,7 +43,12 @@ im Orderbuch stehen. Diese Orders sollten immer relativ nahe am aktuellen Kurs s
 Aktie kaufen können und Limit-Orders mit \enquote{komischen} Preisen nicht zum matchen kommen. \\
 Für die Befüllung des Orderbuches werden fünf Buy- und fünf Sell-Limit-Orders jeweils ein paar Prozent über und unter dem aktuellen 
 Preis gesetzt. Dabei wird eine Aufteilung von 80 zu 20 Prozent verwendet, also 80 Prozent des Ordersvolumens einer Minute werden in jeweils 
-in die beiden matchenden Orders aufgeteilt und die restlichen 20 Prozent werden für Orders zum Befüllen des Orderbuches benutzt.
+in die beiden matchenden Orders aufgeteilt und die restlichen 20 Prozent werden für Orders zum Befüllen des Orderbuches benutzt.\\
+Nachdem für die Anzahl der Aktien die Orginaldaten von der Börse verwendet und damit eine sehr hohe Anzahl an Aktien gehandelt werden, ist der Aktienkurs vor 
+privaten Anlegern (Privatbroker) schützt und diese haben keine große Auswirkung auf Preis. Dies bedeutet, dass eine Marktmanipulation durch private Anleger mit 
+einer geringen Anzahl an Aktien nicht möglich ist. Bei den Geschäftskunden kann es unter Umständen dazu führen, dass es einen kleinen Kursanstieg bzw. Kursfall 
+verursacht, wenn eine große Menge an Aktien gekauft bzw. verkauft werden. Dafür müssen jedoch genug Aktien gekauft werden und mehrere Einträge aus dem Orderbuch 
+zu erfüllen und damit einen Preissprung zu erreichen.
 \section{Benachrichtigungen über Marktereignisse}
 Nachdem bei einer Simulation nicht nur die Daten simuliert werden sollen, sondern ein normaler Handelstag, wäre es sinnvoll auch Nachrichten 
 zu dem Unternehmen der Aktie zu veröffentlichen. Dabei können automatisiert Nachrichten über Telegram versendet werden, wenn der Kurs beispielsweise 
@@ -51,5 +56,3 @@ an einer bestimmten Stelle angekommen ist. Für unsere Szenarien wäre zum Beisp
 Gewinneinbruch von 20\%!} sinnvoll zu veröffentlichen. Diese Nachrichten werden dann durch einen Nachrichtenbot versendet und anschließend sollte zu 
 sehen sein, dass der Aktienkurs nach unten geht. Diese Möglichkeit hat den Vorteil für die Marktteilnehmner, dass sie reagieren können und nicht 
 rein spekulativ handeln müssen.
-\section{Berücksichtigung des Handelns anderer Marktteilnehmern}
-TODO: eventuell weglassen, wenn Geschäftskunden keine Auswirkung haben.

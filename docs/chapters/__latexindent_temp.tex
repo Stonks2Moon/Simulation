@@ -1,97 +1,58 @@
 % !TEX root =  ../master.tex
-\chapter{Implementierung}
-
-\section{Schnittstellen}
-//TODO @aaron
-// TODO: https://simulation.moonstonks.space/docs/
-
-// TODO: https://stonks2moon.github.io/Simulation/coverage/
-
-\section{Architektur}\label{sec:Architektur}
-\begin{figure}[ht]
-    \includegraphics[width=\textwidth]{img/architecture.png}
-    \centering
-    \caption{Architektur}
-    \label{fig:architecture}
-\end{figure}
-
-In \autoref{fig:architecture} ist die Architektur der Anwendung dargestellt.
-Alle benötigten Server sind in einem Server-Cluster organisiert.
-Hier werden die Börse, die Kernlogik der Simulation ausgeführt und das Nutzerinterface an den User ausgeliefert. Zentralles Eintrittstor ist dabei ein Reverse-Proxy, welcher die Aufgabe hat, die Daten an die richtigen internen Server weiterzuleiten und Daten, die für den Nutzer sind zu verschlüsseln.
-Innerhalb des Clusters kommunizieren der Simulations-Backend-Server direkt mit der Börse. Dadurch kann dieser Verkehr nicht von außen beeinflusst werden und mögliche Aktieninformationen (beispielsweise welche Person welche Aktie handelt) sind geschützt.
-
-Das Simulations-Frontend dient als grafische Benutzeroberfläche, mit dem das eigentliche Simulations-Backend gesteuert wird. Weitere Informationen dazu finden sich in \autoref{cha:Nutzerhandbuch}.
-
-Unsere Architektur trennt dabei streng die Szenario-Logik vom Nutzerinterface.
-Hat der Nutzer ein Szenario ausgewählt, alle Einstellungen getroffen und das Szenario gestartet, wird eine Anfrage an den Simulations-Backend-Server gesendet. Darauf hin beginnt dieser das entsprechende Szenario auszuführen und mit der Börse zu handeln.
-Dies hat ein paar Vorteile gegenüber der Implementierung sämtlicher Logik innerhalb des Nutzerinterfaces:
-\begin{enumerate}
-    \item Zentrale Nutzersteuerung\\
-        Der Backend-Server kann Ausführungen von Szenarien steuern. So werden beispielsweise Kollisionen vermieden, wenn mehrere Szenarien von verschiedenen Nutzern gestartet werden würden.
-    \item Code-Qualität\\
-        Durch die Trennung der Logik nach dem Separation-of-Concern und Clean-Code Methodiken wird der Quelltext wartbarer.
-    \item Unterbrechungen\\
-        Der Nutzer kann ein Szenario starten, welches eine längere Dauer hat (z.\,B. mehrere Tage). Anschließend muss er nicht seinen COmputer eingeschaltet lassen. Das Szenario wird im Hintergrund ausgeführt.
-\end{enumerate}
-
-\section{Szenario}
-Wie in \autoref{sec:Architektur} beschrieben kümmert sich der Backend Server um die Ausführung der Szenarien.
-
-Im Kern basiert die Szenarioausführung bildet auf einem Agenten-Ansatz. Agenten sind Computerelemente, die sich in bestimmten Umgebungen befinden und in der Lage sind eigenständige Entscheidungen zu treffen. Die Umgebung ist dabei der Aktienmarkt.
-Da ein hoher Fokus auf eine realitätsnahe Simulation gelegt wird, orientiert sich die Implementierung dieser Agenten an einem Black-Box-Modell.
-Wie in der Realität haben alle Agenten eigenständige Strategien und können sich jederzeit frei entscheiden wann welche Order erstellt wird. Dafür haben die Agenten ein eigenes, asynchrones Gehirn.
-Weder andere Agenten noch der Server haben Informationen über das aktuelle Handeln eines einzelnen Agenden.
-
-Sobald die Anfrage durch die \ac{API} im Server eingetroffen ist startet der Server direkt mit der Szenarioausführung. Dafür existiert ein Life-cycle, der mehrere Schritte nacheinander durchläuft (vergleiche \enquote{Endlicher Automat}):
-
-\begin{enumerate}
-    \item Server start\\
-        Der Server wurde gestartet. Ab diesem Zeitpunkt kann der Server anfragen entgegen nehmen.
-    \item Szenarios geladen\\
-        Die Szenarios wurden aus den Quelldaten geladen und können nun gestartet werden.
-    \item Szenario wird gestartet\\
-        Über die \ac{API} wurde der Start eines Szenario angefordert und der Server initialisiert das Szenario.
-        \begin{enumerate}
-            \item Agenten Initialisierung\\
-                Die Agenten werden erstellt und bekommen ihre Logik. Dafür werden neue Instanzen dieser Agenten erstellt. Zusätlich wird ihnen ein Verhalten zugewiesen, welches sie später ausführen sollen.
-            \item Markt initialisierung\\
-                Die Marktüberwachung wird gestartet, sodass die Agenten Informationen über den aktuellen Aktienpreis haben.
-            \item Daten Initialisierung\\
-                Die Agenten werden mit Daten, z.\,B. den Szenarieninformationen oder anderen Einstellungen befüllt.
-                Möglich wäre hier auch eine Implementierung von existierenden Depots dieser Agenten.
-            \item Agenten beleben\\
-                Die Agenten werden belebt, sodass diese mit ihrer Logik beginnen und Orders erstellen.
-        \end{enumerate}
-    \item Szenario wird ausgeführt\\
-        Das Szenario wird aktuell ausgeführt und die Agenten arbeiten.
-    \item Szenario wird gestoppt\\
-        Alle Agenten werden aufgefordert ihr Verhalten zu stoppen und das Szenario wird beendet.
-\end{enumerate}
-
-
-Da dieser Life-cycle bereits einige Schritte hat, ergibt sich eine erhöhte Komplexität, welches die Implementierung verlangsamen könnte.
-Um dies vorzubeugen wurde der Code so gestaltet, dass es mit sehr geringem Aufwand möglich ist neue Verhalten für Agenten zu implementieren. So gibt es innerhalb des Quellcodes eine zentral Schnittstelle die eingebunden wird. Dies ist als eine abstrakte Klasse definiert. Sobald Entwickler diese benutzen, wird von der Entwicklungsumgebung bereits sämtlicher Code generiert. Zusätzlich ist diese Schnittstelle ausführlich innerhalb des Quellcodes dokumentiert, wodurch Entwickler bereits während des Entwickelns über IntelliSense ausführliche Informationen über die richtige Verwendung bekommen.
-
-
-Für die Szenarioumsetzung ist primär das Szenario-Gehirn zuständig. Desen Entscheidungsprozess läuft kontinuierlich nach dem folgendem Muster ab:
-\begin{enumerate}
-    \item Daten finden\\
-        Der Agent vergleicht die aktuell simulierte Zeit mit den Szenariendaten.
-    \item Zielpreis ermitteln\\
-        Konnte ein Datenpunkt identifiziert werden, wird der Zielpreis, welchen die Aktie annehmen, ermittelt. Dabei wird der aktuelle Marktpreis von der Börse mit dem Datenpunkt verrechnet.
-    \item Matching Order erstellen\\
-        Die in \autoref{sec:szenarien} beschriebenen Orders werden basierend auf dem Datenpunkt erstellt.
-\end{enumerate}
-
-\begin{figure}[ht]
-    \includegraphics[width=\textwidth]{img/Sequenzdiagramm.png}
-    \centering
-    \caption{Sequenzdiagramm}
-    \label{fig:Sequenzdiagramm}
-\end{figure}
-
-// TODO: Hier eine State Machine
-// TODO: Definition Agenten und alles 
-
-\section{User Interface}
-//TODO: @aaron
+\chapter{Konzeption}
+\section{Herleitung und Betrachtung verschiedener Szenarien}\label{sec:szenarien}
+Damit mit der Simulation der Markt möglich genau widergespiegelt werden kann, steht zunächst die Frage offen,
+wie ein typischer Handelstag an der Börse aussieht. Um dies analysieren zu können, wird ein Aktienkurs betrachetet, 
+der in den letzten Jahren meistens sehr stabil war und nicht im Rahmen von Marktmanipulation durch Kommunities 
+(z.B. GameStop) beeinträchtigt wurde - die SAP Aktie. Nachdem es bei einer Aktie unterschiedliche Szenarien geben, 
+wurden die fünf häufigsten Szenarien ausgewählt:
+\begin{itemize}
+    \item Normaler Handelstags mit einem durchschnittlichen Handelsvolumen
+    \item Positive Nachricht an einem Handelstag
+    \item Negative Nachricht an einem Handelstag
+    \item Niedriges Handelsvomlumen 
+    \item Hohes Handelsvolumen
+\end{itemize}
+Für das erste Szenario wurde der 22.10.2019 ausgewählt. An diesem Tag gab es eine Preisdifferenz von knappen 3\$ 
+zwischen Open-Preis und Close-Preis. Außerdem wurden gut 1.000.000 Aktien an der NASDAQ-Börse gehandelt. \\
+Am 24.04.2019 wurde die Bilanz des ersten Quatals veröffentlicht. Diese sind deutlich besser ausgefallen als erwartet 
+und damit gab es auch eine deutliche Auswirkung auf den Aktienmarkt. Die Aktie hatte einen Unterschied von 8\$ zwischen 
+Open und Close und ein Handelsvolumen von knapp 4.700.000 gehandelten Aktien. \\
+Das dritte Szeanrio ist der erste Handelstag nach den Veröffentlichung der Quatalszahlen (26.10.2020). Aus diesen war 
+herauszulesen, dass es einen deutlichen Zurückgang des Gewinnes gab und danach ist der Aktienkurs von 149\$ (Freitag Close) 
+auf 115\$ (Montag Close) gefallen. Zusätzlich gab es ein sehr hohes Handelsvolumen von 11.000.000 Aktien. \\
+Als Beispieltag für ein gering gehandeltes Volumen wurde Weihnachten 2019 genommen. An diesem Tag wurden nur 117.000 Aktien gehandelt 
+und es gab eine Preisdifferenz von Open und Close von 1\$. \\
+In den letzten Jahren war der Handelstag mit dem größten Handelsvolumen der 26.10.2020. Um für zwei Szenarien nicht den gleichen 
+Tag zu nehmen wurde der 28.10.2020 genommen, an dem das Handelsvolumen noch bei 5.500.000 Aktien wegen den Auswirkungen der 
+Quatalszahlen war. \\
+Die Daten für alle Szenarien sind von der NASDAQ-Börse aus New York und wurden auf Minutenbasis gespeichert. 
+\section{Umwandlung von Szenarien in Orders}
+Nachdem die Daten der verschiedenen Szenarien in JSON-Format vorliegen müssen diese zunächst noch angepasst werden. Die 
+Szenarien sollen später für verschiedene Aktien verwendet werden. Um dies zu ermöglichen werden die Aktienkurse nicht in 
+absoluten Zahlen gespeichert, sondern es wird die Änderungsrate des Aktienkurses im Vergleich zum Aktienkurs eine Minute davor 
+ausgerechnet und abgespeichert. Dadurch ist es möglich das Szenario mit beliebigen Aktien durchzuspielen. \\
+Im nächsten Schritt müssen anhand der Daten Orders erstellt werden, um die Aktienkurs zu simulieren. Dafür muss es jeweils eine Limit-Buy-Order 
+und eine Limit-Sell-Order zum gleichen Preis geben, damit die Orders matchen und es einen neuen Aktienpreis gibt. Der Preis für die 
+Limit-Orders wird aus dem aktuellen Aktienpreis und der Änderungsrate berechnet. Alleine mit diesem Vorgang würde es schon reichen 
+den Aktienkurs eines Szenarien durchzuspielen, denn es würden sich immer direkt die beiden Orders matchen und der neue Aktienpreis 
+wäre gesetzt. Nachdem aber durch die Simulation der gesamte Markt widergespiegelt werden soll, müssen mehr Orders gestellt werden, damit 
+andere Markteilnehmer auch eine Chance haben eine Aktie zu kaufen. Zusätzlich darf es nicht passieren, dass andere Marktteilnehmer 
+den Aktienkurs mit \enquote{komischen} Orders beeinflussen. Damit diese Probleme gelöst werden, müssen immer eine gewisse Anzahl an Orders 
+im Orderbuch stehen. Diese Orders sollten immer relativ nahe am aktuellen Kurs sein, damit andere Marktteilnehmer zu normalen Preise die 
+Aktie kaufen können und Limit-Orders mit \enquote{komischen} Preisen nicht zum matchen kommen. \\
+Für die Befüllung des Orderbuches werden fünf Buy- und fünf Sell-Limit-Orders jeweils ein paar Prozent über und unter dem aktuellen 
+Preis gesetzt. Dabei wird eine Aufteilung von 80 zu 20 Prozent verwendet, also 80 Prozent des Ordersvolumens einer Minute werden in jeweils 
+in die beiden matchenden Orders aufgeteilt und die restlichen 20 Prozent werden für Orders zum Befüllen des Orderbuches benutzt.\\
+Nachdem für die Anzahl der Aktien die Orginaldaten von der Börse verwendet und damit eine sehr hohe Anzahl an Aktien gehandelt werden, ist der Aktienkurs vor 
+privaten Anlegern (Privatbroker) schützt und diese haben keine große Auswirkung auf Preis. Dies bedeutet, dass eine Marktmanipulation durch private Anleger mit 
+einer geringen Anzahl an Aktien nicht möglich ist. Bei den Geschäftskunden kann es unter Umständen dazu führen, dass es einen kleinen Kursanstieg bzw. Kursfall 
+verursacht, wenn eine große Menge an Aktien gekauft bzw. verkauft werden. Dafür müssen jedoch genug Aktien gekauft werden und mehrere Einträge aus dem Orderbuch 
+zu erfüllen und damit einen Preissprung zu erreichen.
+\section{Benachrichtigungen über Marktereignisse}
+Nachdem bei einer Simulation nicht nur die Daten simuliert werden sollen, sondern ein normaler Handelstag, wäre es sinnvoll auch Nachrichten 
+zu dem Unternehmen der Aktie zu veröffentlichen. Dabei können automatisiert Nachrichten über Telegram versendet werden, wenn der Kurs beispielsweise 
+an einer bestimmten Stelle angekommen ist. Für unsere Szenarien wäre zum Beispiel Nachrichten wie: \enquote{Unternehmen XY veröffentlicht Quatalszahlen. 
+Gewinneinbruch von 20\%!} sinnvoll zu veröffentlichen. Diese Nachrichten werden dann durch einen Nachrichtenbot versendet und anschließend sollte zu 
+sehen sein, dass der Aktienkurs nach unten geht. Diese Möglichkeit hat den Vorteil für die Marktteilnehmner, dass sie reagieren können und nicht 
+rein spekulativ handeln müssen.
