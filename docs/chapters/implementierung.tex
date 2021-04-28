@@ -4,25 +4,27 @@
 
 \section{Technologiewauswahl}
 
-Im folgenden Abschnitt wird thematisiert, wieso wir uns für die Technologien entscheiden haben, die innerhalb des Simulationsprojekts verwendet werden. Dabei wird vor allem versucht, den Entscheidungsprozess näher zu beleuchten und die finale Wahl zu begründen.
+Im folgenden Abschnitt wird thematisiert, wieso wir uns für die Technologien entscheiden haben, die innerhalb des Simulationsprojekts verwendet werden.
+Ziel ist es, den Entscheidungsprozess näher zu beleuchten und die finale Wahl zu begründen.
 
 \subsection*{Wahl der Programmiersprache}
-Eine der grundlegenden Entscheidungen, die es bei jedem Start zu treffen gilt, ist die Wahl der Programmiersprache. Dabei spielen mehrere Faktoren eine wichtige Rolle. So gilt es immer das richtige Tool für die Aufgabe zu finden. Diese Suche muss allerdings mit den im Entwicklerteam vorhandenen Fähigkeiten abgeglichen werden, sodass am Ende nicht nur eine Programmiersprache verwendet werden kann, die den Anwendungsfall möglichst optimal lösen kann, sondern auch durch Wissen innerhalb des Teams gestützt ist.
+Eine der grundlegenden Entscheidungen, die es bei jedem Start einer Entwicklungsaufgabe zu treffen gilt, ist die Wahl der Programmiersprache. Dabei spielen mehrere Faktoren eine wichtige Rolle. So gilt es immer das richtige Tool für die Aufgabe zu finden. Diese Suche muss allerdings mit den im Entwicklerteam vorhandenen Fähigkeiten abgeglichen werden, sodass am Ende nicht nur eine Programmiersprache verwendet werden kann, die den Anwendungsfall möglichst optimal lösen kann, sondern auch durch Wissen innerhalb des Teams gestützt ist.
 
-Beginnend mit der Analyse der Anforderungen an die Programmiersprache lässt sich feststellen, dass es keine besonderen Anforderungen bzgl. Multithreading oder sonstigen Paradigmen, wie OOP, gab. Dies ermöglicht eine große Wahlfreheit und wir konnten eine Programmiersprache wählen, bei der das Wissen innerhalb des Teams möglichst umfangreich war.\\
-Dabei viel die Wahl auf JavaScript, im speziellen NodeJS als serverseitige Laufzeitumgebung. Ein besonderer Vorteil bei NodeJS war für uns das durchgängige Verwenden einer Programmiersprache zwischen der Backend-Anwendung und der Frontend-Anwendung.
+Beginnend mit der Analyse der Anforderungen an die Programmiersprache lässt sich feststellen, dass es keine besonderen Anforderungen bzgl. Multithreading oder sonstigen Paradigmen, wie OOP, gab. Dies ermöglicht eine große Wahlfreiheit und es konnte eine Programmiersprache gewählt werden, bei der das Wissen innerhalb des Teams möglichst umfangreich war.\\
+Dabei fiel die Wahl auf JavaScript, im speziellen NodeJS als serverseitige Laufzeitumgebung. Ein besonderer Vorteil bei NodeJS war für uns das durchgängige Verwenden einer Programmiersprache zwischen der Backend-Anwendung und der Frontend-Anwendung.
 
-Mit der finalen Wahl von TypeScript als Programmiersprache sind wir noch einen zusätzlichen Schritt gegangen und erweiterten JavaScript mit der Fähigkeit des compile-time Typechecking. Das bedeutet Typsicherheit ist gewährleistet und Laufzeitfehler können minimiert werden. Zusätzlich stellt TypeScript die Grundlage der im Backend und Frontend verwendeten Frameworks dar.
+Mit der finalen Wahl von TypeScript als Programmiersprache sind wir noch einen zusätzlichen Schritt gegangen und erweiterten JavaScript mit der Fähigkeit des compile-time Typechecking. Das bedeutet Typensicherheit ist gewährleistet und Laufzeitfehler können minimiert werden. Zusätzlich stellt TypeScript die Grundlage der im Backend und Frontend verwendeten Frameworks dar.
 
 \subsection*{Wahl des Backendframeworks}
 
-Mit der Wahl von NestJS zur Implementierung der Backendfunktionalität haben wir ein Framework gewählt, welches in vielen Unternehmen bereits produktiv verwendet wird. Zusätzlich dazu verbindet es die besten Eigenschaften verschiedener populärer Frameworks (z.\,B. Spring-Boot, Ruby on Rails, Laravel, Symphony) und nutzt die Learnings dieser Frameworks, um selbst ein optimaleres Framework zu sein. Wichtige Eigenschaften sind dabei eine starke Gewichtung des Separation of Concerns Paradigma. Zusätzlich ermöglicht NestJS ein einfaches System zur Realisierung von Dependency Injection, sodass die Kommunikation zwischen einzelnen Bereichen ohne Probleme möglich ist, und die tatsächliche Implementierung jederzeit geändert und frei gewählt werden kann.\\
+Mit der Wahl von NestJS zur Implementierung der Backendfunktionalität haben wir ein Framework gewählt, welches in vielen Unternehmen bereits produktiv verwendet wird. Zusätzlich dazu verbindet es die besten Eigenschaften verschiedener populärer Frameworks (z.\,B. Spring-Boot, Ruby on Rails, Laravel, Symphony) und nutzt die Learnings dieser Frameworks, um selbst ein optimaleres Framework zu sein. Wichtige Eigenschaften sind dabei eine starke Gewichtung des \enquote{Separation of Concerns} Paradigmas. Zusätzlich ermöglicht NestJS ein einfaches System zur Realisierung von Dependency Injection, sodass die Kommunikation zwischen einzelnen Komponenten ohne Probleme möglich ist.
+Dies vereinfacht die tatsächliche Implementierung und ermöglicht diese jederzeit zu ändern.\\
 Außerdem orientiert sich die Architektur einer Nest-Applikation sehr stark an den Prinzipien einer Angular-Webapplikation, was auch ein ausschlaggebender Faktor für die Wahl des Frontendframeworks war.
 
-Die Geschwindigkeit durch die mithilfe von NestJS eine RESTful-Applikation programmiert werden kann ist sehr hoch. Das Team hatte auch bereits durch die Realisierung vorheriger Projekte positive Erfahrungen mit dem Framework gesammelt.
+Die Geschwindigkeit durch die mithilfe von NestJS eine RESTful-Applikation programmiert werden kann ist sehr hoch. Das Team hatte bereits durch die Realisierung vorheriger Projekte positive Erfahrungen mit dem Framework gesammelt, welches die Entwicklung positiv beeinflussen konnte.
 
 \subsection*{Wahl des Frontendframeworks}
-Bei der Umsetzung des Frontends kam es uns auch darauf an, viele der bisher getroffen Entscheidungen miteinfließen zu lassen, sodass auch hier ein optimaler Einsatz des Wissen stattfinden kann und eine hohe Velocity in der Entwicklung erreicht wird. Bei der Wahl eines Frontendframeworks stellt sich oftmals nur die Frage, welches der drei großen Frameworks - VueJS, Angular oder React - am sinnvollsten zur Lösung des Problems beiträgt. In einem relativ simplen Anwendungsfall, der durch das Simulationsfrontend dargestellt wird, Schnitt keines der genannten Frameworks besser ab, als das andere. Allerdings, wie bereits zuvor erwähnt, orientiert sich die Architektur von NestJS sehr stark an dem Aufbau von Angular-Applikationen. Unsere Wahl viel daher auf Angular, da somit eine höchstmögliche Konsistenz zwischen den verschiedenen Komponenten gewahrt werden kann und es jedem Teammitglied möglich ist, mit dem selbsen Know-How sowohl zu Aufgaben im Frontend als auch im Backend beizutragen.
+Bei der Umsetzung des Frontends kam es uns auch darauf an, viele der bisher getroffen Entscheidungen miteinfließen zu lassen, sodass auch hier ein optimaler Einsatz des Wissens stattfinden kann und eine hohe Entwicklungsgeschwindigkeit (Velocity) erreicht wird. Bei der Wahl eines Frontendframeworks stellt sich oftmals nur die Frage, welches der drei großen Frameworks (VueJS, Angular oder React) am sinnvollsten zur Lösung des Problems beiträgt. In einem einfachem Anwendungsfall, der durch das Simulationsfrontend dargestellt wird, Schnitt keines der genannten Frameworks besser als ein anderes ab. Allerdings, wie bereits zuvor erwähnt, orientiert sich die Architektur von NestJS sehr stark an dem Aufbau von Angular-Applikationen. Unsere Wahl viel daher auf Angular, da somit eine höchstmögliche Konsistenz zwischen den verschiedenen Komponenten gewahrt werden kann und es jedem Teammitglied möglich ist, mit demselben Know-How sowohl zu Aufgaben im Frontend als auch im Backend beizutragen.
 
 
 
@@ -40,19 +42,19 @@ Bei der Umsetzung des Frontends kam es uns auch darauf an, viele der bisher getr
 
 In \autoref{fig:architecture} ist die Architektur der Anwendung dargestellt.
 Alle benötigten Server sind in einem Server-Cluster organisiert.
-Hier werden die Börse, die Kernlogik der Simulation ausgeführt und das Nutzerinterface an den User ausgeliefert. Zentralles Eintrittstor ist dabei ein Reverse-Proxy, welcher die Aufgabe hat, die Daten an die richtigen internen Server weiterzuleiten und Daten, die für den Nutzer sind zu verschlüsseln.
-Innerhalb des Clusters kommunizieren der Simulations-Backend-Server direkt mit der Börse. Dadurch kann dieser Verkehr nicht von außen beeinflusst werden und mögliche Aktieninformationen (beispielsweise welche Person welche Aktie handelt) sind geschützt.
+Hier werden die Börse, die Kernlogik der Simulation, und das Nutzerinterface betrieben. Zentrales Eintrittstor ist dabei ein Reverse-Proxy, welcher die Aufgabe hat, die Daten an die richtigen internen Server weiterzuleiten und Daten, die für den Nutzer bestimmt sind zu verschlüsseln.
+Innerhalb des Clusters kommuniziert der Simulations-Backend-Server direkt mit der Börse. Dadurch kann dieser Verkehr nicht von außen beeinflusst werden und mögliche Aktieninformationen (beispielsweise welche Person welche Aktie handelt) sind geschützt.
 
 Das Simulations-Frontend dient als grafische Benutzeroberfläche, mit dem das eigentliche Simulations-Backend gesteuert wird. Weitere Informationen dazu finden sich in \autoref{cha:Nutzerhandbuch}.
 
 Unsere Architektur trennt dabei streng die Szenario-Logik vom Nutzerinterface.
-Hat der Nutzer ein Szenario ausgewählt, alle Einstellungen getroffen und das Szenario gestartet, wird eine Anfrage an den Simulations-Backend-Server gesendet. Darauf hin beginnt dieser das entsprechende Szenario auszuführen und mit der Börse zu handeln.
+Hat der Nutzer ein Szenario ausgewählt, alle Einstellungen getroffen und das Szenario gestartet, wird eine Anfrage an den Simulations-Backend-Server gesendet. Daraufhin beginnt dieser das entsprechende Szenario auszuführen und mit der Börse zu handeln.
 Dies hat ein paar Vorteile gegenüber der Implementierung sämtlicher Logik innerhalb des Nutzerinterfaces:
 \begin{enumerate}
     \item Zentrale Nutzersteuerung\\
         Der Backend-Server kann Ausführungen von Szenarien steuern. So werden beispielsweise Kollisionen vermieden, wenn mehrere Szenarien von verschiedenen Nutzern gestartet werden würden.
     \item Code-Qualität\\
-        Durch die Trennung der Logik nach dem Separation-of-Concern und Clean-Code Methodiken wird der Quelltext wartbarer.
+        Durch die Trennung der Logik nach dem Separation of Concern und Clean-Code Methodiken wird der Quelltext wartbarer.
     \item Unterbrechungen\\
         Der Nutzer kann ein Szenario starten, welches eine längere Dauer hat (z.\,B. mehrere Tage). Anschließend muss er nicht seinen Computer eingeschaltet lassen. Das Szenario wird im Hintergrund ausgeführt.
 \end{enumerate}
@@ -78,11 +80,11 @@ Die Simulation bietet dabei besonders die drei nachfolgenden Schnittstellen an:
     \item Verfügbare Szenarios\\
         Gibt alle verfügbaren Szenarios zurück. Jedes Szenario gibt den Namen und die einzelnen Datenpunkte zurück, die bezogen auf die Uhrzeit die Kursveränderungen definieren.
     \item Szenario starten\\
-        Diese Schnittstelle kann genutzt werden um ein Szenario zu starten.
+        Diese Schnittstelle kann genutzt werden, um ein Szenario zu starten.
     \item Szenario Status abfragen\\
-        Diese Schnittstelle diehnt zur Abfrage, wie weit fortgeschritte ein Szenario ist. Hierbei wird ein Prozent-Wert zurückgegeben, der die simulierte Zeit repräsentiert. Sollte kein Szenario im Gange sein, gibt diese 100 zurück.
+        Diese Schnittstelle dient zur Abfrage, wie weit fortgeschritten ein Szenario ist. Hierbei wird ein Prozent-Wert zurückgegeben, der die simulierte Zeit repräsentiert. Sollte kein Szenario im Gange sein, gibt diese Schnittstelle 100 zurück.
     \item Szenario stoppen\\
-        Mit dieser Schnittstelle kann ein Szenario gestoppt werden. Die Simulation unterbricht alle ihre Orders und geht in einen Leerlauf.
+        Mit dieser Schnittstelle kann ein Szenario gestoppt werden. Die Simulation unterbricht alle Orders und geht in einen Leerlauf.
 \end{itemize}
 
 Interne Schnittstellen und Funktionalitäten werden auserdem getestet.
@@ -107,24 +109,24 @@ Die Ergebnisse werden anschlißend unter \href{https://stonks2moon.github.io/Sim
 \section{Szenario}
 Wie in \autoref{sec:Architektur} beschrieben kümmert sich der Backend Server um die Ausführung der Szenarien.
 
-Im Kern basiert die Szenarioausführung bildet auf einem Agenten-Ansatz. Agenten sind Computerelemente, die sich in bestimmten Umgebungen befinden und in der Lage sind eigenständige Entscheidungen zu treffen. Die Umgebung ist dabei der Aktienmarkt.
+Im Kern basiert die Szenarioausführung auf einem Agenten-Ansatz. Agenten sind Computerelemente, die sich in bestimmten Umgebungen befinden und in der Lage sind eigenständige Entscheidungen zu treffen. Die Umgebung ist dabei der Aktienmarkt.
 Da ein hoher Fokus auf eine realitätsnahe Simulation gelegt wird, orientiert sich die Implementierung dieser Agenten an einem Black-Box-Modell.
 Wie in der Realität haben alle Agenten eigenständige Strategien und können sich jederzeit frei entscheiden wann welche Order erstellt wird. Dafür haben die Agenten ein eigenes, asynchrones Gehirn.
-Weder andere Agenten noch der Server haben Informationen über das aktuelle Handeln eines einzelnen Agenden.
+Weder andere Agenten noch der Server haben Informationen über das aktuelle Handeln eines einzelnen Agenten.
 
 Sobald die Anfrage durch die \ac{API} im Server eingetroffen ist startet der Server direkt mit der Szenarioausführung. Dafür existiert ein Life-cycle, der mehrere Schritte nacheinander durchläuft (vergleiche \enquote{Endlicher Automat}):
 
 \begin{enumerate}
     \item Server start\\
-        Der Server wurde gestartet. Ab diesem Zeitpunkt kann der Server anfragen entgegen nehmen.
+        Der Server wurde gestartet. Ab diesem Zeitpunkt kann der Server anfragen entgegennehmen.
     \item Szenarios geladen\\
         Die Szenarios wurden aus den Quelldaten geladen und können nun gestartet werden.
     \item Szenario wird gestartet\\
         Über die \ac{API} wurde der Start eines Szenario angefordert und der Server initialisiert das Szenario.
         \begin{enumerate}
             \item Agenten Initialisierung\\
-                Die Agenten werden erstellt und bekommen ihre Logik. Dafür werden neue Instanzen dieser Agenten erstellt. Zusätlich wird ihnen ein Verhalten zugewiesen, welches sie später ausführen sollen.
-            \item Markt initialisierung\\
+                Die Agenten werden erstellt und bekommen ihre Logik. Dafür werden neue Instanzen dieser Agenten erstellt. Zusätzlich wird ihnen ein Verhalten zugewiesen, welches sie später ausführen sollen.
+            \item Markt Initialisierung\\
                 Die Marktüberwachung wird gestartet, sodass die Agenten Informationen über den aktuellen Aktienpreis haben.
             \item Daten Initialisierung\\
                 Die Agenten werden mit Daten, z.\,B. den Szenarieninformationen oder anderen Einstellungen befüllt.
@@ -140,15 +142,15 @@ Sobald die Anfrage durch die \ac{API} im Server eingetroffen ist startet der Ser
 
 
 Da dieser Life-cycle bereits einige Schritte hat, ergibt sich eine erhöhte Komplexität, welches die Implementierung verlangsamen könnte.
-Um dies vorzubeugen wurde der Code so gestaltet, dass es mit sehr geringem Aufwand möglich ist neue Verhalten für Agenten zu implementieren. So gibt es innerhalb des Quellcodes eine zentral Schnittstelle die eingebunden wird. Dies ist als eine abstrakte Klasse definiert. Sobald Entwickler diese benutzen, wird von der Entwicklungsumgebung bereits sämtlicher Code generiert. Zusätzlich ist diese Schnittstelle ausführlich innerhalb des Quellcodes dokumentiert, wodurch Entwickler bereits während des Entwickelns über IntelliSense ausführliche Informationen über die richtige Verwendung bekommen.
+Um dies vorzubeugen wurde der Code so gestaltet, dass es mit sehr geringem Aufwand möglich ist neue Verhalten für Agenten zu implementieren. So gibt es innerhalb des Quellcodes eine zentrale Schnittstelle, die eingebunden wird. Dies ist als eine abstrakte Klasse definiert. Sobald Entwickler diese benutzen, wird von der Entwicklungsumgebung bereits sämtlicher Code generiert. Zusätzlich ist diese Schnittstelle ausführlich innerhalb des Quellcodes dokumentiert, wodurch Entwickler bereits während des Entwickelns über IntelliSense ausführliche Informationen über die richtige Verwendung bekommen.
 
 
-Für die Szenarioumsetzung ist primär das Szenario-Gehirn zuständig. Desen Entscheidungsprozess läuft kontinuierlich nach dem folgendem Muster ab:
+Für die Szenarioumsetzung ist primär das Szenario-Gehirn zuständig. Desen Entscheidungsprozess läuft kontinuierlich nach dem folgenden Muster ab:
 \begin{enumerate}
     \item Daten finden\\
         Der Agent vergleicht die aktuell simulierte Zeit mit den Szenariendaten.
     \item Zielpreis ermitteln\\
-        Konnte ein Datenpunkt identifiziert werden, wird der Zielpreis, welchen die Aktie annehmen, ermittelt. Dabei wird der aktuelle Marktpreis von der Börse mit dem Datenpunkt verrechnet.
+        Konnte ein Datenpunkt identifiziert werden, wird der Zielpreis, welchen die Aktie annehmen sollen, ermittelt. Dabei wird der aktuelle Marktpreis von der Börse mit dem Datenpunkt verrechnet.
     \item Matching Order erstellen\\
         Die in \autoref{sec:szenarien} beschriebenen Orders werden basierend auf dem Datenpunkt erstellt.
 \end{enumerate}
@@ -159,23 +161,4 @@ Für die Szenarioumsetzung ist primär das Szenario-Gehirn zuständig. Desen Ent
     \caption{Sequenzdiagramm}
     \label{fig:Sequenzdiagramm}
 \end{figure}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
