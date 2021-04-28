@@ -56,9 +56,10 @@ In diesem Kapitel werden zuerst die funktionalen und nicht-funktionalen Anforder
 	\end{table}
 
 
-	
+
 \section{Anforderungen an andere Teams}\label{sec:otherTeams}
-	Im Falle der Simulation bestehen keine Abhängigkeiten zu anderen Brokern. Bei den Gruppen Privatkunden und Unternehmensbrokern handelt es sich abstrakt betrachtet auch um die Entwicklung eines Brokers, der an einer Börse Wertpapiere kaufen und verkaufen möchte. Genauso wie bei der Simulation handelt es sich damit um Broker bzw. Clients der Börse, die sich lediglich in ihrer Zielgruppe und dem Zweck unterscheiden. Somit bleibt als einzige Schnittelle die Börse. Dabei wurden folgende Anforderungen aufgestellt:
+	Im Falle der Simulation bestehen keine Abhängigkeiten zu anderen Brokern. Bei den Privatkunden und Unternehmenskunden handelt es sich auch um Broker.
+	Diese kaufen und verkaufen an der Börse Wertpapiere. Genauso wie bei der Simulation handelt es sich damit um Broker bzw. Clients der Börse, die sich lediglich in ihrer Zielgruppe und dem Zweck unterscheiden. Somit bleibt als einzige Schnittelle die Börse. Dabei wurden folgende Anforderungen aufgestellt:
 	
 	\textbf{GET-Requests}
 		\begin{itemize}
@@ -70,8 +71,8 @@ In diesem Kapitel werden zuerst die funktionalen und nicht-funktionalen Anforder
 			\item Order einstellen
 			\item Börsennachricht versenden
 		\end{itemize}
-	\textbf{Aktive Benachrichtigungen} z.B. über Sockets oder über mit der Transaktion mitgegebenen Links
+	\textbf{Aktive Benachrichtigungen}
 		\begin{itemize}
 			\item Buchung der Order
-			\item Handel unterbelichten
+			\item Handel unterbrochen
 		\end{itemize}
