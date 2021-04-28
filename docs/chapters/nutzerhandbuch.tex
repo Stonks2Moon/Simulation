@@ -1,7 +1,7 @@
 % !TEX root =  ../master.tex
 \chapter{Nutzerhandbuch}\label{cha:Nutzerhandbuch}
 
-Startet ein Nutzer die Anwendung, so wird er zu Beginn nach einem Token gefragt. Dieser Token ist der für die Kommunikation mit der Börse benötigte API Token und gewährleistet, dass mit der Börse nur Autorisierte Nutzer interagieren können. In unserer Anwendung wurde auf ein Login verzichtet, da bereits durch die Eingabe des API-Tokens gewährleistet wird, dass nur berechtigte Personen Simulationen starten können. 
+Startet ein Nutzer die Anwendung, so wird er zu Beginn nach einem Token gefragt. Dieser Token ist der für die Kommunikation mit der Börse benötigte API-Token und gewährleistet, dass mit der Börse nur autorisierte Nutzer interagieren können. In unserer Anwendung wurde auf ein Login verzichtet, da bereits durch die Eingabe des API-Tokens gewährleistet wird, dass nur berechtigte Personen Simulationen starten können. 
 \begin{figure}[ht]
 	\includegraphics[width=\textwidth]{img/Token.png}
 	\centering
@@ -9,7 +9,7 @@ Startet ein Nutzer die Anwendung, so wird er zu Beginn nach einem Token gefragt.
 	\label{fig:token}
 \end{figure}
 
-Das überspringen dieses Schrittes ist wie in der Abbildung ersichtlich nicht möglich, da der Button next erst aktiviert wird, wenn ein Token eingegeben wurde. Dies wird aus Abbildung 6.1 und Abbildung 6.2 ersichtlich. Zudem bietet das gewählte Verfahren den Vorteil, dass der API Token nirgends in der Simulation gespeichert werden muss. So kann dieser auch nicht durch dritte ausgelesen werden oder muss im Rahmen eines ggf. vorhandenen Lifecycle Management des API-Managementsystems der Börse nicht im Code ausgetauscht werden. 
+Das Überspringen dieses Schrittes ist wie in der Abbildung ersichtlich nicht möglich, da der Button \enquote{next} erst aktiviert wird, wenn ein Token eingegeben wurde. Dies wird aus \autoref{fig:token} und Abbildung \autoref{fig:tokeninput} ersichtlich. Zudem bietet das gewählte Verfahren den Vorteil, dass der API-Token nirgends in der Simulation gespeichert werden muss. So kann dieser auch nicht durch Dritte ausgelesen werden.
 \begin{figure}[ht]
 	\includegraphics[width=\textwidth]{img/TokenInput.png}
 	\centering
@@ -17,7 +17,7 @@ Das überspringen dieses Schrittes ist wie in der Abbildung ersichtlich nicht m�
 	\label{fig:tokeninput}
 \end{figure}
 
-Im nächsten Schritt, wählt der Nutzer eines der zur Verfügung stehenden Wertpapiere aus, für das er eine Simulation starten möchte. Hier stehen alle Wertpapiere zur Auswahl. Nimmt die Börse weitere Wertpapiere in den Handel auf, so werden diese auch sofort in dieser Liste aufgenommen.
+Im nächsten Schritt (\autoref{fig:stock}) wählt der Nutzer eines der zur Verfügung stehenden Wertpapiere aus, für das er eine Simulation starten möchte. Hier stehen alle Wertpapiere zur Auswahl, die an der Börse gehandelt werden. Nimmt die Börse weitere Wertpapiere in den Handel auf, so sind diese sofort in dieser Liste aufgenommen.
 \begin{figure}[ht]
 	\includegraphics[width=\textwidth]{img/Stock.png}
 	\centering
@@ -25,7 +25,7 @@ Im nächsten Schritt, wählt der Nutzer eines der zur Verfügung stehenden Wertp
 	\label{fig:stock}
 \end{figure}
 
-Mit dem bestätigen des Next Buttons, gelangt der Nutzer zur Auswahl der Szenarien. Aktuell stehen dabei folgende Szenarien zur Verfügung:
+Mit dem Bestätigen des \enquote{next} Buttons, gelangt der Nutzer zur Auswahl der Szenarien. Aktuell stehen dabei folgende Szenarien zur Verfügung:
 
 \begin{itemize}
 	\item Normaler Handelstag
@@ -35,7 +35,7 @@ Mit dem bestätigen des Next Buttons, gelangt der Nutzer zur Auswahl der Szenari
 	\item Hohes gehandeltes Volumen
 \end{itemize}
 
-Bei der Auswahl eines dieser Szenarien, wird darunter das simulierte Marktgeschehen dieses Szenarios angezeigt. Die Preise werden dabei als Delta aufgelistet, damit sie sich an die Kurswerte der einzelnen Wertpapiere anpassen und nicht die Preise auf ein gleiches Niveau drücken. Anschließend muss auch hier mit nächste bestätigt oder mit back in die zur Auswahl eines Wertpapieres zurückgekehrt werden. 
+Bei der Auswahl eines dieser Szenarien, wird darunter das simulierte Marktgeschehen dieses Szenarios angezeigt (\autoref{fig:szenario}). Die Preise werden dabei als Delta aufgelistet, da sie sich an die Kurswerte der einzelnen Wertpapiere anpassen und nicht die Preise auf ein gleiches Niveau drücken. Anschließend muss auch hier mit \enquote{next} bestätigt oder mit \enquote{back} zur Auswahl eines Wertpapieres zurückgekehrt werden. 
 \begin{figure}[ht]
 	\includegraphics[width=\textwidth]{img/Szenario.png}
 	\centering
@@ -43,7 +43,8 @@ Bei der Auswahl eines dieser Szenarien, wird darunter das simulierte Marktgesche
 	\label{fig:szenario}
 \end{figure}
 
-Der Speedmultiplikator definiert den Beschleunigungsfaktor, der bestimmt, wie viel schneller ein Szenario im Vergleich zum originalen Ablaufen soll. Aus Performance Gründen empfehlen wir diesen nicht über 10 bis 15 zu setzen, da es ansonsten zu Performance Einschränkungen der Börse kommen kann, die sich auch auf sämtliche weiteren Broker auswirken.
+Der Speedmultiplikator (\autoref{fig:settings}) definiert den Beschleunigungsfaktor, der bestimmt, wie viel schneller ein Szenario im Vergleich zur Echtzeit ablaufen soll. Aus Performance Gründen empfehlen wir diesen nicht über 10 und maximal 15 zu setzen, da es ansonsten zu Performance Einschränkungen der Börse kommen kann.
+Dies würde alle weiteren Broker beeinflussen.
 \begin{figure}[ht]
 	\includegraphics[width=\textwidth]{img/Settings.png}
 	\centering
@@ -51,7 +52,7 @@ Der Speedmultiplikator definiert den Beschleunigungsfaktor, der bestimmt, wie vi
 	\label{fig:settings}
 \end{figure}
 
-Nun läuft das Szenario. Der Balken mit der Inschrift Running, zeigt den Fortschritt des ausgewählten Szenarios. Über den Stop Button kann dies jederzeit wieder gestoppt werden. Die Wirkung des Szenarios und das Testen von eigenen Strategien kann nun mit den durch die Broker und die Börse bereitgestellten Daten und Tools bewertet werden. 
+In \autoref{fig:run} ist die Ansicht dargestellt, die während der Szenarioausführung angezeigt wird. Der Balken mit der Inschrift \enquote{Running}, zeigt den Fortschritt des ausgewählten Szenarios. Über den \enquote{Stop} Button kann das Szenario jederzeit wieder gestoppt werden. Die Wirkung des Szenarios und das Testen von eigenen Strategien kann nun mit den durch die Broker und die Börse bereitgestellten Daten und Tools bewertet werden. 
 \begin{figure}[ht]
 	\includegraphics[width=\textwidth]{img/Run.png}
 	\centering

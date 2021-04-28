@@ -31,11 +31,14 @@ Nachdem die Daten exportiert wurden und in JSON-Format abgespeichert wurden, mü
 Die Szenarien sollen später für verschiedene Aktien verwendbar sein. Um dies zu ermöglichen, werden die Aktienkurse nicht in 
 absoluten Zahlen gespeichert, sondern als Änderungsrate.
 Die Änderungsrate ist die Änderung des Aktienkurses im Vergleich zum Aktienkurs einer Minute davor.
-Dadurch ist es möglich, dass das Szenario mit beliebigen Aktien durchgespielt werden kann.Folgender Abschnitt zeigt die Struktur der von der NASDAQ-Börse erhaltenen Daten:
+Dadurch ist es möglich, dass das Szenario mit beliebigen Aktien durchgespielt werden kann.
 
+Folgender Abschnitt zeigt die Struktur der von der NASDAQ-Börse erhaltenen Daten:
 \lstinputlisting[linerange={2-17},firstnumber=1]{../backend/src/assets/szenarios/3.Fall_SAP_28.10.20_Hohes_gehandeltes_Volumen.json}
-Nachfolgender Ausschnitt zeigt die von uns transformierte JSON Datei:
 
+\clearpage
+
+Nachfolgender Ausschnitt zeigt die von uns transformierte JSON Datei:
 \lstinputlisting[linerange={3002-3011},firstnumber=1]{../backend/src/assets/szenarios/28.10.20 Hohes gehandeltes Volumen.json}
 
 Im nächsten Schritt müssen anhand der Daten Orders erstellt werden, um den Aktienkurs zu simulieren. Dafür muss es jeweils eine Limit-Buy-Order 
