@@ -28,30 +28,35 @@ Die Daten für alle Szenarien sind von der NASDAQ-Börse aus New York und wurden
 
 \section{Umwandlung von Szenarien in Orders}
 Nachdem die Daten exportiert wurden und in JSON-Format abgespeichert wurden, müssen diese noch angepasst werden. Die 
-Szenarien sollen später für verschiedene Aktien verwendbar sein. Um dies zu ermöglichen werden die Aktienkurse nicht in 
-absoluten Zahlen gespeichert, sondern es wird die Änderungsrate des Aktienkurses im Vergleich zum Aktienkurs eine Minute davor 
-ausgerechnet und abgespeichert. Dadurch ist es möglich das Szenario mit beliebigen Aktien durchzuspielen. \\
-Im nächsten Schritt müssen anhand der Daten Orders erstellt werden, um die Aktienkurs zu simulieren. Dafür muss es jeweils eine Limit-Buy-Order 
+Szenarien sollen später für verschiedene Aktien verwendbar sein. Um dies zu ermöglichen, werden die Aktienkurse nicht in 
+absoluten Zahlen gespeichert, sondern als Änderungsrate.
+Die Änderungsrate ist die Änderung des Aktienkurses im Vergleich zum Aktienkurs einer Minute davor.
+Dadurch ist es möglich, dass das Szenario mit beliebigen Aktien durchgespielt werden kann. \\
+Im nächsten Schritt müssen anhand der Daten Orders erstellt werden, um den Aktienkurs zu simulieren. Dafür muss es jeweils eine Limit-Buy-Order 
 und eine Limit-Sell-Order zum gleichen Preis geben, damit die Orders matchen und es einen neuen Aktienpreis gibt. Der Preis für die 
-Limit-Orders wird aus dem aktuellen Aktienpreis und der Änderungsrate berechnet. Alleine mit diesem Vorgang würde es schon reichen 
-den Aktienkurs eines Szenarien durchzuspielen, denn es würden sich immer direkt die beiden Orders matchen und der neue Aktienpreis 
-wäre gesetzt. Nachdem aber durch die Simulation der gesamte Markt widergespiegelt werden soll, müssen mehr Orders gestellt werden, damit 
-andere Markteilnehmer auch eine Chance haben eine Aktie zu kaufen. Zusätzlich darf es nicht passieren, dass andere Marktteilnehmer 
-den Aktienkurs mit \enquote{komischen} Orders beeinflussen. Damit diese Probleme gelöst werden, müssen immer eine gewisse Anzahl an Orders 
-im Orderbuch stehen. Diese Orders sollten immer relativ nahe am aktuellen Kurs sein, damit andere Marktteilnehmer zu normalen Preise die 
-Aktie kaufen können und Limit-Orders mit \enquote{komischen} Preisen nicht zum matchen kommen. \\
+Limit-Orders wird aus dem aktuellen Aktienpreis und der Änderungsrate berechnet.
+Mit diesem Vorgang würde es schon reichen den Aktienkurs eines Szenarios durchzuspielen, denn die beiden Orders würden direkt matchen und den neuen Aktienpreis bilden.
+Nachdem aber durch die Simulation der gesamte Markt widergespiegelt werden soll, müssen mehr Orders erstellt werden.
+Da auch andere Marktteilnehmer Aktie handeln, darf es nicht passieren, dass andere Marktteilnehmer 
+den Aktienkurs mit unerwarteten Orders beeinflussen. Damit diese Probleme gelöst werden, müssen immer eine gewisse Anzahl an Orders 
+im Orderbuch stehen. Diese Orders sollten immer nahe am aktuellen Kurs sein, damit andere Marktteilnehmer zu normalen Preisen die 
+Aktie kaufen können und Limit-Orders mit unerwarteten Preisen nicht zum matchen kommen. \\
 Für die Befüllung des Orderbuches werden fünf Buy- und fünf Sell-Limit-Orders jeweils ein paar Prozent über und unter dem aktuellen 
-Preis gesetzt. Dabei wird eine Aufteilung von 80 zu 20 Prozent verwendet, also 80 Prozent des Ordersvolumens einer Minute werden in jeweils 
-in die beiden matchenden Orders aufgeteilt und die restlichen 20 Prozent werden für Orders zum Befüllen des Orderbuches benutzt.\\
-Nachdem für die Anzahl der Aktien die Orginaldaten von der Börse verwendet und damit eine sehr hohe Anzahl an Aktien gehandelt werden, ist der Aktienkurs vor 
-privaten Anlegern (Privatbroker) schützt und diese haben keine große Auswirkung auf Preis. Dies bedeutet, dass eine Marktmanipulation durch private Anleger mit 
+Preis gesetzt. Dabei wird eine Aufteilung von 80 zu 20 Prozent verwendet.
+Das heißt, dass 80 Prozent des Ordervolumens in die beiden matchenden Orders aufgeteilt werden, während die restlichen 20 Prozent für Orders zum Befüllen des Orderbuches benutzt werden.\\
+Da für die Anzahl der Aktien die Originaldatei von der Börse verwendet werden und damit eine sehr hohe Anzahl an Aktien gehandelt werden, ist der Aktienkurs vor 
+privaten Anlegern (Privatbroker) schützt.
+Durch das kleine Handelsvolumen dieser im Vergleich zur Simulation haben diese keinen großen Einfluss auf den Preis. Dies bedeutet, dass eine Marktmanipulation durch private Anleger mit 
 einer geringen Anzahl an Aktien nicht möglich ist. Bei den Geschäftskunden kann es unter Umständen dazu führen, dass es einen kleinen Kursanstieg bzw. Kursfall 
-verursacht, wenn eine große Menge an Aktien gekauft bzw. verkauft werden. Dafür müssen jedoch genug Aktien gekauft werden und mehrere Einträge aus dem Orderbuch 
-zu erfüllen und damit einen Preissprung zu erreichen.
+verursacht, sofern eine große Menge an Aktien gekauft bzw. verkauft wird.
+Dafür müssen jedoch genug Aktien gekauft werden, die mehrere Einträge aus dem Orderbuch 
+erfüllen, und damit einen Preissprung erreichen.
+
+
 \section{Benachrichtigungen über Marktereignisse}
-Nachdem bei einer Simulation nicht nur die Daten simuliert werden sollen, sondern ein normaler Handelstag, wäre es sinnvoll auch Nachrichten 
+Nachdem bei einer Simulation nicht nur die Daten simuliert werden sollen, sondern ein normaler Handelstag, ist es sinnvoll auch Nachrichten 
 zu dem Unternehmen der Aktie zu veröffentlichen. Dabei können automatisiert Nachrichten über Telegram versendet werden, wenn der Kurs beispielsweise 
-an einer bestimmten Stelle angekommen ist. Für unsere Szenarien wäre zum Beispiel Nachrichten wie: \enquote{Unternehmen XY veröffentlicht Quatalszahlen. 
-Gewinneinbruch von 20\%!} sinnvoll zu veröffentlichen. Diese Nachrichten werden dann durch einen Nachrichtenbot versendet und anschließend sollte zu 
-sehen sein, dass der Aktienkurs nach unten geht. Diese Möglichkeit hat den Vorteil für die Marktteilnehmner, dass sie reagieren können und nicht 
+an einer bestimmten Stelle angekommen ist. Für unsere Szenarien wäre zum Beispiel Nachrichten wie: \enquote{Unternehmen XY veröffentlicht Quartalszahlen. 
+Gewinneinbruch von 20\%!} sinnvoll. Diese Nachrichten werden dann durch einen Nachrichtenbot versendet.
+Anschließend kann beobachtet werden, dass der Aktienkurs sinkt. Diese Möglichkeit hat für Marktteilnehmer den Vorteil, dass sie reagieren können und nicht 
 rein spekulativ handeln müssen.
