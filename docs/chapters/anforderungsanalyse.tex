@@ -19,32 +19,21 @@ In diesem Kapitel werden zuerst die funktionalen und nicht-funktionalen Anforder
 			Bestimmte Ereignisse beeinflussen das Marktgeschehen. Damit Privatkunden und Unternehmen, die an der Börse handeln, entsprechend reagieren können, müssen sie über solche Ereignisse aktiv informiert werden. Ob und wie sie auf diese Nachrichten reagieren bleibt ihnen selbst überlassen.
 			
 		\item Reaktion auf Marktgeschehen durch Privat- und Unternehmensbroker: \\
-			Um die Simulation möglichst realistisch zu gestalten, muss auch das Verhalten und die Trades der anderen Marktteilnehmer, also der Privat- und Unternehmensbroker berücksichtigt werden, Wichtig ist hier jedoch, das nicht eine einzelne Transaktion eines Privatkundens schon die Marktpreise zum Schwanken bringt, sondern dass Transaktionen erst eine kritische Masse erreichen müssen um wirklich auf dem Markt ins Gewicht zu fallen. 
+			Um die Simulation möglichst realistisch zu gestalten, muss auch das Verhalten und die Trades der anderen Marktteilnehmer berücksichtigt werden. Wichtig ist hier jedoch, dass nicht eine einzelne Transaktion eines Privatkunden schon die Marktpreise zum Schwanken bringt.
+			Stattdessen sollen Transaktionen erst eine kritische Masse erreichen müssen, um wirklich auf dem Markt ins Gewicht zu fallen. 
 			
 		\item Anpassung der Dauer eines Szenarien: \\
-			Um das schnelle Testen von Anlagestrategien zu ermöglichen soll die Länge der Szenarien skalierbar sein. 
-			
-		\item Anzahl der Trades, Mengengerüst: \\
-			Die Anzahl der Trades soll wählbar sein und skalierbar sein. 
+			Um das schnelle Testen von Anlagestrategien zu ermöglichen, soll die Länge der Szenarien skalierbar sein.
 	\end{itemize}
 	
 \section{Nicht-Funktionale Anforderungen}
 		\begin{itemize}
 		\item Geschwindigkeit: \\
-			Für Nutzer ist die Geschwindigkeit besonders wichtig. Lang ladende Anwendungen
-			sind nervig in der Benutzung. Lange Ladezeiten lenken beispielsweise
-			ab und demotivieren die Nutzung der Anwendung. Über lange Ladezeiten
-			beschweren sich in einer Umfrage mehr als 70.\%, wobei 25\% aller Nutzer bereits bei 4
-			Sekunden die Seite verlassen.22 Aus diesem Grund sollte die Ladezeit gering gehalten
-			werden.
-			
-			Hinzu kommt der wichtige Faktor, dass diese Anwendung hoch skalierbar sein soll und auch mit Großen Ordervolumen umgehen soll. Aus diesem Grund ist es doppelt wichtig, dass sowohl Backend als auch Frontend schnell arbeiten und somit schnell neue Aufgaben erledigen können.
+			Für Nutzer ist die Geschwindigkeit besonders wichtig. Lang ladende Anwendungen sind nervig in der Benutzung und demotivieren die Nutzung der Anwendung. Über lange Ladezeiten beschweren sich in einer Umfrage mehr als 70\%, wobei 25\% aller Nutzer bereits bei 4 Sekunden die Seite verlassen. Aus diesem Grund sollte die Ladezeit gering gehalten werden.
 			
 		\item Skalierbarkeit: \\
-			Um das bereits angesprochene hohe Ordervolumen händeln zu können muss die Anwendung gut skalieren können, ohne das mit zunehmender Zahl der Transaktionen die Reaktion und die Performance der Anwendung immer schlechter wird. 
-			
-		\item Zero Downtime Deployment: \\
-			Um den Handel für ein anstehendes Release nicht unterbrechen zu müssen, muss diese Anwendung Zero Downtime Deployments ermöglichen. So können sämtliche Software Änderungen unabhängig der Tageszeit oder des Handelsvolumen eingespielt werden können. 
+			Um das bereits angesprochene hohe Ordervolumen zu realisieren, muss die Anwendung gut skalieren können.
+			Bei zunehmender Zahl der Transaktionen darf die Reaktion und die Performance der Anwendung nicht beeinträchtigt werden. 
 	\end{itemize}
 
 \section{Zusammenfassung}
@@ -54,20 +43,20 @@ In diesem Kapitel werden zuerst die funktionalen und nicht-funktionalen Anforder
 		\begin{tabularx}{.8\textwidth}{l|X}
 			Nr.     & Beschreibung                              \\\hline
 			F1      & Am System soll eine Anmeldung möglich sein                  \\
-			F2      & Nutzer sollen eine Übersicht über die aktuell druch die Simulation gehandelten Volumen und Preise bekommen  \\
-			F3      & Es sollen vordefinierte Szenarien für diverse Kursverläufe ausgewählt werden können \\
+			F2		& Es soll eine Szenarienauswahl geben \\
+			F3      & Nutzer sollen eine Übersicht über die aktuelle Simulationsaktivität bekommen  \\
 			F4      & Events, die das Marktgeschehen beeinflussen sollen aktiv kommuniziert werden  \\
 			F5      & Es soll auf das Marktgeschehen durch andere Privat- und Unternehmensbroker reagiert werden  \\
-			F6      & Die Zeiteinheiten und somit die Dauer eines Szenarien sollte angepasst werden können  \\
-			F7		& Die Anzahl der Trades soll beeinflusst werden können \\\hline
+			F6      & Die Zeiteinheiten und somit die Dauer eines Szenarien sollte angepasst werden können  \\\hline
 			NF1     & Anwendung lädt schnell                    \\
-			NF2     & Die Anwendung ist vor allem in Bezug auf die Anzahl der Trades skalierbar                \\
-			NF3     & Änderungen können ohne Downtime und damit ohne Unterbrechung des Marktes eingespielt werden   \\
+			NF2     & Die Anwendung ist skalierbar                \\
 		\end{tabularx}
 		\caption{Zusammengefasste Anforderungen}
 		\label{tab:anforderungen}
 	\end{table}
 
+
+	
 \section{Anforderungen an andere Teams}\label{sec:otherTeams}
 	Im Falle der Simulation bestehen keine Abhängigkeiten zu anderen Brokern. Bei den Gruppen Privatkunden und Unternehmensbrokern handelt es sich abstrakt betrachtet auch um die Entwicklung eines Brokers, der an einer Börse Wertpapiere kaufen und verkaufen möchte. Genauso wie bei der Simulation handelt es sich damit um Broker bzw. Clients der Börse, die sich lediglich in ihrer Zielgruppe und dem Zweck unterscheiden. Somit bleibt als einzige Schnittelle die Börse. Dabei wurden folgende Anforderungen aufgestellt:
 	
