@@ -1,14 +1,15 @@
 % !TEX root =  ../master.tex
 \chapter{Anforderungsanalyse}
 
-In diesem Kapitel werden zuerst die funktionalen und nicht-funktionalen Anforderungen der Simulation erläutert. Anschlißend werden diese Anforderungen übersichtlich zusammengefasst. Im Anschluss werden kurz die Anforderungen aus unserer Sicht zu den anderen Teilprojekten erläutert.
+In diesem Kapitel werden zuerst die funktionalen und nicht-funktionalen Anforderungen der Simulation erläutert. Anschließend werden diese Anforderungen übersichtlich zusammengefasst. Im Anschluss werden kurz die Anforderungen aus unserer Sicht zu den anderen Teilprojekten erläutert.
 \section{Funktionale Anforderungen}
 	\begin{itemize}
 		\item Anmeldung: \\
-			Damit das Markt geschehen nicht durch jede Person beeinflusst werden kann, soll die Anwendung durch ein Login geschützt werden. So können nur dedizierte Personen Szenarien auswählen und wichtige Marktfaktoren beeinflussen. Denkbar wäre hierdurch auch das Verteilen von Berechtigungen. So ließe es sich sinnvoll umsetzen, dass Informationen über das durch die Simulation gehandelte Order Volumen und Preise für alle einsehbar machen und schreibende Operationen, die das Marktgeschehen beeinflussen könnte ausgewählten Personen vorbehalten werden.
+			Damit das Marktgeschehen nicht durch jede beliebige Person beeinflusst werden kann, soll die Anwendung durch ein Login geschützt werden. So können nur dedizierte Personen Szenarien auswählen und wichtige Marktfaktoren beeinflussen. Denkbar wäre hierdurch auch das Verteilen von Berechtigungen.
+			Beispielsweiße wären es möglich, lesende Operationen wie das gehandelte Volumen für alle einsehbar zu machen, während schreibende Operationen, die das Marktgeschehen beeinflussen könnten, nur ausgewählten Personen tätigen könnten.
 		
 		\item Auswahl vordefinierter Szenarien: \\
-			Es soll eine Liste an vordefinierten Szenarien geben. Diese Szenarien können bestimmte Ereignisse sein, wie der Rücktritt einzelner Vorstandsmitglieder, auf die der Markt in einem vorher definierten Rahmen reagiert. Diese Reaktion soll automatisch mit dem Beginn des nächsten Szenarien durch die Simulation auf den Markt übertragen werden.
+			Es soll eine Liste an vordefinierten Szenarien geben. Diese Szenarien können bestimmte Ereignisse sein, wie der Rücktritt einzelner Vorstandsmitglieder, auf die der Markt in einem vorher definierten Rahmen reagiert. Diese Reaktion soll automatisch mit dem Beginn des nächsten Szenarios durch die Simulation auf den Markt übertragen werden.
 			
 		\item Übersicht über die gerade gehandelten Trades: \\
 			Es sollte eine graphische Übersicht geben, die einen Überblick über das durch die Simulation gehandelten Volumina und Preise verschafft. So soll es ermöglicht werden einen besseren Einblick zu bekommen, was die Simulation gerade macht und wie die durch die Szenarien gewünschten Effekte am Markt erreicht werden.
