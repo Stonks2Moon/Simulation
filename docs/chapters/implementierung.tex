@@ -1,10 +1,10 @@
 % !TEX root =  ../master.tex
 \chapter{Implementierung}
 
-
 \section{Technologiewauswahl}
 
-Im folgenden Abschnitt wird thematisiert, wieso wir uns für die Technologien entscheiden haben, die innerhalb des Simulationsprojekts verwendet werden.
+Im folgenden Abschnitt wird thematisiert, wieso wir uns für die Technologien entschieden haben, die innerhalb des Simulationsprojekts verwendet werden.
+Da wir hinter den als Gesamtprojekt definierten Schnittstellen sehr unabhängig waren und keine Limitationen durch bereits vorhandenen Code oder Technologien hatten, konnte die Technologiewahl nahezu ohne Einschränkungen stattfinden.
 Ziel ist es, den Entscheidungsprozess näher zu beleuchten und die finale Wahl zu begründen.
 
 \subsection*{Wahl der Programmiersprache}
@@ -25,10 +25,6 @@ Die Geschwindigkeit durch die mithilfe von NestJS eine RESTful-Applikation progr
 
 \subsection*{Wahl des Frontendframeworks}
 Bei der Umsetzung des Frontends kam es uns auch darauf an, viele der bisher getroffen Entscheidungen miteinfließen zu lassen, sodass auch hier ein optimaler Einsatz des Wissens stattfinden kann und eine hohe Entwicklungsgeschwindigkeit (Velocity) erreicht wird. Bei der Wahl eines Frontendframeworks stellt sich oftmals nur die Frage, welches der drei großen Frameworks (VueJS, Angular oder React) am sinnvollsten zur Lösung des Problems beiträgt. In einem einfachem Anwendungsfall, der durch das Simulationsfrontend dargestellt wird, Schnitt keines der genannten Frameworks besser als ein anderes ab. Allerdings, wie bereits zuvor erwähnt, orientiert sich die Architektur von NestJS sehr stark an dem Aufbau von Angular-Applikationen. Unsere Wahl viel daher auf Angular, da somit eine höchstmögliche Konsistenz zwischen den verschiedenen Komponenten gewahrt werden kann und es jedem Teammitglied möglich ist, mit demselben Know-How sowohl zu Aufgaben im Frontend als auch im Backend beizutragen.
-
-
-
-
 
 
 
@@ -59,16 +55,6 @@ Dies hat ein paar Vorteile gegenüber der Implementierung sämtlicher Logik inne
         Der Nutzer kann ein Szenario starten, welches eine längere Dauer hat (z.\,B. mehrere Tage). Anschließend muss er nicht seinen Computer eingeschaltet lassen. Das Szenario wird im Hintergrund ausgeführt.
 \end{enumerate}
 
-
-
-
-
-
-
-
-
-
-
 \section{Schnittstellen}
 Die Simulation nutzt verschiedene Schnittstellen und bietet selbst auch einige an. Besonders durch die Aufteilung der Simulation in Frontend- und Backend-Server sind Schnittstellen notwendig.
 Das Frontend nutzt dabei die Schnittstellen anderer Teams (vgl. \autoref{sec:otherTeams}) und des Backend-Servers.
@@ -87,24 +73,9 @@ Die Simulation bietet dabei besonders die drei nachfolgenden Schnittstellen an:
         Mit dieser Schnittstelle kann ein Szenario gestoppt werden. Die Simulation unterbricht alle Orders und geht in einen Leerlauf.
 \end{itemize}
 
-Interne Schnittstellen und Funktionalitäten werden auserdem getestet.
+Interne Schnittstellen und Funktionalitäten werden außerdem getestet.
 Dafür ist eine Pipeline definiert, welche bei jeder Anpassung des Quellcodes diesen auf Fehler überprüft.
 Die Ergebnisse werden anschlißend unter \href{https://stonks2moon.github.io/Simulation/coverage/}{https://stonks2moon.github.io/Simulation/coverage/} publiziert.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 \section{Szenario}
 Wie in \autoref{sec:Architektur} beschrieben kümmert sich der Backend Server um die Ausführung der Szenarien.
@@ -117,7 +88,7 @@ Weder andere Agenten noch der Server haben Informationen über das aktuelle Hand
 Sobald die Anfrage durch die \ac{API} im Server eingetroffen ist startet der Server direkt mit der Szenarioausführung. Dafür existiert ein Life-cycle, der mehrere Schritte nacheinander durchläuft (vergleiche \enquote{Endlicher Automat}):
 
 \begin{enumerate}
-    \item Server start\\
+    \item Server Start\\
         Der Server wurde gestartet. Ab diesem Zeitpunkt kann der Server anfragen entgegennehmen.
     \item Szenarios geladen\\
         Die Szenarios wurden aus den Quelldaten geladen und können nun gestartet werden.
@@ -145,7 +116,7 @@ Da dieser Life-cycle bereits einige Schritte hat, ergibt sich eine erhöhte Komp
 Um dies vorzubeugen wurde der Code so gestaltet, dass es mit sehr geringem Aufwand möglich ist neue Verhalten für Agenten zu implementieren. So gibt es innerhalb des Quellcodes eine zentrale Schnittstelle, die eingebunden wird. Dies ist als eine abstrakte Klasse definiert. Sobald Entwickler diese benutzen, wird von der Entwicklungsumgebung bereits sämtlicher Code generiert. Zusätzlich ist diese Schnittstelle ausführlich innerhalb des Quellcodes dokumentiert, wodurch Entwickler bereits während des Entwickelns über IntelliSense ausführliche Informationen über die richtige Verwendung bekommen.
 
 
-Für die Szenarioumsetzung ist primär das Szenario-Gehirn zuständig. Desen Entscheidungsprozess läuft kontinuierlich nach dem folgenden Muster ab:
+Für die Szenarioumsetzung ist primär das Szenario-Gehirn zuständig. Dessen Entscheidungsprozess läuft kontinuierlich nach dem folgenden Muster ab:
 \begin{enumerate}
     \item Daten finden\\
         Der Agent vergleicht die aktuell simulierte Zeit mit den Szenariendaten.
@@ -161,4 +132,3 @@ Für die Szenarioumsetzung ist primär das Szenario-Gehirn zuständig. Desen Ent
     \caption{Sequenzdiagramm}
     \label{fig:Sequenzdiagramm}
 \end{figure}
-
