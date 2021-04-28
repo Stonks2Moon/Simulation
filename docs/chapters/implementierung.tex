@@ -1,28 +1,34 @@
 % !TEX root =  ../master.tex
 \chapter{Implementierung}
 
-\section{Schnittstellen}
-Die Simulation nutzt verschiedene Schnittstellen und bietet selbst auch einige an. Besonders durch die Aufteilung der Simulation in Frontend- und Backend-Server sind Schnittstellen notwendig.
-Das Frontend nutzt dabei die Schnittstellen anderer Teams (vgl. \autoref{sec:otherTeams}) und des Backend-Servers.
 
-Die Schnittstellen der Börse sind in \href{https://boerse.moonstonks.space/docs/}{https://boerse.moonstonks.space/docs/} und die Schnittstellen der Simulation in \href{https://simulation.moonstonks.space/docs/}{https://simulation.moonstonks.space/docs/} dokumentiert.
+\section{Technologiewauswahl}
 
-Die Simulation bietet dabei besonders die drei nachfolgenden Schnittstellen an:
-\begin{itemize}
-    \item Verfügbare Szenarios\\
-        Gibt alle verfügbaren Szenarios zurück. Jedes Szenario gibt den Namen und die einzelnen Datenpunkte zurück, die bezogen auf die Uhrzeit die Kursveränderungen definieren.
-    \item Szenario starten\\
-        Diese Schnittstelle kann genutzt werden um ein Szenario zu starten.
-    \item Szenario Status abfragen\\
-        Diese Schnittstelle diehnt zur Abfrage, wie weit fortgeschritte ein Szenario ist. Hierbei wird ein Prozent-Wert zurückgegeben, der die simulierte Zeit repräsentiert. Sollte kein Szenario im Gange sein, gibt diese 100 zurück.
-    \item Szenario stoppen\\
-        Mit dieser Schnittstelle kann ein Szenario gestoppt werden. Die Simulation unterbricht alle ihre Orders und geht in einen Leerlauf.
-\end{itemize}
+Im Folgenden Abschnitt wird thematisiert, wieso wir uns für die Technologien entscheiden haben, die innerhalb des Simulationsprojekts verwendet werden. Dabei wird vor allem versucht, den Entscheidungsprozess näher zu beleuchten, und die finale Wahl zu begründen.
 
-% TODO: Das hier vielleicht in ein eigenes CI Kapitel verschieben?
-Interne Schnittstellen und Funktionalitäten werden auserdem getestet.
-Dafür ist eine Pipeline definiert, welche bei jeder Anpassung des Quellcodes diesen auf Fehler überprüft.
-Die Ergebnisse werden anschlißend unter \href{https://stonks2moon.github.io/Simulation/coverage/}{https://stonks2moon.github.io/Simulation/coverage/} publiziert.
+\subsection*{Wahl der Programmiersprache}
+Eine der grundlegenden Entscheidungen, die es bei jedem Start zu treffen gilt ist die Wahl der Programmiersprache. Dabei spielen mehrere Faktoren eine wichtige Rolle. So gilt es immer das richtige Tool für die Aufgabe zu finden. Diese Suche muss allerdings mit den im Entwicklerteam vorhandenen Fähigkeiten abgeglichen werden, sodass am Ende nicht nur eine Programmiersprache verwendet werden kann, die den Anwendungsfall möglichst optimal lösen kann, sondern auch durch Wissen innerhalb des Teams gestützt ist.
+
+Beginnend mit der Analyse der Anforderungen an die Programmiersprache lässt sich feststellen, dass es keine besonderen Anforderungen bzgl. Multithreading oder sonstigen Paradigmen, wie beispielsweise OOP, gab. Dies ermöglicht eine große Wahlfreheit und wir konnten eine Programmiersprache wählen, bei der das Wissen innerhalb des Teams möglichst umfangreich war.\\
+Dabei viel die Wahl auf JavaScript, im speziellen NodeJS als serverseitige Laufzeitumgebung. Ein besonderer Vorteil bei NodeJS war für uns das durchgängige Verwenden einer Programmiersprache zwischen der Backend-Anwendung und der Frontend-Anwendung.
+
+Mit der finalen Wahl von TypeScript als Programmiersprache sind wir noch einen zusätzlichen Schritt gegangen und erweiterten JavaScript mit der Fähigkeit des compile-time Typechecking. Das bedeutet Typsicherheit ist gewährleistet und Laufzeitfehler können minimiert werden. Zusätzlich stellt TypeScript die Grundlage der im Backend und Frontend verwendeten Frameworks dar.
+
+\subsection*{Wahl des Backendframeworks}
+
+Mit der Wahl von NestJS zur Implementierung der Backendfunktionalität haben wir ein Framework gewählt, welches in vielen Unternehmen bereits produktiv verwendet wird. Zusätzlich dazu verbindet es die besten Eigenschaften verschiedener populärer Frameworks (z.\,B. Spring-Boot, Ruby on Rails, Laravel, Symphony) und nutzt die Learnings dieser Frameworks, um selbst ein optimaleres Framework zu sein. Wichtige Eigenschaften sind dabei eine starke Gewichtung des Separation of Concerns Paradigma. Zusätzlich ermöglicht NestJS ein einfaches System zur Realisierung von Dependency Injection, sodass die Kommunikation zwischen einzelnen Bereichen ohne Probleme möglich ist, und die tatsächliche Implementierung jederzeit geändert und frei gewählt werden kann.\\
+Außerdem orientiert sich die Architektur einer Nest-Applikation sehr stark an den Prinzipien einer Angular-Webapplikation, was auch ein ausschlaggebender Faktor für die Wahl des Frontendframeworks war.
+
+Die Geschwindigkeit durch die mithilfe von NestJS eine RESTful-Applikation programmiert werden kann ist sehr hoch. Das Team hatte auch bereits durch die Realisierung vorheriger Projekte positive Erfahrungen mit dem Framework gesammelt.
+
+\subsection*{Wahl des Frontendframeworks}
+Bei der Umsetzung des Frontends kam es uns auch darauf an, viele der bisher getroffen Entscheidungen miteinfließen zu lassen, sodass auch hier ein optimaler Einsatz des Wissen stattfinden kann und eine hohe Velocity in der Entwicklung erreicht wird. Bei der Wahl eines Frontendframeworks stellt sich oftmals nur die Frage, welches der drei großen Frameworks - VueJS, Angular oder React - am sinnvollsten zur Lösung des Problems beiträgt. In einem relativ simplen Anwendungsfall, der durch das Simulationsfrontend dargestellt wird, Schnitt keines der genannten Frameworks besser ab, als das andere. Allerdings, wie bereits zuvor erwähnt, orientiert sich die Architektur von NestJS sehr stark an dem Aufbau von Angular-Applikationen. Unsere Wahl viel daher auf Angular, da somit eine höchstmögliche Konsistenz zwischen den verschiedenen Komponenten gewahrt werden kann und es jedem Teammitglied möglich ist, mit dem selbsen Know-How sowohl zu Aufgaben im Frontend als auch im Backend beizutragen.
+
+
+
+
+
+
 
 \section{Architektur}\label{sec:Architektur}
 \begin{figure}[ht]
@@ -50,6 +56,53 @@ Dies hat ein paar Vorteile gegenüber der Implementierung sämtlicher Logik inne
     \item Unterbrechungen\\
         Der Nutzer kann ein Szenario starten, welches eine längere Dauer hat (z.\,B. mehrere Tage). Anschließend muss er nicht seinen COmputer eingeschaltet lassen. Das Szenario wird im Hintergrund ausgeführt.
 \end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+\section{Schnittstellen}
+Die Simulation nutzt verschiedene Schnittstellen und bietet selbst auch einige an. Besonders durch die Aufteilung der Simulation in Frontend- und Backend-Server sind Schnittstellen notwendig.
+Das Frontend nutzt dabei die Schnittstellen anderer Teams (vgl. \autoref{sec:otherTeams}) und des Backend-Servers.
+
+Die Schnittstellen der Börse sind in \href{https://boerse.moonstonks.space/docs/}{https://boerse.moonstonks.space/docs/} und die Schnittstellen der Simulation in \href{https://simulation.moonstonks.space/docs/}{https://simulation.moonstonks.space/docs/} dokumentiert.
+
+Die Simulation bietet dabei besonders die drei nachfolgenden Schnittstellen an:
+\begin{itemize}
+    \item Verfügbare Szenarios\\
+        Gibt alle verfügbaren Szenarios zurück. Jedes Szenario gibt den Namen und die einzelnen Datenpunkte zurück, die bezogen auf die Uhrzeit die Kursveränderungen definieren.
+    \item Szenario starten\\
+        Diese Schnittstelle kann genutzt werden um ein Szenario zu starten.
+    \item Szenario Status abfragen\\
+        Diese Schnittstelle diehnt zur Abfrage, wie weit fortgeschritte ein Szenario ist. Hierbei wird ein Prozent-Wert zurückgegeben, der die simulierte Zeit repräsentiert. Sollte kein Szenario im Gange sein, gibt diese 100 zurück.
+    \item Szenario stoppen\\
+        Mit dieser Schnittstelle kann ein Szenario gestoppt werden. Die Simulation unterbricht alle ihre Orders und geht in einen Leerlauf.
+\end{itemize}
+
+Interne Schnittstellen und Funktionalitäten werden auserdem getestet.
+Dafür ist eine Pipeline definiert, welche bei jeder Anpassung des Quellcodes diesen auf Fehler überprüft.
+Die Ergebnisse werden anschlißend unter \href{https://stonks2moon.github.io/Simulation/coverage/}{https://stonks2moon.github.io/Simulation/coverage/} publiziert.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Szenario}
 Wie in \autoref{sec:Architektur} beschrieben kümmert sich der Backend Server um die Ausführung der Szenarien.
@@ -108,24 +161,21 @@ Für die Szenarioumsetzung ist primär das Szenario-Gehirn zuständig. Desen Ent
 \end{figure}
 
 
-\section{Technologiewauswahl}
 
-Im Folgenden Abschnitt wird thematisiert, wieso wir uns für die Technologien entscheiden haben, die innerhalb des Simulationsprojekts verwendet werden. Dabei wird vor allem versucht, den Entscheidungsprozess näher zu beleuchten, und die finale Wahl zu begründen.
 
-\subsection*{Wahl der Programmiersprache}
-Eine der grundlegenden Entscheidungen, die es bei jedem Start zu treffen gilt ist die Wahl der Programmiersprache. Dabei spielen mehrere Faktoren eine wichtige Rolle. So gilt es immer das richtige Tool für die Aufgabe zu finden. Diese Suche muss allerdings mit den im Entwicklerteam vorhandenen Fähigkeiten abgeglichen werden, sodass am Ende nicht nur eine Programmiersprache verwendet werden kann, die den Anwendungsfall möglichst optimal lösen kann, sondern auch durch Wissen innerhalb des Teams gestützt ist.
 
-Beginnend mit der Analyse der Anforderungen an die Programmiersprache lässt sich feststellen, dass es keine besonderen Anforderungen bzgl. Multithreading oder sonstigen Paradigmen, wie beispielsweise OOP, gab. Dies ermöglicht eine große Wahlfreheit und wir konnten eine Programmiersprache wählen, bei der das Wissen innerhalb des Teams möglichst umfangreich war.\\
-Dabei viel die Wahl auf JavaScript, im speziellen NodeJS als serverseitige Laufzeitumgebung. Ein besonderer Vorteil bei NodeJS war für uns das durchgängige Verwenden einer Programmiersprache zwischen der Backend-Anwendung und der Frontend-Anwendung.
 
-Mit der finalen Wahl von \textbf{TypeScript} als Programmiersprache sind wir noch einen zusätzlichen Schritt gegangen und erweiterten JavaScript mit der Fähigkeit des compile-time Typechecking. Das bedeutet Typsicherheit ist gewährleistet und Laufzeitfehler können minimiert werden. Zusätzlich stellt TypeScript die Grundlage der im Backend und Frontend verwendeten Frameworks dar.
 
-\subsection*{Wahl des Backendframeworks}
 
-Mit der Wahl von NestJS zur Implementierung der Backendfunktionalität haben wir ein Framework gewählt, welches in vielen Unternehmen bereits produktiv verwendet wird. Zusätzlich dazu verbindet es die besten Eigenschaften verschiedener populärer Frameworks (z.\,B. Spring-Boot, Ruby on Rails, Laravel, Symphony) und nutzt die Learnings dieser Frameworks, um selbst ein optimaleres Framework zu sein. Wichtige Eigenschaften sind dabei eine starke Gewichtung des Separation of Concerns Paradigma. Zusätzlich ermöglicht NestJS ein einfaches System zur Realisierung von Dependency Injection, sodass die Kommunikation zwischen einzelnen Bereichen ohne Probleme möglich ist, und die tatsächliche Implementierung jederzeit geändert und frei gewählt werden kann.\\
-Außerdem orientiert sich die Architektur einer Nest-Applikation sehr stark an den Prinzipien einer Angular-Webapplikation, was auch ein ausschlaggebender Faktor für die Wahl des Frontendframeworks war.
 
-Die Geschwindigkeit durch die mithilfe von NestJS eine RESTful-Applikation programmiert werden kann ist sehr hoch. Das Team hatte auch bereits durch die Realisierung vorheriger Projekte positive Erfahrungen mit dem Framework gesammelt.
 
-\subsection*{Wahl des Frontendframeworks}
-Bei der Umsetzung des Frontends kam es uns auch darauf an, viele der bisher getroffen Entscheidungen miteinfließen zu lassen, sodass auch hier ein optimaler Einsatz des Wissen stattfinden kann und eine hohe Velocity in der Entwicklung erreicht wird. Bei der Wahl eines Frontendframeworks stellt sich oftmals nur die Frage, welches der drei großen Frameworks - VueJS, Angular oder React - am sinnvollsten zur Lösung des Problems beiträgt. In einem relativ simplen Anwendungsfall, der durch das Simulationsfrontend dargestellt wird, Schnitt keines der genannten Frameworks besser ab, als das andere. Allerdings, wie bereits zuvor erwähnt, orientiert sich die Architektur von NestJS sehr stark an dem Aufbau von Angular-Applikationen. Unsere Wahl viel daher auf Angular, da somit eine höchstmögliche Konsistenz zwischen den verschiedenen Komponenten gewahrt werden kann und es jedem Teammitglied möglich ist, mit dem selbsen Know-How sowohl zu Aufgaben im Frontend als auch im Backend beizutragen.
+
+
+
+
+
+
+
+
+
+
