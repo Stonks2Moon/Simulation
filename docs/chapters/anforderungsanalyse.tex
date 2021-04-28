@@ -12,18 +12,11 @@ In diesem Kapitel werden zuerst die funktionalen und nicht-funktionalen Anforder
 			Es soll eine Liste an vordefinierten Szenarien geben. Diese Szenarien können bestimmte Ereignisse sein, wie der Rücktritt einzelner Vorstandsmitglieder, auf die der Markt in einem vorher definierten Rahmen reagiert. Diese Reaktion soll automatisch mit dem Beginn des nächsten Szenarios durch die Simulation auf den Markt übertragen werden.
 			
 		\item Übersicht über die gerade gehandelten Trades: \\
-			Es sollte eine graphische Übersicht geben, die einen Überblick über das durch die Simulation gehandelten Volumina und Preise verschafft. So soll es ermöglicht werden einen besseren Einblick zu bekommen, was die Simulation gerade macht und wie die durch die Szenarien gewünschten Effekte am Markt erreicht werden.
-			
-		\item Dynamische Einflussnahme des Marktgeschehens: \\
-			Neben den Szenarien soll auch durch andere Faktoren Einfluss auf das Marktgeschehen genommen werden können. Diese Faktoren können sein:
-				\begin{itemize}
-					\item Skalierfaktor, der Bestimmt wie lange ein ausgewähltes Szenario abläuft
-					\item Anzahl der zur Verfügung stehenden Wertpapiere
-					\item Anzahl der Trades pro Stunde
-				\end{itemize}
+			Es sollte eine grafische Übersicht geben, die einen Überblick über das durch die Simulation gehandelten Volumina und Preise verschafft.
+			So soll ein besserer Einblick über die aktuelle Simulationsaktivität gegeben werden.
 			
 		\item Kommunikation von Events: \\
-			Bestimmte Ereignisse beeinflussen das Marktgeschehen. Damit Privatkunden und Unternehmen, die an der Börse handeln entsprechend ihren Interessen reagieren können, müssen sie über solche Ereignisse aktiv informiert werden. Ob und wie sie auf diese Nachrichten reagieren bleibt ihnen selbst überlassen.
+			Bestimmte Ereignisse beeinflussen das Marktgeschehen. Damit Privatkunden und Unternehmen, die an der Börse handeln, entsprechend reagieren können, müssen sie über solche Ereignisse aktiv informiert werden. Ob und wie sie auf diese Nachrichten reagieren bleibt ihnen selbst überlassen.
 			
 		\item Reaktion auf Marktgeschehen durch Privat- und Unternehmensbroker: \\
 			Um die Simulation möglichst realistisch zu gestalten, muss auch das Verhalten und die Trades der anderen Marktteilnehmer, also der Privat- und Unternehmensbroker berücksichtigt werden, Wichtig ist hier jedoch, das nicht eine einzelne Transaktion eines Privatkundens schon die Marktpreise zum Schwanken bringt, sondern dass Transaktionen erst eine kritische Masse erreichen müssen um wirklich auf dem Markt ins Gewicht zu fallen. 
@@ -34,6 +27,7 @@ In diesem Kapitel werden zuerst die funktionalen und nicht-funktionalen Anforder
 		\item Anzahl der Trades, Mengengerüst: \\
 			Die Anzahl der Trades soll wählbar sein und skalierbar sein. 
 	\end{itemize}
+	
 \section{Nicht-Funktionale Anforderungen}
 		\begin{itemize}
 		\item Geschwindigkeit: \\
@@ -42,7 +36,7 @@ In diesem Kapitel werden zuerst die funktionalen und nicht-funktionalen Anforder
 			ab und demotivieren die Nutzung der Anwendung. Über lange Ladezeiten
 			beschweren sich in einer Umfrage mehr als 70.\%, wobei 25\% aller Nutzer bereits bei 4
 			Sekunden die Seite verlassen.22 Aus diesem Grund sollte die Ladezeit gering gehalten
-			werden. % siehe 22loadingTimes. Learning Analytics
+			werden.
 			
 			Hinzu kommt der wichtige Faktor, dass diese Anwendung hoch skalierbar sein soll und auch mit Großen Ordervolumen umgehen soll. Aus diesem Grund ist es doppelt wichtig, dass sowohl Backend als auch Frontend schnell arbeiten und somit schnell neue Aufgaben erledigen können.
 			
@@ -61,12 +55,11 @@ In diesem Kapitel werden zuerst die funktionalen und nicht-funktionalen Anforder
 			Nr.     & Beschreibung                              \\\hline
 			F1      & Am System soll eine Anmeldung möglich sein                  \\
 			F2      & Nutzer sollen eine Übersicht über die aktuell druch die Simulation gehandelten Volumen und Preise bekommen  \\
-			F3      & Das Markteschen soll dynamisch beeinflusst werden   \\
-			F4      & Es sollen vordefinierte Szenarien für diverse Kursverläufe ausgewählt werden können \\
-			F5      & Events, die das Marktgeschehen beeinflussen sollen aktiv kommuniziert werden  \\
-			F6      & Es soll auf das Marktgeschehen durch andere Privat- und Unternehmensbroker reagiert werden  \\
-			F7      & Die Zeiteinheiten und somit die Dauer eines Szenarien sollte angepasst werden können  \\
-			F8		& Die Anzahl der Trades soll beeinflusst werden können \\\hline
+			F3      & Es sollen vordefinierte Szenarien für diverse Kursverläufe ausgewählt werden können \\
+			F4      & Events, die das Marktgeschehen beeinflussen sollen aktiv kommuniziert werden  \\
+			F5      & Es soll auf das Marktgeschehen durch andere Privat- und Unternehmensbroker reagiert werden  \\
+			F6      & Die Zeiteinheiten und somit die Dauer eines Szenarien sollte angepasst werden können  \\
+			F7		& Die Anzahl der Trades soll beeinflusst werden können \\\hline
 			NF1     & Anwendung lädt schnell                    \\
 			NF2     & Die Anwendung ist vor allem in Bezug auf die Anzahl der Trades skalierbar                \\
 			NF3     & Änderungen können ohne Downtime und damit ohne Unterbrechung des Marktes eingespielt werden   \\
